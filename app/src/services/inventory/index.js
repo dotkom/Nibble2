@@ -1,1 +1,1 @@
-export {inventory} from './inventory.service';
+export { inventory } from './inventory.service';
