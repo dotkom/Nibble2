@@ -4,23 +4,43 @@ import { API_BASE, API_INVENTORY } from 'common/constants';
 
 import { http } from 'services/net';
 
+import { Category } from './category';
+import { Item, jsonToItem } from './item';
+
+
 export class InventoryServiceProvider {
 
   constructor(){
-    this.inventory = {};
-    this.inventorySubject = new ReplaySubject();
+    this._inventory = [];
+    this._categories = {};
+    this._inventorySubject = new ReplaySubject();
     this._reload();
   }
 
   _reload(){
     //Download inventory
-    http.get(`${API_BASE}${API_INVENTORY}`).subscribe((data)=>{
-      console.log(data);
-    });
+    http.get(`${API_BASE}${API_INVENTORY}`)
+      .subscribe((items)=>{
+        let inv = [];
+        let cats = {};
+        for (let item of items){
+          let cat = item.category;
+          if(cat){
+            cats[cat.pk] = cats[cat.pk] || new Category(cat.pk,cat.name);
+          }
+          inv.push(jsonToItem(item,cats[cat.pk]));
+        }
+        this.inventory = inv;
+      });
   }
-
+  
+  set inventory(inv){
+    this._inventory = inv;
+    this._inventorySubject.next(inv);
+  }
+  
   getInventory(){
-    return this.inventorySubject.asObservable();
+    return this._inventorySubject.asObservable();
   }
 
 }
