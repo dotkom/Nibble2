@@ -24,6 +24,24 @@ export class Item{
     this._image = image;
     this._category = category;
   }
+  
+  get id(){
+    return this._id;
+  }
 
+  get name(){
+    return this._name;
+  }
+  
+  get description(){
+    return this._description;
+  }
 
+  get price(){
+    return this._price;
+  }
+
+  get image(){
+    return this._image;
+  }
 }
