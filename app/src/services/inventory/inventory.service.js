@@ -16,7 +16,6 @@ export class InventoryServiceProvider {
     this._inventorySubject = new ReplaySubject();
     this._reload();
   }
-
   _reload(){
     //Download inventory
     http.get(`${API_BASE}${API_INVENTORY}`)
