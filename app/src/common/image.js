@@ -35,5 +35,4 @@ export class Image{
   get thumb(){
     return `${BASE}${this._thumb}`;
   }
-
 }
