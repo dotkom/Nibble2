@@ -2,10 +2,11 @@ import React from 'react';
 import {render} from 'react-dom';
 import {Navbar,NavItem,Icon} from 'react-materialize';
 
-import { Row, Col, Card, CardTitle } from 'react-materialize';
+import { Row, Col, Card, CardTitle, Button } from 'react-materialize';
 
 import { inventory, Item } from 'services/inventory';
-
+import { orderService } from 'services/order';
+import { http } from 'services/net';
 
 class Stack{
   constructor(item,qty){
@@ -29,6 +30,16 @@ class Stack{
     return this._qty;
   }
 
+  get cost(){
+    return this.qty * this.item.price;
+  }
+
+  get checkoutObject(){
+    return {
+      object_id: this.item.id,
+      quantity: this.qty
+    };
+  }
 }
 
 export class ShopView extends React.Component {
@@ -42,6 +53,20 @@ export class ShopView extends React.Component {
 
   get shoppingCart(){
     return this.state.shoppingCart;
+  }
+
+  set shoppingCart(a){
+    this.setState(Object.assign(this.state,{
+      shoppingCart: a
+    }));
+  }
+  
+  get subtotal(){
+    let total = 0;
+    for(let stack of this.shoppingCart){
+      total += stack.cost;
+    }
+    return total;
   }
 
   componentDidMount(){
@@ -70,9 +95,22 @@ export class ShopView extends React.Component {
     this.forceUpdate();
   }
 
-  clearStack(stack){
-    console.log(stack);
+  clearCart(stack){
+    this.shoppingCart = this.shoppingCart.filter(a => a!=stack);
   }
+
+  cartCheckout(){
+    //Submit cart
+    let orders = [];
+    for(let o of this.shoppingCart) {
+      orders.push(o.checkoutObject);
+    }
+    orderService.checkoutOrder(this.props.user,orders).subscribe(v => {
+      this.clearCart();
+      //Fetch user again?
+    });
+  }
+  
 
   componentWillUnmount(){
     $(document).off("keypress");
@@ -88,6 +126,8 @@ export class ShopView extends React.Component {
           <Card 
             onClick={()=>this.addToCart(item)}
             className="small hoverable clickable item"
+            title={ item.name }
+            textClassName="grey-text text-darken-4 truncate"
             header={
               <CardTitle 
                 image={img ? img.thumb : ""}
@@ -103,9 +143,6 @@ export class ShopView extends React.Component {
               </a>
             ]}
           > 
-            <span className="card-title activator grey-text text-darken-4 truncate">
-              { item.name }
-            </span>  
             <p className="thin truncate item-description">
               {item.description}
             </p>
@@ -121,29 +158,13 @@ export class ShopView extends React.Component {
     k = 0;
     for(let stack of this.shoppingCart){
       cartContents.push(
-        /*<li key={k++}>
-          <div>
-            <span className="item_name" >
-              { stack.item.name }
-            </span>
-            <a className="remove waves-effect waves-red right" onClick={() => this.clearStack(stack)}>
-              <i className="material-icons">clear</i>
-            </a>
-            <a className="item-quantity right">
-              { stack.item.dispQuantity } x { stack.item.price },-
-            </a>
-          </div>
-        </li>
-        */
         <tr className="item_box" key={k++}> 
           <td>
             <span className="item_name">
               { stack.item.name }
             </span> 
             
-            <a className="remove waves-effect waves-red right" onClick={ () => this.clearStack(stack) } >
-              <i className="material-icons">clear</i>
-            </a>
+            <Button floating large className="right remove waves-red" onClick={() => this.clearCart(stack)} icon="clear" waves="light" />
             <a className="item-quantity right">
               { stack.qty } x { stack.item.price },-
             </a>
@@ -154,18 +175,27 @@ export class ShopView extends React.Component {
 
 
     return (
-      <div>
-        <Row>
-          <Col m={9} l={9}>
-            {inv}
-          </Col>
-          <Col m={3} l={3}>
-            <table className="item_box">
+      <Row>
+        <Col m={9} l={9}>
+          {inv}
+        </Col>
+        <Col m={3} l={3} className="side-nav fixed side-nav-custom">
+          <table>
+            <tbody>
               { cartContents }
-            </table>
-          </Col>
-        </Row>
-      </div>
+            </tbody>
+          </table>
+          <div className="checkout">
+            <div className="sum">Subtotal: <span className="right">{ this.subtotal },-</span></div>
+            <div>
+              <h5>
+                <span>Balanse etter handel: <span className="right">{ this.props.user.saldo - this.subtotal },-</span></span>
+              </h5>
+            </div>
+            <Button onClick={() => this.cartCheckout()} disabled={( (this.props.user.saldo - this.subtotal) < 0) || (this.shoppingCart.length <= 0) } className="buy waves-effect waves-light nibble-color success" large>Kjøp</Button>
+          </div>
+        </Col>
+      </Row>
     );
   }
 }
