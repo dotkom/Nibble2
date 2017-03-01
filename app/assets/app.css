@@ -12,7 +12,9 @@ nav {
     float:right;
 }
 
-.hover-text{display:none;}
+.hover-text{
+  display:none;
+}
 
 .nav-btn{
   max-height: 64px;
@@ -37,7 +39,7 @@ nav ul li:hover, nav ul li.active {
     color: #004B80;
 }
 
-.nav-user{
+.nav-user > a{
   font-size: 1.4rem !important;
   max-height: 64px;
 }
@@ -233,7 +235,7 @@ ng-keypad ng-key {
 .checkout{
   position: fixed;
   width: 315px;
-  bottom: 10px;
+  bottom: 9em;
   border-top: 1px solid rgba(0,0,0,0.1);
 }
 .sum{
@@ -253,6 +255,33 @@ ng-keypad ng-key {
   border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
+.side-nav-custom{
+  float: right;
+  right: 0 !important;
+  top: 64px;
+  left: auto !important;
+  z-index: auto;
+}
+.side-nav-custom.fixed a{
+    display: block !important;
+    padding: 0 15px !important;
+    color: #444;
+    display: block !important;
+    font-size: 1em !important;
+    height: 54px !important;
+    line-height: 64px !important;
+}
+
+/*
+.side-nav{
+  float: right;
+  right: 0 !important;
+  top: 64px;
+  left: auto !important;
+  z-index: auto;
+}
+*/
+
 .thead{
   border-bottom: none;
 }
@@ -268,6 +297,15 @@ a.remove{
   color: red !important;
   padding: 5px 20px !important;
 }
+button.remove{
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border-style: none !important;
+}
+button.remove > * {
+  color: red !important;
+}
+
 img.logo {
     height: 33px;
     padding-right: 20px;
@@ -385,6 +423,17 @@ img.logo {
   border-width: .8em;
 }
 
+.marker.error{
+  border-color: #FF471E;
+}
+
+.marker.ok{
+  border-color: #65EC00;
+}
+.marker.wait{
+  border-color: black;
+}
+
 .rfid-marker{
   display: inline-block;
   height: 25em;
@@ -393,6 +442,7 @@ img.logo {
   background-size: 13em;
   background-image: url("./images/rfid.png");
 }
+
 
 .qr-saldo-link{
   display: inline-block;
