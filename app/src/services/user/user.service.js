@@ -26,8 +26,9 @@ export class UserServiceProvider{
     }
     
     return Observable.throw("Invalid RFID");
-
   }
+
+
   bindRfid(username,password,rfid){
     if(isRfid(rfid)){
       return http.post(`${API_BASE}${API_RFID}`,{

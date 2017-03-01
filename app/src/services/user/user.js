@@ -2,7 +2,7 @@
 export const jsonToUser = (json) => {
   return(
     new User(
-      json.id,
+      json.pk,
       json.first_name,
       json.last_name,
       json.saldo
