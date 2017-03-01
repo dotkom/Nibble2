@@ -17,27 +17,49 @@ class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      user: null
+      user: null,
+      loginState: 0
     }
   }
   
   submitLogin(rfid){
+    let sub = new Subject();
     userService.getUser(rfid).subscribe(user => {
+      sub.next(2);
       this.setState(Object.assign(this.state,{
         user: user
       }));
+    },()=>{
+      sub.next(3);
+    },()=>{
+      sub.complete();
     });
+    return sub.asObservable();
   }
   
+  submitLogout(){
+    this.setState(Object.assign(this.state,{
+      user: null
+    }));
+  }
   render () {
     const brand = <span><img className="logo" src="./assets/images/favicon.png"/>Nibble</span>
-    const currentView = (this.state.user==null) ? <LoginView onSubmit={(rfid) => this.submitLogin(rfid)}></LoginView> : <ShopView></ShopView>;
+    const currentView = (this.state.user==null) ? 
+      <LoginView 
+        onSubmit={(rfid) => this.submitLogin(rfid)}
+      ></LoginView> : 
+      <ShopView user={this.state.user}></ShopView>;
       
     return (
       <div>
-        <Navbar brand={brand} right>
-          <Navigation user={this.state.user}></Navigation>
-        </Navbar>
+        <div className="navbar-fixed">
+          <Navbar brand={brand} right>
+            <Navigation 
+              user={this.state.user}
+              onExit={() => this.submitLogout()}
+              ></Navigation>
+          </Navbar>
+        </div>
         {currentView}
       </div>
     );
