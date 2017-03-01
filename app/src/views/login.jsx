@@ -10,8 +10,10 @@ export class LoginView extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      inventory: []
+      inventory: [],
+      submitState: 0
     };
+    this.intervals = [];
     this.logKeys = true;
     this.currentRfid = "";
   }
@@ -19,14 +21,28 @@ export class LoginView extends React.Component {
   handleKeyPress(event){
     if(this.logKeys){
       if(event.keyCode == 13){ // Enter
-        this.props.onSubmit(this.currentRfid);
+        this.submitState = 1;
+        this.props.onSubmit(this.currentRfid).subscribe((state)=>{
+          //Show register modal if state == 3 (error)
+          this.submitState = state;
+          this.intervals.push(setTimeout(()=>{
+            this.submitState = 0
+          },500));
+        });
         this.currentRfid="";
       }
       else{
         this.currentRfid += String.fromCharCode(event.keyCode);
       }
-      
     }
+  }
+  set submitState(a){
+    this.setState(Object.assign(this.state,{
+      submitState: a
+    }));
+  }
+  get submitState(){
+    return this.state.submitState;
   }
 
   componentWillMount(){
@@ -43,6 +59,9 @@ export class LoginView extends React.Component {
 
   componentWillUnmount(){
     $(document).off("keypress");
+    for(let interval of this.intervals){
+      clearInterval(interval);
+    }
   }
   
   render () {
@@ -70,25 +89,24 @@ export class LoginView extends React.Component {
       );
     }
 
+    let rfid_marker =  (["","wait","ok","error"])[this.submitState]; 
 
     return (
-      <div>
-        <Row>
-          <Col m={2} offset="l1 m1">
-            <div className="marker rfid-marker" id="rfid-rlogo"></div>
-          </Col>
-          <Col m={7} offset="l1 m1">
-            <div className="card nibble-color alt">
-              <div className="card-content white-text">
-                <span className="card-title">Scan ditt studentkort for å handle</span>
-              </div>
+      <Row>
+        <Col m={2} offset="l1 m1">
+          <div className={"marker rfid-marker " + rfid_marker} id="rfid-rlogo"></div>
+        </Col>
+        <Col m={7} offset="l1 m1">
+          <div className="card nibble-color alt">
+            <div className="card-content white-text">
+              <span className="card-title">Scan ditt studentkort for å handle</span>
             </div>
-            <Row>
-              {tables}
-            </Row>      
-          </Col>
-        </Row>
-      </div>
+          </div>
+          <Row>
+            {tables}
+          </Row>      
+        </Col>
+      </Row>
     );
   }
 }
