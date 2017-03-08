@@ -12,13 +12,12 @@ import { Navbar, NavItem, Icon, Modal, Button, Row, Col } from 'react-materializ
 export class ClickProxy extends React.Component{
   constructor(props){
     super(props);
-    console.log(props);
   }
   
   componentDidMount(){
     if(this.props.proxy){
       this.sub = this.props.proxy.subscribe(() => {
-        this.props.onClick();
+        this.props.onClick(new MouseEvent("PROXY_CLICK"));
       });
     }
   }
