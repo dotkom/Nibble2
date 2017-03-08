@@ -11,7 +11,6 @@ export class UserServiceProvider{
   constructor(){
   }
 
-
   getUser(rfid){
     if(isRfid(rfid)){
       return http.get(`${API_BASE}${API_USERS}`,{
@@ -28,7 +27,6 @@ export class UserServiceProvider{
     return Observable.throw("Invalid RFID");
   }
 
-
   bindRfid(username,password,rfid){
     if(isRfid(rfid)){
       return http.post(`${API_BASE}${API_RFID}`,{
@@ -40,10 +38,14 @@ export class UserServiceProvider{
     
     return Observable.throw("Invalid RFID");
   }
+}
 
+class DevUserServiceProvider extends UserServiceProvider{
+  getUser(rfid){
+    return Observable.of(new User(-1,"Dev","User",699));
+  }
 }
 
 
 
-
-export const userService = new UserServiceProvider();
+export const userService = new DevUserServiceProvider();
