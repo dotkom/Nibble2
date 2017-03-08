@@ -111,10 +111,6 @@ export class ShopView extends React.Component {
     });
   }
   
-
-  componentWillUnmount(){
-    $(document).off("keypress");
-  }
   
   render () {
     let inv = [];
