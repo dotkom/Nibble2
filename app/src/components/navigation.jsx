@@ -1,7 +1,9 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { Navbar, NavItem, Icon, Modal } from 'react-materialize';
-import { moneyList } from 'common/constants';
+
+import { AddSaldoModal, HelpModal, RemoveSaldoModal, CheckoutModal } from './modals.jsx';
+import { saldoList } from 'common/constants';
+
 
 export class Navigation extends React.Component {
   
@@ -20,7 +22,9 @@ export class Navigation extends React.Component {
   
   set saldoAddMoney(amount){
     this.add_saldo = amount;
+    this.add_enableCustom = false;
     this.refs.add_money_input.value = amount;
+    this.setState({})
   }
   set saldoRemoveMoney(amount){
     this.remove_saldo = amount;
@@ -28,63 +32,28 @@ export class Navigation extends React.Component {
   }
   
   render () {
-    
-    let help = 
-      <Modal
-        key={"help_modal"}
-        header="Allahu Akbar"
-        trigger={<NavItem key={"help"}><Icon>help_outline</Icon></NavItem>}
-      >
-        <p>
-          <h4>Hjelp</h4>
-          <b>Hvordan legger jeg inn penger?</b>
-          <p>
-            Du kan legge inn penger manuelt på appen etter du har logget inn eller du kan legge til med ditt kredittkort på online.ntnu.no under min profil.
-          </p>
-          <b>Det er tomt for en vare, hva gjør jeg?</b>
-          <p>Det er funksjonalitet for automatisk varsling under utvikling men foreløpig må du sende mail til trikom@online.ntnu.no.</p>
-          <b>Jeg fant en feil, hva gjør jeg?</b>
-          <p>Legg til en issue på github.com/dotKom/nibble/ eller send en mail til dotkom@online.ntnu.no</p>
-        </p>
-      </Modal>
+    let user = this.props.user;
+
+    let help = <HelpModal trigger={<NavItem onClick={(a) => {console.log}}><Icon>help_outline</Icon></NavItem>}/>;
     let navitems = [
         <NavItem key={"replay"} onClick={this._onReload}><Icon>replay</Icon></NavItem>,
         help
     ];
-    let user = this.props.user;
-
-    let moneyButtons = [];
-    for(let o of moneyList){
-      moneyButtons.push(<button className={`btn-large money-${o}`} onClick={() => this.saldoAddMoney = o}>{o} kr</button>)
-    }
-    let updateSaldo =
-      <Modal
-          key={"cash_modal"}
-          header="Legg Til Penger"
-          trigger={<NavItem key={"add"}><Icon>add</Icon> </NavItem>}
-        >
-          <p>
-            <h5>Kontant</h5>
-            <b>Legg kontant i pengekassa som står i kjøleskapet, så registrer samme beløp her!</b>
-
-            <div className="radio-group">
-              <button className="btn-large" onClick={() => this.enableCustom}>Velg eget beløp</button>
-              <span ng-repeat="amount in cash_amounts track by $index">
-                {moneyButtons}
-              </span>
-            </div>
-            <div className="input-field col s6">
-              <input ref="add_money_input" id="custom_amount" type="number" />
-              <br />
-            </div>
-          </p>
-      </Modal>
-
+    
+    
+    let addSaldo = <AddSaldoModal onSubmit={console.log} trigger={<NavItem key={"add"}><Icon>add</Icon></NavItem>} saldoList={saldoList} />;
+    let removeSaldo = <RemoveSaldoModal onSubmit={console.log} trigger={<NavItem key={"remove"}><Icon>remove</Icon></NavItem>} saldoList={saldoList} />;
+    let checkoutTest = <CheckoutModal 
+      onSubmit={console.log} 
+      status="await" 
+      trigger={<NavItem key={"checkout"}>Checkout</NavItem>}
+      orders={[{item:{name:"test",price:-1},qty:10}]}/>;
 
     if(user){
       navitems = [
-        updateSaldo,
-        <NavItem key={"remove"}><Icon>remove</Icon></NavItem>,
+        checkoutTest,
+        addSaldo,
+        removeSaldo,
         help,
         <NavItem className="nav-user" key={"user"}>
           <span>{user.fullname} </span>
