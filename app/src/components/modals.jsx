@@ -16,7 +16,7 @@ export class ClickProxy extends React.Component{
   
   componentDidMount(){
     if(this.props.proxy){
-      this.sub = this.props.proxy.subscribe(() => {
+      this.sub = this.props.proxy.subscribe((a) => {
         this.props.onClick(new MouseEvent("PROXY_CLICK"));
       });
     }
@@ -28,7 +28,7 @@ export class ClickProxy extends React.Component{
   }
 
   render(){
-    return <NavItem onClick={(a) => {console.log(a)}}><Icon>help_outline</Icon></NavItem>
+    return null;
   }
 }
 
@@ -282,7 +282,6 @@ export class CheckoutModal extends React.Component{
         </div>
       );
     }
-
 
     return (
 

@@ -8,6 +8,10 @@ import { inventory, Item } from 'services/inventory';
 import { orderService } from 'services/order';
 import { http } from 'services/net';
 
+import { ClickProxy, CheckoutModal } from 'components/modals.jsx';
+
+import { Subject } from 'rxjs';
+
 class Stack{
   constructor(item,qty){
     this._item = item;
@@ -49,6 +53,7 @@ export class ShopView extends React.Component {
       inventory: [],
       shoppingCart: []
     };
+    this.shopSubmit = new Subject();
   }
 
   get shoppingCart(){
@@ -78,7 +83,6 @@ export class ShopView extends React.Component {
   }
 
   addToCart(item){
-    console.log(item);
     let existingStack = false;
     for(let stack of this.shoppingCart){
       if(stack.canStack(item)){
@@ -100,19 +104,29 @@ export class ShopView extends React.Component {
   }
 
   cartCheckout(){
-    //Submit cart
+    //Open modals
+    this.shopSubmit.next("a");
     let orders = [];
     for(let o of this.shoppingCart) {
       orders.push(o.checkoutObject);
     }
-    orderService.checkoutOrder(this.props.user,orders).subscribe(v => {
+    /*orderService.checkoutOrder(this.props.user,orders).subscribe(v => {
       this.clearCart();
       //Fetch user again?
-    });
+    });*/
+    this.clearCart();
   }
   
   
   render () {
+    let checkoutModal = 
+      <CheckoutModal 
+        orders={this.shoppingCart} 
+        trigger={<ClickProxy proxy={this.shopSubmit.asObservable()} />} 
+        status="await"
+      />
+    
+
     let inv = [];
     let k = 0;
     for(let item of this.state.inventory){
@@ -191,6 +205,7 @@ export class ShopView extends React.Component {
             <Button onClick={() => this.cartCheckout()} disabled={( (this.props.user.saldo - this.subtotal) < 0) || (this.shoppingCart.length <= 0) } className="buy waves-effect waves-light nibble-color success" large>Kjøp</Button>
           </div>
         </Col>
+        {checkoutModal}
       </Row>
     );
   }
