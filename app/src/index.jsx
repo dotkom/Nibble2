@@ -48,7 +48,10 @@ class App extends React.Component {
       <LoginView 
         onSubmit={(rfid) => this.submitLogin(rfid)}
       ></LoginView> : 
-      <ShopView user={this.state.user}></ShopView>;
+      <ShopView 
+        user={this.state.user}
+        onExit={() => this.submitLogout()}
+      ></ShopView>;
       
     return (
       <div>

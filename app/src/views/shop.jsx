@@ -1,12 +1,14 @@
 import React from 'react';
-import {render} from 'react-dom';
-import {Navbar,NavItem,Icon} from 'react-materialize';
+import { render } from 'react-dom';
+import { Navbar,NavItem,Icon } from 'react-materialize';
 
 import { Row, Col, Card, CardTitle, Button } from 'react-materialize';
 
 import { inventory, Item } from 'services/inventory';
 import { orderService } from 'services/order';
 import { http } from 'services/net';
+
+import { userService } from 'services/user';
 
 import { ClickProxy, CheckoutModal } from 'components/modals.jsx';
 
@@ -51,9 +53,10 @@ export class ShopView extends React.Component {
     super(props);
     this.state = {
       inventory: [],
-      shoppingCart: []
+      shoppingCart: [],
+      checkoutStatus: "await"
     };
-    this.shopSubmit = new Subject();
+    this.checkoutProxy = new Subject();
   }
 
   get shoppingCart(){
@@ -104,17 +107,24 @@ export class ShopView extends React.Component {
   }
 
   cartCheckout(){
-    //Open modals
-    this.shopSubmit.next("a");
-    let orders = [];
-    for(let o of this.shoppingCart) {
-      orders.push(o.checkoutObject);
-    }
-    /*orderService.checkoutOrder(this.props.user,orders).subscribe(v => {
+    //triggers modal to open
+    this.setState(Object.assign(this.state,{
+      checkoutStatus: "await"
+    }));
+    this.checkoutProxy.next();
+
+    orderService.checkoutOrder(this.props.user,this.shoppingCart).subscribe(v => {
       this.clearCart();
-      //Fetch user again?
-    });*/
-    this.clearCart();
+      this.setState(Object.assign(this.state,{
+        checkoutStatus: "success"
+      }));
+    },(msg) => {
+      //It failed
+      console.log(msg);
+      this.setState(Object.assign(this.state,{
+        checkoutStatus: "fail"
+      }));
+    });
   }
   
   
@@ -122,11 +132,11 @@ export class ShopView extends React.Component {
     let checkoutModal = 
       <CheckoutModal 
         orders={this.shoppingCart} 
-        trigger={<ClickProxy proxy={this.shopSubmit.asObservable()} />} 
-        status="await"
+        trigger={<ClickProxy proxy={this.checkoutProxy.asObservable()} />} 
+        status={this.state.checkoutStatus}
+        onSubmit={this.props.onExit}
       />
     
-
     let inv = [];
     let k = 0;
     for(let item of this.state.inventory){

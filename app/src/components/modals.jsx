@@ -246,6 +246,26 @@ export class RemoveSaldoModal extends React.Component{
 export class CheckoutModal extends React.Component{
   constructor(props){
     super(props);
+    this.state = {
+      current_status: props.status || "await",
+    }
+    this.c_interval = null;
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.c_interval);  
+  }
+  componentWillReceiveProps(props){
+    this.setState(Object.assign(this.state,{
+      current_status: props.status || "await"
+    }));
+    clearInterval(this.c_interval);
+    if(props.status == "success")
+      this.c_interval = setTimeout(() => {
+        this.setState(Object.assign(this.state,{
+          current_status: "complete"
+        }));
+      },1000);
   }
   render(){
     let svgClass = ({
@@ -253,21 +273,21 @@ export class CheckoutModal extends React.Component{
       fail: ["","",""],
       success: [""," fill-complete success"," check-complete success"],
       complete: ["path-complete"," fill-complete success"," check-complete success"]
-    })[this.props.status];
+    })[this.state.current_status];
 
     let svgStroke = ({
       await: "#7DB0D5",
       success: "7DB0D5",
       fail: "#F44336",
       complete: "7DB0D5"
-    })[this.props.status];
+    })[this.state.current_status];
 
     let statusMessage = ({
       await: "Din ordre behandles...",
       fail: "Handel feilet!",
       success: "Handel fullført",
       complete: "Handel fullført"
-    })[this.props.status];
+    })[this.state.current_status];
 
     let orderList = [];
     for(let o of this.props.orders){
@@ -284,7 +304,6 @@ export class CheckoutModal extends React.Component{
     }
 
     return (
-
       <Modal
         key={"cash_modal"}
         header="Legg Til Penger"

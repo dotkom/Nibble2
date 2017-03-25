@@ -23,8 +23,19 @@ export class UserServiceProvider{
         return Observable.throw("Validering feilet!");
       });
     }
-    
     return Observable.throw("Invalid RFID");
+  }
+
+  updateSaldo(user,diff){
+    if(!(diff + user.saldo < 0)){
+      return http.post(`${API_BASE}${API_TRANSACTIONS}`,{
+        user: user.id,
+        amount: diff
+      }).map(() => {
+        user.updateSaldo(diff);
+      });
+    }
+    return Observable.throw("");
   }
 
   bindRfid(username,password,rfid){
