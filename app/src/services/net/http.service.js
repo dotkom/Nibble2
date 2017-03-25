@@ -13,11 +13,6 @@ export class HttpServiceProvider {
     this.requestSubject = new Subject();
     this.count = 0;
     // Subject for handling requests, each request is seperated by 100ms
-    // Should be made for dynamic
-    Observable.interval(10)
-      .subscribe((v) => {
-        console.log(v)
-      })
     // Prevents 'DOS' protection
     this.requestSubject
       //Limit throughput by 100ms
