@@ -14,10 +14,14 @@ export class HttpServiceProvider {
     this.count = 0;
     // Subject for handling requests, each request is seperated by 100ms
     // Should be made for dynamic
+    Observable.interval(10)
+      .subscribe((v) => {
+        console.log(v)
+      })
     // Prevents 'DOS' protection
     this.requestSubject
-      // Zip each request with an interval stream
-      .zip(Observable.interval(100).skipUntil(this.requestSubject), (a, b) => a)
+      //Limit throughput by 100ms
+      .concatMap(v => Observable.of(v).delay(100))
       // Subscrive to this stream
       .subscribe((requestPair) => {
         // preforme request
