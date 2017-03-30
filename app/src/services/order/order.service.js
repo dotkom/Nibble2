@@ -15,13 +15,18 @@ export class OrderServiceProvider {
       totalPrice += o.cost;
       orders.push(o.checkoutObject);
     }
-    
+    user.updateSaldo(-totalPrice);
     return http.post(`${API_BASE}${API_ORDER}`,{
       user: user.id,
       orders: orders
     }).map((ret) => {
-      console.log(ret)
-      user.updateSaldo(-totalPrice);
+      console.log(ret);
+      return ret;
+    }).catch((ret) => {
+      console.log(ret);
+      //Error, add saldo back
+      user.updateSaldo(totalPrice);
+      return Observable.throw("Something went wrong.");
     });
   }
   
