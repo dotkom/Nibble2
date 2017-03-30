@@ -39,7 +39,7 @@ export class InventoryServiceProvider {
   }
   
   getInventory(){
-    return this._inventorySubject.asObservable();
+    return this._inventorySubject.asObservable().take(1);
   }
 
 }
