@@ -12,11 +12,11 @@ export class HttpServiceProvider {
     this.waitingForToken = false;
     this.requestSubject = new Subject();
     this.count = 0;
-    // Subject for handling requests, each request is seperated by 100ms
+    // Subject for handling requests, each request is seperated by 150ms
     // Prevents 'DOS' protection
     this.requestSubject
-      //Limit throughput by 100ms
-      .concatMap(v => Observable.of(v).delay(100))
+      //Limit throughput by 150ms
+      .concatMap(v => Observable.of(v).delay(150))
       // Subscrive to this stream
       .subscribe((requestPair) => {
         // preforme request
