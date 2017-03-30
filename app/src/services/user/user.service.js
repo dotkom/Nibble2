@@ -1,4 +1,4 @@
-import { API_BASE, API_RFID, API_USERS } from 'common/constants';
+import { API_BASE, API_RFID, API_USERS, API_TRANSACTIONS } from 'common/constants';
 import { isRfid } from 'common/utils';
 import { http } from 'services/net';
 import { User, jsonToUser } from './user';
@@ -28,11 +28,15 @@ export class UserServiceProvider{
 
   updateSaldo(user,diff){
     if(!(diff + user.saldo < 0)){
+      user.updateSaldo(diff);
       return http.post(`${API_BASE}${API_TRANSACTIONS}`,{
         user: user.id,
         amount: diff
       }).map(() => {
-        user.updateSaldo(diff);
+        return diff;
+      }).catch(()=>{
+        user.updateSaldo(-diff);
+        return Observable.throw("Something went wrong.");
       });
     }
     return Observable.throw("");
@@ -54,6 +58,13 @@ export class UserServiceProvider{
 class DevUserServiceProvider extends UserServiceProvider{
   getUser(rfid){
     return Observable.of(new User(-1,"Dev","User",699));
+  }
+
+  updateSaldo(user,diff){
+    if(!(diff + user.saldo < 0)){
+      user.updateSaldo(diff);
+    }
+    return Observable.throw("");
   }
 }
 
