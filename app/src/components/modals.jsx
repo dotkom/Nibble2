@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, NavItem, Icon, Modal, Button, Row, Col } from 'react-materialize';
+import { Navbar, NavItem, Icon, Modal, Button, Row, Col, Input } from 'react-materialize';
 
 
 
@@ -39,7 +39,6 @@ export class ClickProxy extends React.Component{
  */
 export const HelpModal = (props) => {
   return (<Modal
-    key={"help_modal"}
     header="Hjelp"
     trigger={props.trigger}
   >
@@ -66,7 +65,7 @@ export class AddSaldoModal extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      inval: 0,
+      inval: "",
       indisable: false
     }
   }
@@ -86,12 +85,12 @@ export class AddSaldoModal extends React.Component{
     let moneyButtons = [];
     for(let i in this.props.saldoList){
       let amount = this.props.saldoList[i];
-      moneyButtons.push(<Button key={i} large className={`money-${amount}`} onClick={() => this.setValue(amount,true)}>{amount} kr</Button>)
+      moneyButtons.push(<Button key={i} large waves='light' className={`money-${amount}`} onClick={() => this.setValue(amount,true)}>{amount} kr</Button>)
     }
 
 
     let inputAmount = 0;
-    let inField = <input value={this.state.inval} disabled={this.state.indisable} onChange={(a) => this.inputChange(a)} type="number" />;
+    let inField = <input placeholder="$" name="asaldo" value={this.state.inval} disabled={this.state.indisable} onChange={(a) => this.inputChange(a)} type="number" />;
     const changeInput = (amount) => {
       inputAmount = amount;
     }
@@ -103,22 +102,21 @@ export class AddSaldoModal extends React.Component{
         header="Legg Til Penger"
         trigger={this.props.trigger}
         actions={[
-          <Button waves='light' modal='close'>Avbryt</Button>,
-          <Button onClick={() => {this.props.onSubmit(this.state.inval)}} modal='close'>Sett inn</Button>]}
+          <Button waves='light' modal='close' flat>Avbryt</Button>,
+          <Button waves='light' onClick={() => {this.props.onSubmit(this.state.inval)}} modal='close'>Sett inn</Button>]}
       >
         <div>
           <h5>Kontant</h5>
           <b>Legg kontant i pengekassa som står i kjøleskapet, så registrer samme beløp her!</b>
 
           <div className="radio-group">
-            <Button onClick={() => this.setValue(null,false)}>Velg eget beløp</Button>
-            <span>
-              {moneyButtons}
-            </span>
+            <Button waves='light' large onClick={() => this.setValue(null,false)}>Velg eget beløp</Button>
+            {moneyButtons}
           </div>
-          <div className="input-field col s6">
-            <br />
+          <br />
+          <div className="col input-field">
             {inField}
+            <label htmlFor="asaldo" className="active">Saldo</label>
           </div>
         </div>
       </Modal>
@@ -136,7 +134,7 @@ export class RemoveSaldoModal extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      inval: 0,
+      inval: "",
       indisable: false
     }
   }
@@ -156,12 +154,12 @@ export class RemoveSaldoModal extends React.Component{
     let moneyButtons = [];
     for(let i in this.props.saldoList){
       let amount = this.props.saldoList[i];
-      moneyButtons.push(<Button key={i} large className={`money-${amount}`} onClick={() => this.setValue(amount,true)}>{amount} kr</Button>)
+      moneyButtons.push(<Button key={i} large waves='light' className={`money-${amount}`} onClick={() => this.setValue(amount,true)}>{amount} kr</Button>)
     }
 
 
     let inputAmount = 0;
-    let inField = <input value={this.state.inval} disabled={this.state.indisable} onChange={(a) => this.inputChange(a)} type="number" />;
+    let inField = <input placeholder="$" name="rsaldo" value={this.state.inval} disabled={this.state.indisable} onChange={(a) => this.inputChange(a)} type="number" />;
     const changeInput = (amount) => {
       inputAmount = amount;
     }
@@ -172,67 +170,27 @@ export class RemoveSaldoModal extends React.Component{
         header="Legg Til Penger"
         trigger={this.props.trigger}
         actions={[
-          <Button waves='light' modal='close'>Avbryt</Button>,
-          <Button onClick={() => this.props.onSubmit(this.state.inval)} modal='close'>Ta ut</Button>
+          <Button waves='light' modal='close' flat>Avbryt</Button>,
+          <Button waves='light' onClick={() => this.props.onSubmit(-this.state.inval)} modal='close'>Ta ut</Button>
         ]}
       >
         <div>
           <h5>Kontant</h5>
           <b>Velg beløpet du ønsker å ta ut, så ta pengene fra pengekassa i kjøleskapet!</b>
           <div className="radio-group">
-            <Button onClick={() => this.setValue(null,false)}>Velg eget beløp</Button>
-            <span>
-              { moneyButtons }
-            </span>
+            <Button large waves='light' onClick={() => this.setValue(null,false)}>Velg eget beløp</Button>
+            { moneyButtons }
           </div>
-          <div className="input-field col s6">
-            <br />
+          <br />
+          <div className="col input-field">
             { inField }
+            <label htmlFor="rsaldo" className="active">Saldo</label>
           </div>
         </div>
       </Modal>
     );
   }
 }
-
-/*
-<div class="modal-content valign-wrapper row">
-        <div class="valign center-align col s12">
-          <!--<i class="material-icons large-icon green-text">check_circle</i>-->
-
-          <div class="checkmark">
-              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" x="0px" y="0px" viewBox="0, 0, 100, 100" id="checkmark">
-                  <g transform="">
-                    <circle class="path" fill="none" stroke="#7DB0D5" stroke-width="4" stroke-miterlimit="10" cx="50" cy="50" r="44"/>
-                      <circle class="fill" fill="none" stroke="#7DB0D5" stroke-width="4" stroke-miterlimit="10" cx="50" cy="50" r="44"/>
-                    <polyline class="check" fill="none" stroke="#7DB0D5" stroke-width="8" stroke-linecap="square" stroke-miterlimit="10" points="70,35 45,65 30,52  "/>
-                  </g>
-              </svg>
-          </div>
-
-          <h4 class="thinner" id="order-status">Handel fullført</h4>
-          <h5>
-            <div class="row">
-              <div ng-repeat="element in shopQueue track by $index">
-                <span class="col s6 bold right-align padd">
-                {{ element.item.name }}
-                </span>
-                <span class="col s6 thinner left-align padd">
-                  {{ element.quantity }} x {{ element.item.price }},-
-                </span>
-              </div>
-            </div>
-          </h5>
-          <h5 class="thinner grey-text darken-2">
-            <b>{{ user.balance }}kr</b> igjen
-          </h5>
-        </div>
-      </div>
-      <div class="modal-footer">
-          <a href ng-click="newOrder()" class="modal-action modal-close waves-effect btn-flat">Ny handel</a>
-          <a ng-click="logout()" class="modal-action modal-close waves-effect btn blue-grey darken-1">Logg ut nå ({{ceil(logoutTimer)}})</a>
-      </div> 
-*/
 
 
 
@@ -292,7 +250,7 @@ export class CheckoutModal extends React.Component{
     let orderList = [];
     for(let o of this.props.orders){
       orderList.push(
-        <div>
+        <div key={o.item.id}>
           <Col s={6} className="right-align padd">
             { o.item.name }
           </Col>
@@ -305,12 +263,11 @@ export class CheckoutModal extends React.Component{
 
     return (
       <Modal
-        key={"cash_modal"}
-        header="Legg Til Penger"
+        header={statusMessage}
         trigger={this.props.trigger}
         actions={[
-          <Button waves='light' modal='close'>Ny handel</Button>,
-          <Button onClick={() => this.props.onSubmit()} modal='close'>Logg ut nå</Button>
+          <Button waves='light' onClick={() => this.props.onSubmit()} modal='close' flat>Logg ut nå</Button>,
+          <Button waves='light' modal='close'>Ny handel</Button>
         ]}
       >
         <Row>
@@ -349,7 +306,26 @@ export class RegModal extends React.Component{
     super(props);
   }
 
-  render(){
+  handleSubmit(e){
+    e.preventDefault();
+  }
 
+  render(){
+    return (
+      <Modal
+        header="Registrer - Nibble"
+        trigger={this.props.trigger}
+        actions={[
+          <Button waves='light' modal='close' onClick={() => this.props.onSubmit()}>Registrer</Button>,
+          <Button waves='light' modal='close' flat>Avbryt</Button>
+        ]}
+      >
+        Fyll inn ditt krukernavn og passord for å knytte rfidekortet opp mot din online bruker
+        <form onSubmit={(e) => this.handleSubmit(e)}>
+          <Input placeholder="Brukernavn" type="text" />
+          <Input placeholder="Passord" type="password" />
+        </form>
+      </Modal>
+    )
   }
 }
