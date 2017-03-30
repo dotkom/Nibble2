@@ -57,7 +57,10 @@ export class ShopView extends React.Component {
       checkoutStatus: "await"
     };
     this.checkoutProxy = new Subject();
+    this.userSubscription = null;
+
   }
+
 
   get shoppingCart(){
     return this.state.shoppingCart;
@@ -83,6 +86,26 @@ export class ShopView extends React.Component {
         inventory: inv
       }));
     });
+    this.updateProps(this.props);
+  }
+
+  componentWillReceiveProps(props){
+    this.updateProps(props);
+  }
+
+  updateProps(props){
+    if(this.userSubscription)
+      this.userSubscription.unsubscribe();
+    
+    if(props.user)
+      this.userSubscription = props.user.onChange().subscribe(() => {
+        this.forceUpdate();
+      })
+  }
+
+  componentWillUnmount(){
+    if(this.userSubscription)
+      this.userSubscription.unsubscribe();
   }
 
   addToCart(item){
@@ -131,7 +154,8 @@ export class ShopView extends React.Component {
   render () {
     let checkoutModal = 
       <CheckoutModal 
-        orders={this.shoppingCart} 
+        orders={this.shoppingCart}
+        balance={this.props.user.saldo}
         trigger={<ClickProxy proxy={this.checkoutProxy.asObservable()} />} 
         status={this.state.checkoutStatus}
         onSubmit={this.props.onExit}
@@ -150,7 +174,7 @@ export class ShopView extends React.Component {
             textClassName="grey-text text-darken-4 truncate"
             header={
               <CardTitle 
-                image={img ? img.thumb : ""}
+                image={img ? img.small : ""}
                 waves="light"
               ></CardTitle>
             }
