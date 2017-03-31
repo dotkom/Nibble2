@@ -1,12 +1,18 @@
 import React from 'react';
-import {render} from 'react-dom';
-import {Navbar,NavItem,Icon} from 'react-materialize';
+import { render } from 'react-dom';
+import { Navbar,NavItem,Icon } from 'react-materialize';
 
 import { Row, Col, Card, CardTitle, Button } from 'react-materialize';
 
 import { inventory, Item } from 'services/inventory';
 import { orderService } from 'services/order';
 import { http } from 'services/net';
+
+import { userService } from 'services/user';
+
+import { ClickProxy, CheckoutModal } from 'components/modals.jsx';
+
+import { Subject } from 'rxjs';
 
 class Stack{
   constructor(item,qty){
@@ -47,9 +53,14 @@ export class ShopView extends React.Component {
     super(props);
     this.state = {
       inventory: [],
-      shoppingCart: []
+      shoppingCart: [],
+      checkoutStatus: "await"
     };
+    this.checkoutProxy = new Subject();
+    this.userSubscription = null;
+
   }
+
 
   get shoppingCart(){
     return this.state.shoppingCart;
@@ -75,10 +86,29 @@ export class ShopView extends React.Component {
         inventory: inv
       }));
     });
+    this.updateProps(this.props);
+  }
+
+  componentWillReceiveProps(props){
+    this.updateProps(props);
+  }
+
+  updateProps(props){
+    if(this.userSubscription)
+      this.userSubscription.unsubscribe();
+    
+    if(props.user)
+      this.userSubscription = props.user.onChange().subscribe(() => {
+        this.forceUpdate();
+      })
+  }
+
+  componentWillUnmount(){
+    if(this.userSubscription)
+      this.userSubscription.unsubscribe();
   }
 
   addToCart(item){
-    console.log(item);
     let existingStack = false;
     for(let stack of this.shoppingCart){
       if(stack.canStack(item)){
@@ -100,23 +130,37 @@ export class ShopView extends React.Component {
   }
 
   cartCheckout(){
-    //Submit cart
-    let orders = [];
-    for(let o of this.shoppingCart) {
-      orders.push(o.checkoutObject);
-    }
-    orderService.checkoutOrder(this.props.user,orders).subscribe(v => {
+    //triggers modal to open
+    this.setState(Object.assign(this.state,{
+      checkoutStatus: "await"
+    }));
+    this.checkoutProxy.next();
+
+    orderService.checkoutOrder(this.props.user,this.shoppingCart).subscribe(v => {
       this.clearCart();
-      //Fetch user again?
+      this.setState(Object.assign(this.state,{
+        checkoutStatus: "success"
+      }));
+    },(msg) => {
+      //It failed
+      console.log(msg);
+      this.setState(Object.assign(this.state,{
+        checkoutStatus: "fail"
+      }));
     });
   }
   
-
-  componentWillUnmount(){
-    $(document).off("keypress");
-  }
   
   render () {
+    let checkoutModal = 
+      <CheckoutModal 
+        orders={this.shoppingCart}
+        balance={this.props.user.saldo}
+        trigger={<ClickProxy proxy={this.checkoutProxy.asObservable()} />} 
+        status={this.state.checkoutStatus}
+        onSubmit={this.props.onExit}
+      />
+    
     let inv = [];
     let k = 0;
     for(let item of this.state.inventory){
@@ -130,7 +174,7 @@ export class ShopView extends React.Component {
             textClassName="grey-text text-darken-4 truncate"
             header={
               <CardTitle 
-                image={img ? img.thumb : ""}
+                image={img ? img.small : ""}
                 waves="light"
               ></CardTitle>
             }
@@ -195,6 +239,7 @@ export class ShopView extends React.Component {
             <Button onClick={() => this.cartCheckout()} disabled={( (this.props.user.saldo - this.subtotal) < 0) || (this.shoppingCart.length <= 0) } className="buy waves-effect waves-light nibble-color success" large>Kjøp</Button>
           </div>
         </Col>
+        {checkoutModal}
       </Row>
     );
   }

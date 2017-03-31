@@ -12,12 +12,11 @@ export class HttpServiceProvider {
     this.waitingForToken = false;
     this.requestSubject = new Subject();
     this.count = 0;
-    // Subject for handling requests, each request is seperated by 100ms
-    // Should be made for dynamic
+    // Subject for handling requests, each request is seperated by 150ms
     // Prevents 'DOS' protection
     this.requestSubject
-      // Zip each request with an interval stream
-      .zip(Observable.interval(100).skipUntil(this.requestSubject), (a, b) => a)
+      //Limit throughput by 150ms
+      .concatMap(v => Observable.of(v).delay(150))
       // Subscrive to this stream
       .subscribe((requestPair) => {
         // preforme request
@@ -28,7 +27,7 @@ export class HttpServiceProvider {
             handleResponse will resolve or will queue the request in case of
             401 error, when token is renewed it will then try to performe the request
           */
-          .flatMap(response => this.handleResponse(response, requestPair.request))
+          .flatMap(response => this.handleResponse(response, requestPair.clone))
           // When the request is resolved, send it back to the source of the request
           .subscribe((r) => {
             requestPair.subject.next(r);
@@ -38,6 +37,7 @@ export class HttpServiceProvider {
             requestPair.subject.complete();
           });
       });
+
   }
   renewToken() {
     if (!this.waitingForToken) {
@@ -95,12 +95,12 @@ export class HttpServiceProvider {
    * @param {Request} url
    * @return Observable<{}>
    */
-  request(request) {
+  request(request,clone) {
     // Add token to request
     request.headers.set('Authorization', `Bearer ${this.auth_token}`);
     const resolver = new Subject();
     // Push request into request 'stream'/queue
-    this.requestSubject.next({ request, subject: resolver });
+    this.requestSubject.next({ request,clone, subject: resolver });
     return resolver.asObservable();
   }
   /** performes a get request
@@ -115,7 +115,8 @@ export class HttpServiceProvider {
     }
     // Create request
     const request = new Request(pUrl, { method: 'get' });
-    return this.request(request);
+    const clone = request.clone();
+    return this.request(request,clone);
   }
 
   static urlEncode(data) {
@@ -152,7 +153,8 @@ export class HttpServiceProvider {
       body: pBody,
       headers,
     });
-    return this.request(request);
+    const clone = request.clone();
+    return this.request(request,clone);
   }
 }
 // Export single instance

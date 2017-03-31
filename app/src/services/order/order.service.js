@@ -8,10 +8,25 @@ export class OrderServiceProvider {
 
   constructor(){
   }
-  checkoutOrder(user,orders){
+  checkoutOrder(user,cart){
+    let orders = [];
+    let totalPrice = 0;
+    for(let o of cart) {
+      totalPrice += o.cost;
+      orders.push(o.checkoutObject);
+    }
+    user.updateSaldo(-totalPrice);
     return http.post(`${API_BASE}${API_ORDER}`,{
       user: user.id,
       orders: orders
+    }).map((ret) => {
+      console.log(ret);
+      return ret;
+    }).catch((ret) => {
+      console.log(ret);
+      //Error, add saldo back
+      user.updateSaldo(totalPrice);
+      return Observable.throw("Something went wrong.");
     });
   }
   

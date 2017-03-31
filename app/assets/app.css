@@ -126,16 +126,11 @@ small{
   background-size: contain;
   background-repeat: no-repeat;
   background-position: 50%;
-  background-color: rgba(0,0,0,0.1);
+  background-color: white; /* rgba(0,0,0,0.1); */
   height: calc(100% - 37px);
   max-height: none !important;
   width: 100px;
   display: inline-table;
-}
-
-ng-keypad ng-key {
-    width: auto;
-    background: transparent;
 }
 
 .center-wrapper{
@@ -150,9 +145,8 @@ ng-keypad ng-key {
 }
 
 .card .card-action {
-    display: inline-block;
-    padding: 0;
-
+  display: inline-block;
+  padding: 0;
 }
 
 
@@ -165,9 +159,9 @@ ng-keypad ng-key {
 }
 
 .card .card-content {
-    padding: 10px 0 0 20px;
-    display: inline-table;
-    vertical-align: middle;
+  padding: 10px 0 0 20px;
+  display: inline-table;
+  vertical-align: middle;
 }
 
 .item .card-title{
@@ -193,13 +187,13 @@ ng-keypad ng-key {
 }
 
 .noselect{
-    user-select: none;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 
@@ -220,11 +214,11 @@ ng-keypad ng-key {
 .money-50{ background-color: #83AB87; }
 .money-100{ background-color: #D2959A; }
 .money-100:hover {
-    background-color: hsla(355,84%,70%,1);
+  background-color: hsla(355,84%,70%,1);
 }
 .money-200{ background-color: #568AB7;}
 .money-200:hover{
-    background-color: hsla(208,92%,53%,1);
+  background-color: hsla(208,92%,53%,1);
 }
 .money-500{ background-color: #000; }
 .money-1000{ background-color: #bc4acf; }
@@ -263,13 +257,13 @@ ng-keypad ng-key {
   z-index: auto;
 }
 .side-nav-custom.fixed a{
-    display: block !important;
-    padding: 0 15px !important;
-    color: #444;
-    display: block !important;
-    font-size: 1em !important;
-    height: 54px !important;
-    line-height: 64px !important;
+  display: block !important;
+  padding: 0 15px !important;
+  color: #444;
+  display: block !important;
+  font-size: 1em !important;
+  height: 54px !important;
+  line-height: 64px !important;
 }
 
 /*
@@ -307,10 +301,10 @@ button.remove > * {
 }
 
 img.logo {
-    height: 33px;
-    padding-right: 20px;
-    vertical-align: text-top;
-    opacity: 0.5;
+  height: 33px;
+  padding-right: 20px;
+  vertical-align: text-top;
+  opacity: 0.5;
 }
 
 /* old css styles from materialize site */
@@ -415,6 +409,7 @@ img.logo {
 
 .marker{
   display: inline-block;
+  position: fixed;
   margin-top: 1em;
   width: 17em;
   border-style: solid;

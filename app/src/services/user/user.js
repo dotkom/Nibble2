@@ -1,4 +1,6 @@
 
+import { Subject } from 'rxjs';
+
 export const jsonToUser = (json) => {
   return(
     new User(
@@ -19,6 +21,7 @@ export class User{
     this._firstname = firstname;
     this._lastname = lastname;
     this._saldo = saldo;
+    this.saldoSubject = new Subject();
   }
 
   get id(){
@@ -35,5 +38,9 @@ export class User{
 
   updateSaldo(diff){
     this._saldo += diff;
+    this.saldoSubject.next(this._saldo,diff);
+  }
+  onChange(){
+    return this.saldoSubject;
   }
 }
