@@ -20,24 +20,24 @@ export class UserServiceProvider{
           let userData = ret.results[0];
           return Observable.of(jsonToUser(userData));
         }
-        return Observable.throw("Validering feilet!");
+        return Observable.throw({type:1,message: "Validering feilet!"});
       });
     }
-    return Observable.throw("Invalid RFID");
+    return Observable.throw({type:2,message: "Invalid RFID"});
   }
 
   updateSaldo(user,diff){
-    if(!(diff + user.saldo < 0)){
-      user.updateSaldo(diff);
-      return http.post(`${API_BASE}${API_TRANSACTIONS}`,{
-        user: user.id,
-        amount: diff
-      }).map(() => {
-        return diff;
-      }).catch(()=>{
-        user.updateSaldo(-diff);
-        return Observable.throw("Something went wrong.");
-      });
+    if((typeof diff) == "number"){
+      if(!(diff + user.saldo < 0)){
+        user.updateSaldo(diff);
+        return http.post(`${API_BASE}${API_TRANSACTIONS}`,{
+          user: user.id,
+          amount: diff
+        }).catch(()=>{
+          user.updateSaldo(-diff);
+          return Observable.throw("Something went wrong.");
+        });
+      }
     }
     return Observable.throw("");
   }
@@ -55,19 +55,5 @@ export class UserServiceProvider{
   }
 }
 
-class DevUserServiceProvider extends UserServiceProvider{
-  getUser(rfid){
-    return Observable.of(new User(-1,"Dev","User",699));
-  }
 
-  updateSaldo(user,diff){
-    if(!(diff + user.saldo < 0)){
-      user.updateSaldo(diff);
-    }
-    return Observable.throw("");
-  }
-}
-
-
-
-export const userService = new DevUserServiceProvider();
+export const userService = new UserServiceProvider();
