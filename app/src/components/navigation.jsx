@@ -50,8 +50,8 @@ export class Navigation extends React.Component {
 
     let help = <HelpModal key="help_modal" trigger={<NavItem onClick={(a) => {console.log}}><Icon>help_outline</Icon></NavItem>}/>;
     let navitems = [
-        <NavItem key="replay" onClick={this._onReload}><Icon>replay</Icon></NavItem>,
-        help
+      <NavItem key="replay" onClick={this._onReload}><Icon>replay</Icon></NavItem>,
+      help
     ];
     
     
@@ -63,7 +63,7 @@ export class Navigation extends React.Component {
         saldoList={saldoList} />;
     
     let removeSaldo = 
-      <RemoveSaldoModal 
+      <RemoveSaldoModal
         key={"remove_saldo"}
         onSubmit={ (a) => this.submitSaldo(a) } 
         trigger={<NavItem key={"remove"}><Icon>remove</Icon></NavItem>} 
