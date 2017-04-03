@@ -100,7 +100,8 @@ export class ShopView extends React.Component {
     if(props.user)
       this.userSubscription = props.user.onChange().subscribe(() => {
         this.forceUpdate();
-      })
+      });
+    
   }
 
   componentWillUnmount(){
