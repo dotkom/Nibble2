@@ -90,7 +90,7 @@ export class AddSaldoModal extends React.Component{
 
 
     let inputAmount = 0;
-    let inField = <input placeholder="$" name="asaldo" value={this.state.inval} disabled={this.state.indisable} onChange={(a) => this.inputChange(a)} type="number" />;
+    let inField = <input placeholder="" name="asaldo" value={this.state.inval} disabled={this.state.indisable} onChange={(a) => this.inputChange(a)} type="number" />;
     const changeInput = (amount) => {
       inputAmount = amount;
     }
@@ -103,7 +103,7 @@ export class AddSaldoModal extends React.Component{
         trigger={this.props.trigger}
         actions={[
           <Button waves='light' modal='close' flat>Avbryt</Button>,
-          <Button waves='light' onClick={() => {this.props.onSubmit(this.state.inval)}} modal='close'>Sett inn</Button>]}
+          <Button waves='light' onClick={() => {this.props.onSubmit(parseInt(this.state.inval))}} modal='close'>Sett inn</Button>]}
       >
         <div>
           <h5>Kontant</h5>
@@ -159,7 +159,7 @@ export class RemoveSaldoModal extends React.Component{
 
 
     let inputAmount = 0;
-    let inField = <input placeholder="$" name="rsaldo" value={this.state.inval} disabled={this.state.indisable} onChange={(a) => this.inputChange(a)} type="number" />;
+    let inField = <input placeholder="" name="rsaldo" value={this.state.inval} disabled={this.state.indisable} onChange={(a) => this.inputChange(a)} type="number" />;
     const changeInput = (amount) => {
       inputAmount = amount;
     }
@@ -171,7 +171,7 @@ export class RemoveSaldoModal extends React.Component{
         trigger={this.props.trigger}
         actions={[
           <Button waves='light' modal='close' flat>Avbryt</Button>,
-          <Button waves='light' onClick={() => this.props.onSubmit(-this.state.inval)} modal='close'>Ta ut</Button>
+          <Button waves='light' onClick={() => this.props.onSubmit(-parseInt(this.state.inval))} modal='close'>Ta ut</Button>
         ]}
       >
         <div>
