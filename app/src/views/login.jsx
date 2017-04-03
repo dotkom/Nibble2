@@ -33,12 +33,18 @@ export class LoginView extends React.Component {
         userService.getUser(this.currentRfid).subscribe(user => {
           this.submitState = 2;
           this.props.onSubmit(user);
-        },()=> {
+        },(err)=> {
           this.submitState = 3;
-          this.regProxy.next();
           this.intervals.push(setTimeout(()=>{
             this.submitState = 0
           },500));
+
+          if(err.type == 1){
+            this.regProxy.next();
+          }else{
+            //Show toast that it is invalid
+          }
+          
         });
         this.currentRfid = "";
       }
@@ -90,10 +96,10 @@ export class LoginView extends React.Component {
       );
     }
     let tables = [];
-    let colCount = 2;
+    let colCount = 3;
     for(let i=0; i<colCount;i++){
       tables.push(
-        <Col key={i} m={6} l={6}>
+        <Col key={i} m={4} l={4}>
           <table>
             <tbody>
               {tableContent.slice(Math.ceil(k/colCount) * i,Math.ceil(k/colCount) * (i+1))}
