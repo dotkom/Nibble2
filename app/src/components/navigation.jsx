@@ -48,7 +48,7 @@ export class Navigation extends React.Component {
 
     let user = this.props.user;
 
-    let help = <HelpModal key="help_modal" trigger={<NavItem onClick={(a) => {console.log}}><Icon>help_outline</Icon></NavItem>}/>;
+    let help = <HelpModal key="help_modal" trigger={<NavItem><Icon>help_outline</Icon></NavItem>}/>;
     let navitems = [
       <NavItem key="replay" onClick={this._onReload}><Icon>replay</Icon></NavItem>,
       help
