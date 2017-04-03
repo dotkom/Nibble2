@@ -19,17 +19,13 @@ export class OrderServiceProvider {
     return http.post(`${API_BASE}${API_ORDER}`,{
       user: user.id,
       orders: orders
-    }).map((ret) => {
-      console.log(ret);
-      return ret;
     }).catch((ret) => {
-      console.log(ret);
       //Error, add saldo back
       user.updateSaldo(totalPrice);
       return Observable.throw("Something went wrong.");
     });
   }
-  
+
 }
 // Export single instance
 export const orderService = new OrderServiceProvider();
