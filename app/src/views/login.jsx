@@ -61,9 +61,14 @@ export class LoginView extends React.Component {
   get submitState(){
     return this.state.submitState;
   }
-
+  disableKeyLogger(){
+    $(document).off("keypress");
+  }
+  enableKeyLogger(){
+    $(document).on("keypress",(...a) => this.handleKeyPress(...a));
+  }
   componentWillMount(){
-    $(document).on("keypress",this.handleKeyPress.bind(this));
+    this.enableKeyLogger();
   }
 
   componentDidMount(){
@@ -75,14 +80,14 @@ export class LoginView extends React.Component {
   }
 
   componentWillUnmount(){
-    $(document).off("keypress");
+    this.disableKeyLogger();
     for(let interval of this.intervals){
       clearInterval(interval);
     }
     this.invSub.unsubscribe();
   }
   handleRegSubmit(username,password){
-    
+    console.log("Reg",username,password);
   }
   render () {
     let tableContent = [];
@@ -113,9 +118,11 @@ export class LoginView extends React.Component {
 
     return (
       <div>
-        <RegModal 
+        <RegModal
           trigger={<ClickProxy proxy={this.regProxy.asObservable()} />} 
           onSubmit={(username, password) => this.handleRegSubmit(username, password)}
+          onClose={() => this.enableKeyLogger()}
+          onOpen={() => this.disableKeyLogger()}
         />
         <Row>
           <Col m={2} offset="l1 m1">

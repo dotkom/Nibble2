@@ -307,23 +307,44 @@ export class RegModal extends React.Component{
   }
 
   handleSubmit(e){
+    if(this.props.onSubmit){
+      console.log("Username ref",this.username);
+      this.props.onSubmit(this.username.value,this.password.value);
+    }
     e.preventDefault();
   }
-
+  onClose(){
+    this.username = "";
+    this.password = "";
+    if(this.props.onClose){
+      this.props.onClose();
+    }
+  }
+  onOpen(){
+    this.username = "";
+    this.password = "";
+    if(this.props.onOpen){
+      this.props.onOpen();
+    }
+  }
   render(){
     return (
       <Modal
+        modalOptions={{
+          complete: () => this.onClose(),
+          ready: () => this.onOpen()
+        }}
         header="Registrer - Nibble"
         trigger={this.props.trigger}
         actions={[
-          <Button waves='light' modal='close' onClick={() => this.props.onSubmit()}>Registrer</Button>,
+          <Button waves='light' modal='close' onClick={() => this.handleSubmit()}>Registrer</Button>,
           <Button waves='light' modal='close' flat>Avbryt</Button>
         ]}
       >
-        Fyll inn ditt krukernavn og passord for å knytte rfidekortet opp mot din online bruker
+        Fyll inn ditt brukernavn og passord for å knytte rfidekortet opp mot din online bruker
         <form onSubmit={(e) => this.handleSubmit(e)}>
-          <Input placeholder="Brukernavn" type="text" />
-          <Input placeholder="Passord" type="password" />
+          <Input onChange={(v) => this.username = v} value={this.username} placeholder="Brukernavn" type="text" />
+          <Input onChange={(v) => this.password = v} value={this.password} placeholder="Passord" type="password" />
         </form>
       </Modal>
     )
