@@ -9,7 +9,7 @@ export class HttpServiceProvider {
     // Request queue used for 503 and 401 responses
     this.requestQueue = [];
     this.storage = storage;
-    this.auth_token = storage ? storage.getIteam("auth_token") : '';
+    this.auth_token = storage ? storage.getItem("auth_token") : '';
     this.waitingForToken = false;
     this.requestSubject = new Subject();
     this.count = 0;
@@ -53,7 +53,7 @@ export class HttpServiceProvider {
           this.auth_token = data.access_token;
           if(this.storage)
             storage.setItem("auth_token",data.access_token);
-            
+
           // Performe requests from request queue
           for (const i of this.requestQueue) {
             this.request(i.request).subscribe((r) => {
