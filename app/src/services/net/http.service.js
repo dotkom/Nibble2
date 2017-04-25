@@ -52,7 +52,7 @@ export class HttpServiceProvider {
         .subscribe((data) => {
           this.auth_token = data.access_token;
           if(this.storage)
-            storage.setItem("auth_token",data.access_token);
+            this.storage.setItem("auth_token",data.access_token);
 
           // Performe requests from request queue
           for (const i of this.requestQueue) {
