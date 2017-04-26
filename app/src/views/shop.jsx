@@ -127,7 +127,10 @@ export class ShopView extends React.Component {
   }
 
   clearCart(stack){
-    this.shoppingCart = this.shoppingCart.filter(a => a!=stack);
+    if(stack)
+      this.shoppingCart = this.shoppingCart.filter(a => a!=stack);
+    else
+      this.shoppingCart = []
   }
 
   cartCheckout(){
