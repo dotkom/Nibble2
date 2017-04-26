@@ -12,7 +12,7 @@ import { userService } from 'services/user';
 
 import { ClickProxy, CheckoutModal } from 'components/modals.jsx';
 
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
 class Stack{
   constructor(item,qty){
@@ -58,7 +58,7 @@ export class ShopView extends React.Component {
     };
     this.checkoutProxy = new Subject();
     this.userSubscription = null;
-
+    this.exitTimer = props.time || 60;
   }
 
 
@@ -87,6 +87,12 @@ export class ShopView extends React.Component {
       }));
     });
     this.updateProps(this.props);
+    this.exitInterval = Observable.interval(1000).subscribe(() => {
+      this.exitTimer = this.exitTimer - 1;
+      if(this.exitTimer <= 0){
+        this.props.onExit();
+      }
+    });
   }
 
   componentWillReceiveProps(props){
@@ -101,12 +107,13 @@ export class ShopView extends React.Component {
       this.userSubscription = props.user.onChange().subscribe(() => {
         this.forceUpdate();
       });
-    
   }
 
   componentWillUnmount(){
     if(this.userSubscription)
       this.userSubscription.unsubscribe();
+    if(this.exitInterval)
+      this.exitInterval.unsubscribe();
   }
 
   addToCart(item){
@@ -162,6 +169,7 @@ export class ShopView extends React.Component {
         trigger={<ClickProxy proxy={this.checkoutProxy.asObservable()} />} 
         status={this.state.checkoutStatus}
         onSubmit={this.props.onExit}
+        time={this.exitTimer}
       />
     
     let inv = [];

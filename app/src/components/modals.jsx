@@ -206,7 +206,7 @@ export class CheckoutModal extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      current_status: props.status || "await",
+      current_status: props.status || "await"
     }
     this.c_interval = null;
   }
@@ -267,7 +267,7 @@ export class CheckoutModal extends React.Component{
         header={statusMessage}
         trigger={this.props.trigger}
         actions={[
-          <Button waves='light' onClick={() => this.props.onSubmit()} modal='close' flat>Logg ut nå</Button>,
+          <Button waves='light' onClick={() => this.props.onSubmit()} modal='close' flat>Logg ut nå ({this.props.time || 0})</Button>,
           <Button waves='light' modal='close'>Ny handel</Button>
         ]}
       >
