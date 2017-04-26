@@ -59,14 +59,14 @@ export class Navigation extends React.Component {
       <AddSaldoModal 
         key={"add_saldo"}
         onSubmit={ (a) => this.submitSaldo(a) } 
-        trigger={<NavItem key={"add"}><Icon>add</Icon><Icon>attach_money</Icon></NavItem>}
+        trigger={<NavItem key={"add"}><Icon>add</Icon></NavItem>}
         saldoList={saldoList} />;
     
     let removeSaldo = 
       <RemoveSaldoModal
         key={"remove_saldo"}
         onSubmit={ (a) => this.submitSaldo(a) } 
-        trigger={<NavItem key={"remove"}><Icon>remove</Icon><Icon>attach_money</Icon></NavItem>} 
+        trigger={<NavItem key={"remove"}><Icon>remove</Icon></NavItem>} 
         saldoList={saldoList} />;
     
     if(user){
