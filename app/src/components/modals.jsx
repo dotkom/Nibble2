@@ -77,13 +77,29 @@ export class AddSaldoModal extends React.Component{
 
   setValue(amount,disable){
     this.setState(Object.assign(this.state,{
-      inval: amount==null ? this.state.inval : amount,
+      inval: Math.max(amount==null ? this.state.inval : amount,0),
       indisable: disable==null ? this.state.indisable : disable
     }));
   }
-
+  diffValue(amount){
+    this.setState(Object.assign(this.state,{
+      inval: Math.max((this.state.inval==null ? 0 : this.state.inval) + amount,0)
+    }));
+  }
   render(){
     let moneyButtons = [];
+    let v = [1,5,10,25];
+    let incButtons = [];
+    let decButtons = [];
+    for(let i in v){
+      let amount = v[i];
+      decButtons.push(<Button key={i + 10} large waves='light' className={`money-${amount}`} onClick={() => this.diffValue(-amount)}>{"-" + amount} kr</Button>)
+    }
+    for(let i in v){
+      let amount = v[i];
+      incButtons.push(<Button key={i + 20} large waves='light' className={`money-${amount}`} onClick={() => this.diffValue(amount)}>{"+" + amount} kr</Button>)
+    }
+    
     for(let i in this.props.saldoList){
       let amount = this.props.saldoList[i];
       moneyButtons.push(<Button key={i} large waves='light' className={`money-${amount}`} onClick={() => this.setValue(amount,true)}>{amount} kr</Button>)
@@ -113,6 +129,14 @@ export class AddSaldoModal extends React.Component{
           <div className="radio-group">
             <Button waves='light' large onClick={() => this.setValue(null,false)}>Velg eget beløp</Button>
             {moneyButtons}
+          </div>
+          <br />
+          <div className="radio-group">
+            {incButtons}
+          </div>
+          <br />
+          <div className="radio-group">
+            {decButtons}
           </div>
           <br />
           <div className="col input-field">
@@ -150,13 +174,30 @@ export class RemoveSaldoModal extends React.Component{
       indisable: disable==null ? this.state.indisable : disable
     }));
   }
-
+  diffValue(amount){
+    this.setState(Object.assign(this.state,{
+      inval: Math.max((this.state.inval==null ? 0 : this.state.inval) + amount,0)
+    }));
+  }
   render(){
     let moneyButtons = [];
+    let v = [1,5,10,25];
+    let incButtons = [];
+    let decButtons = [];
+    for(let i in v){
+      let amount = v[i];
+      decButtons.push(<Button key={i + 10} large waves='light' className={`money-${amount}`} onClick={() => this.diffValue(-amount)}>{"-" + amount} kr</Button>)
+    }
+    for(let i in v){
+      let amount = v[i];
+      incButtons.push(<Button key={i + 20} large waves='light' className={`money-${amount}`} onClick={() => this.diffValue(amount)}>{"+" + amount} kr</Button>)
+    }
+    
     for(let i in this.props.saldoList){
       let amount = this.props.saldoList[i];
       moneyButtons.push(<Button key={i} large waves='light' className={`money-${amount}`} onClick={() => this.setValue(amount,true)}>{amount} kr</Button>)
     }
+
 
 
     let inputAmount = 0;
@@ -182,6 +223,14 @@ export class RemoveSaldoModal extends React.Component{
           <div className="radio-group">
             <Button large waves='light' onClick={() => this.setValue(null,false)}>Velg eget beløp</Button>
             { moneyButtons }
+          </div>
+          <br />
+          <div className="radio-group">
+            {incButtons}
+          </div>
+          <br />
+          <div className="radio-group">
+            {decButtons}
           </div>
           <br />
           <div className="col input-field">
