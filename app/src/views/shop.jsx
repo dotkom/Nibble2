@@ -54,11 +54,11 @@ export class ShopView extends React.Component {
     this.state = {
       inventory: [],
       shoppingCart: [],
-      checkoutStatus: "await"
+      checkoutStatus: "await",
+      exitTimer: props.time || 120
     };
     this.checkoutProxy = new Subject();
     this.userSubscription = null;
-    this.exitTimer = props.time || 60*2;
   }
 
 
@@ -88,8 +88,10 @@ export class ShopView extends React.Component {
     });
     this.updateProps(this.props);
     this.exitInterval = Observable.interval(1000).subscribe(() => {
-      this.exitTimer = this.exitTimer - 1;
-      if(this.exitTimer <= 0){
+      this.setState(Object.assign(this.state,{
+        exitTimer: this.state.exitTimer - 1
+      }));
+      if(this.state.exitTimer <= 0){
         this.props.onExit();
       }
     });
@@ -169,7 +171,7 @@ export class ShopView extends React.Component {
         trigger={<ClickProxy proxy={this.checkoutProxy.asObservable()} />} 
         status={this.state.checkoutStatus}
         onSubmit={this.props.onExit}
-        time={this.exitTimer}
+        time={this.state.exitTimer}
       />
     
     let inv = [];
