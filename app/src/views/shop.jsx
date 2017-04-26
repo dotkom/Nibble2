@@ -147,7 +147,6 @@ export class ShopView extends React.Component {
       }));
     },(msg) => {
       //It failed
-      console.log(msg);
       this.setState(Object.assign(this.state,{
         checkoutStatus: "fail"
       }));
