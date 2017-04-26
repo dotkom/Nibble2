@@ -33,7 +33,7 @@ class App extends React.Component {
     }));
   }
   render () {
-    const brand = <span><img className="logo" src="./assets/images/favicon.png"/>Nibble</span>
+    const brand = <span><img className="logo" src="./assets/images/favicon.png"/>Nibble 2</span>
     const currentView = (this.state.user==null) ? 
       <LoginView 
         onSubmit={(user) => this.submitLogin(user)}
