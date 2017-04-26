@@ -209,7 +209,7 @@ export class RemoveSaldoModal extends React.Component{
     return (
       <Modal
         key={"cash_modal"}
-        header="Legg Til Penger"
+        header="Ta Ut Penger"
         trigger={this.props.trigger}
         actions={[
           <Button waves='light' modal='close' flat>Avbryt</Button>,
