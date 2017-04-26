@@ -58,7 +58,7 @@ export class ShopView extends React.Component {
     };
     this.checkoutProxy = new Subject();
     this.userSubscription = null;
-    this.exitTimer = props.time || 60;
+    this.exitTimer = props.time || 60*2;
   }
 
 
