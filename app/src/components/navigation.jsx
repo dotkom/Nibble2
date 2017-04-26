@@ -59,14 +59,14 @@ export class Navigation extends React.Component {
       <AddSaldoModal 
         key={"add_saldo"}
         onSubmit={ (a) => this.submitSaldo(a) } 
-        trigger={<NavItem key={"add"}><Icon>add</Icon></NavItem>}
+        trigger={<NavItem key={"add"}><Icon>add</Icon><Icon>attach_money</Icon></NavItem>}
         saldoList={saldoList} />;
     
     let removeSaldo = 
       <RemoveSaldoModal
         key={"remove_saldo"}
         onSubmit={ (a) => this.submitSaldo(a) } 
-        trigger={<NavItem key={"remove"}><Icon>remove</Icon></NavItem>} 
+        trigger={<NavItem key={"remove"}><Icon>remove</Icon><Icon>attach_money</Icon></NavItem>} 
         saldoList={saldoList} />;
     
     if(user){
@@ -76,7 +76,7 @@ export class Navigation extends React.Component {
         help,
         <NavItem className="nav-user" key="user">
           <span>{user.fullname}</span>
-          <small>{user.saldo}kr</small>
+          <small>{user.saldo} kr</small>
         </NavItem>,
         <NavItem key={"exit"} onClick={() => this.props.onExit()}><Icon>exit_to_app</Icon></NavItem>
       ];
