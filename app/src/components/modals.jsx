@@ -17,7 +17,8 @@ export class ClickProxy extends React.Component{
   componentDidMount(){
     if(this.props.proxy){
       this.sub = this.props.proxy.subscribe((a) => {
-        this.props.onClick(new MouseEvent("PROXY_CLICK"));
+        if(this.props.onClick)
+          this.props.onClick(new MouseEvent("PROXY_CLICK"));
       });
     }
   }
@@ -268,7 +269,8 @@ export class CheckoutModal extends React.Component{
         trigger={this.props.trigger}
         actions={[
           <Button waves='light' onClick={() => this.props.onSubmit()} modal='close' flat>Logg ut nå ({this.props.time || 0})</Button>,
-          <Button waves='light' modal='close'>Ny handel</Button>
+          <Button waves='light' modal='close'>Ny handel</Button>,
+          this.props.extraClose
         ]}
       >
         <Row>

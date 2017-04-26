@@ -58,6 +58,7 @@ export class ShopView extends React.Component {
       exitTimer: props.time || 120
     };
     this.checkoutProxy = new Subject();
+    this.closeProxy = new Subject();
     this.userSubscription = null;
   }
 
@@ -81,6 +82,7 @@ export class ShopView extends React.Component {
   }
 
   componentDidMount(){
+    this.time = 120;
     inventory.getInventory().subscribe((inv)=>{
       this.setState(Object.assign(this.state,{
         inventory: inv
@@ -92,6 +94,7 @@ export class ShopView extends React.Component {
         exitTimer: this.state.exitTimer - 1
       }));
       if(this.state.exitTimer <= 0){
+        $('.modal').modal('close');
         this.props.onExit();
       }
     });
@@ -119,6 +122,7 @@ export class ShopView extends React.Component {
   }
 
   addToCart(item){
+    this.time = 120;
     let existingStack = false;
     for(let stack of this.shoppingCart){
       if(stack.canStack(item)){
@@ -134,8 +138,13 @@ export class ShopView extends React.Component {
 
     this.forceUpdate();
   }
-
+  set time(t){
+    this.setState(Object.assign(this.state,{
+      exitTimer: t
+    }));
+  }
   clearCart(stack){
+    this.t = 120;
     if(stack)
       this.shoppingCart = this.shoppingCart.filter(a => a!=stack);
     else
@@ -145,19 +154,22 @@ export class ShopView extends React.Component {
   cartCheckout(){
     //triggers modal to open
     this.setState(Object.assign(this.state,{
-      checkoutStatus: "await"
+      checkoutStatus: "await",
+      exitTimer: 200
     }));
     this.checkoutProxy.next();
 
     orderService.checkoutOrder(this.props.user,this.shoppingCart).subscribe(v => {
       this.clearCart();
       this.setState(Object.assign(this.state,{
-        checkoutStatus: "success"
+        checkoutStatus: "success",
+        exitTimer: 5
       }));
     },(msg) => {
       //It failed
       this.setState(Object.assign(this.state,{
-        checkoutStatus: "fail"
+        checkoutStatus: "fail",
+        exitTimer: 5
       }));
     });
   }
