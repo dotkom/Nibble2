@@ -9,5 +9,11 @@ app.on('ready', () => {
     autoHideMenuBar: true,
     kiosk: true
   });
-  mainWindow.loadURL(`http://localhost:8080/app/`);
+  mainWindow.loadURL(`http://localhost:8080/`);
+  mainWindow.on('closed',() => {
+    //Deref mainWindow
+    mainWindow = null;
+    app.quit();
+  });
 });
+

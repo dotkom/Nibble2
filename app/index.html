@@ -13,8 +13,10 @@
   </head>
   <body>
     <div id="app" />
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="/node_modules/materialize-css/dist/js/materialize.min.js"></script>
+    <script>if (window.module) module = window.module;</script>
     <script src="./dist/bundle.js" type="text/javascript"></script>
   </body>
 </html>
