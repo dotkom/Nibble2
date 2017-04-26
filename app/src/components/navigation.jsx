@@ -86,6 +86,6 @@ export class Navigation extends React.Component {
       <div>
         {navitems}
       </div>
-    )
+    );
   }
 }
