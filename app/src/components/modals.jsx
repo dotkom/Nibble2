@@ -116,7 +116,7 @@ export class AddSaldoModal extends React.Component{
           <br />
           <div className="col input-field">
             {inField}
-            <label htmlFor="asaldo" className="active">Saldo</label>
+            <label htmlFor="asaldo" className="active">Skriv beløp</label>
           </div>
         </div>
       </Modal>
@@ -184,7 +184,7 @@ export class RemoveSaldoModal extends React.Component{
           <br />
           <div className="col input-field">
             { inField }
-            <label htmlFor="rsaldo" className="active">Saldo</label>
+            <label htmlFor="rsaldo" className="active">Skriv beløp</label>
           </div>
         </div>
       </Modal>
