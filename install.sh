@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Get absolute path of the directory this file beeing run from
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" || { echo "Could not get the directory of this script. Exiting... "; exit 1; }
