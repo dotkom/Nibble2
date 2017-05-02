@@ -356,29 +356,48 @@ export class CheckoutModal extends React.Component{
 export class RegModal extends React.Component{
   constructor(props){
     super(props);
+    this.state = {
+      username: "",
+      password: ""
+    }
   }
 
   handleSubmit(e){
     if(this.props.onSubmit){
-      console.log("Username ref",this.username);
-      this.props.onSubmit(this.username.value,this.password.value);
+      this.props.onSubmit(this.state.username,this.state.password);
     }
-    e.preventDefault();
+    if(e)
+      e.preventDefault();
   }
   onClose(){
-    this.username = "";
-    this.password = "";
+    this.setState(Object.assign(this.state,{
+      username: "",
+      password: ""
+    }));
     if(this.props.onClose){
       this.props.onClose();
     }
   }
   onOpen(){
-    this.username = "";
-    this.password = "";
+    this.setState(Object.assign(this.state,{
+      username: "",
+      password: ""
+    }));
     if(this.props.onOpen){
       this.props.onOpen();
     }
   }
+  set username(u){
+    this.setState(Object.assign(this.state,{
+      username: u
+    }));
+  }
+  set password(u){
+    this.setState(Object.assign(this.state,{
+      password: u
+    }));
+  }
+  
   render(){
     return (
       <Modal
@@ -394,10 +413,15 @@ export class RegModal extends React.Component{
         ]}
       >
         Fyll inn ditt brukernavn og passord for å knytte rfidekortet opp mot din online bruker
-        <form onSubmit={(e) => this.handleSubmit(e)}>
-          <Input onChange={(v) => this.username = v} value={this.username} placeholder="Brukernavn" type="text" />
-          <Input onChange={(v) => this.password = v} value={this.password} placeholder="Passord" type="password" />
-        </form>
+        <div className="col input-field">
+          <input onChange={(v) => {this.username = v.value;}} value={this.state.username} type="text" />
+          <label>Brukernavn</label>
+        </div>
+        <div className="col input-field">
+          <input onChange={(v) => {this.password = v.value;}} value={this.state.password} type="password" />
+          <label>Passord</label>
+        </div>
+
       </Modal>
     )
   }

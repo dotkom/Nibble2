@@ -31,6 +31,7 @@ export class LoginView extends React.Component {
       if(event.keyCode == 13){ // Enter
         this.submitState = 1;
         userService.getUser(this.currentRfid).subscribe(user => {
+          this.currentRfid = "";
           this.submitState = 2;
           this.props.onSubmit(user);
         },(err)=> {
@@ -42,11 +43,11 @@ export class LoginView extends React.Component {
           if(err.type == 1){
             this.regProxy.next();
           }else{
+            this.currentRfid = "";
             //Show toast that it is invalid
           }
           
         });
-        this.currentRfid = "";
       }
       else{
         this.currentRfid += String.fromCharCode(event.keyCode);
@@ -81,13 +82,19 @@ export class LoginView extends React.Component {
 
   componentWillUnmount(){
     this.disableKeyLogger();
+    this.currentRfid = "";
+        
     for(let interval of this.intervals){
       clearInterval(interval);
     }
     this.invSub.unsubscribe();
   }
   handleRegSubmit(username,password){
-    console.log("Reg",username,password);
+    userService.bindRfid(username,password,this.currentRfid).subscribe(u => {
+      console.log(u);
+    },()=>{},()=>{
+      this.currentRfid = "";
+    });
   }
   render () {
     let tableContent = [];
