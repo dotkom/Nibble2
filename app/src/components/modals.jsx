@@ -113,6 +113,9 @@ export class AddSaldoModal extends React.Component {
         key={'cash_modal'}
         header="Legg Til Penger"
         trigger={this.props.trigger}
+        modalOptions = {{
+          ready: () => this.setValue(0,true)
+        }}
         actions={[
           <Button waves="light" modal="close" flat>Avbryt</Button>,
           <Button waves="light" onClick={() => { this.props.onSubmit(parseInt(this.state.inval)); }} modal="close">Sett inn</Button>]}
@@ -204,6 +207,9 @@ export class RemoveSaldoModal extends React.Component {
         key={'cash_modal'}
         header="Ta Ut Penger"
         trigger={this.props.trigger}
+        modalOptions = {{
+          ready: () => this.setValue(0,true)
+        }}
         actions={[
           <Button waves="light" modal="close" flat>Avbryt</Button>,
           <Button waves="light" onClick={() => this.props.onSubmit(-parseInt(this.state.inval))} modal="close">Ta ut</Button>,
