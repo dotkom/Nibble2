@@ -88,6 +88,9 @@ export class ShopView extends React.Component {
   componentDidMount() {
     this.time = LOGOUT_TIMER;
     inventory.getInventory().subscribe((inv) => {
+      inv.sort((a,b) => {
+        return a.name > b.name;
+      });
       this.setState(Object.assign(this.state, {
         inventory: inv,
       }));
