@@ -32,10 +32,10 @@ export class LoginView extends React.Component {
         this.submitState = 1;
         userService.getUser(this.currentRfid).subscribe(user => {
           this.currentRfid = "";
-          this.submitState = 2;
+          this.submitState = 1;
           this.props.onSubmit(user);
         },(err)=> {
-          this.submitState = 3;
+          this.submitState = 2;
           this.intervals.push(setTimeout(()=>{
             this.submitState = 0
           },500));
@@ -121,7 +121,7 @@ export class LoginView extends React.Component {
       );
     }
 
-    let rfid_marker =  (["","wait","ok","error"])[this.submitState]; 
+    let rfid_marker =  (["","ok","error"])[this.submitState];
 
     return (
       <div>
