@@ -41,7 +41,11 @@ export class Navigation extends React.Component {
   }
 
   submitSaldo(diff) {
-    userService.updateSaldo(this.props.user, diff);
+    userService.updateSaldo(this.props.user, diff).subscribe(a => {
+      Materialize.toast(`${Math.abs(a.amount)}kr ${(a.amount < 0 ? 'tatt ut' : 'satt inn')}`,1000);
+    },(err) => {
+      Materialize.toast(err);
+    });
   }
 
   render() {
