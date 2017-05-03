@@ -1,0 +1,13 @@
+[Unit]
+Description=Nibble2 client w/electron
+
+[Service]
+RestartSec=5
+Restart=always
+User=$NIBBLE_USER
+Environment="DISPLAY=:0"
+Environment="XAUTHORITY=$NIBBLE_USER_DIR/.Xauthority"
+ExecStart=/usr/bin/npm run --prefix $NIBBLE_DIR electron
+
+[Install]
+WantedBy=multi-user.target
