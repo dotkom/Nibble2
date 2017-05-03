@@ -12,3 +12,4 @@ App for buying foods &amp; drinks at the office
 - copy and paste constants.example.js to constants.js and fill in fields in app/src/common/constants.js
 - run: `npm run dev` to build and run webpack webserver
 - App is hosted on port 8080
+
