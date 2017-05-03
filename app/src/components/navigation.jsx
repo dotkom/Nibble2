@@ -8,8 +8,8 @@ import { userService } from 'services/user';
 
 
 export class Navigation extends React.Component {
-  
-  constructor(props){
+
+  constructor(props) {
     super(props);
     this.add_saldo = 0;
     this.remove_saldo = 0;
@@ -18,58 +18,59 @@ export class Navigation extends React.Component {
     this.userSubscription = null;
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.updateProps(this.props);
   }
 
-  componentWillReceiveProps(props){
+  componentWillReceiveProps(props) {
     this.updateProps(props);
   }
 
-  updateProps(props){
-    if(this.userSubscription)
-      this.userSubscription.unsubscribe();
-    
-    if(props.user)
+  updateProps(props) {
+    if (this.userSubscription) { this.userSubscription.unsubscribe(); }
+
+    if (props.user) {
       this.userSubscription = props.user.onChange().subscribe(() => {
         this.forceUpdate();
-      })
+      });
+    }
   }
 
-  _onReload(){
+  _onReload() {
     location.reload();
   }
-  
-  submitSaldo(diff){
+
+  submitSaldo(diff) {
     userService.updateSaldo(this.props.user, diff);
   }
-  
-  render () {
 
-    let user = this.props.user;
+  render() {
+    const user = this.props.user;
 
-    let help = <HelpModal key="help_modal" trigger={<NavItem><Icon>help_outline</Icon></NavItem>}/>;
+    const help = <HelpModal key="help_modal" trigger={<NavItem><Icon>help_outline</Icon></NavItem>} />;
     let navitems = [
       <NavItem key="replay" onClick={this._onReload}><Icon>replay</Icon></NavItem>,
-      help
+      help,
     ];
-    
-    
-    let addSaldo = 
-      <AddSaldoModal 
-        key={"add_saldo"}
-        onSubmit={ (a) => this.submitSaldo(a) } 
-        trigger={<NavItem key={"add"}><Icon>add</Icon></NavItem>}
-        saldoList={saldoList} />;
-    
-    let removeSaldo = 
-      <RemoveSaldoModal
-        key={"remove_saldo"}
-        onSubmit={ (a) => this.submitSaldo(a) } 
-        trigger={<NavItem key={"remove"}><Icon>remove</Icon></NavItem>} 
-        saldoList={saldoList} />;
-    
-    if(user){
+
+
+    const addSaldo =
+      (<AddSaldoModal
+        key={'add_saldo'}
+        onSubmit={a => this.submitSaldo(a)}
+        trigger={<NavItem key={'add'}><Icon>add</Icon></NavItem>}
+        saldoList={saldoList}
+      />);
+
+    const removeSaldo =
+      (<RemoveSaldoModal
+        key={'remove_saldo'}
+        onSubmit={a => this.submitSaldo(a)}
+        trigger={<NavItem key={'remove'}><Icon>remove</Icon></NavItem>}
+        saldoList={saldoList}
+      />);
+
+    if (user) {
       navitems = [
         addSaldo,
         removeSaldo,
@@ -78,7 +79,7 @@ export class Navigation extends React.Component {
           <span>{user.fullname}</span>
           <small>{user.saldo} kr</small>
         </NavItem>,
-        <NavItem key={"exit"} onClick={() => this.props.onExit()}><Icon>exit_to_app</Icon></NavItem>
+        <NavItem key={'exit'} onClick={() => this.props.onExit()}><Icon>exit_to_app</Icon></NavItem>,
       ];
     }
 

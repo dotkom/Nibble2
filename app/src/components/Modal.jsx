@@ -1,19 +1,19 @@
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 
-export class Modal extends React.Component{
-  constructor(props){
+export class Modal extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
     };
     this.modal = null;
   }
 
-  setModalRef(ref){
+  setModalRef(ref) {
     this.modal = ref;
-    if(ref != null){
+    if (ref != null) {
       $(this.modal).modal({
         dismissible: false,
         opacity: 0.5,
@@ -22,43 +22,43 @@ export class Modal extends React.Component{
         startTop: '4%',
         endingTop: '10%',
         ready: () => this.handleReady(),
-        complete: () => this.handleComplete()
+        complete: () => this.handleComplete(),
       });
     }
   }
-  
-  handleReady(){
+
+  handleReady() {
 
   }
-  handleComplete(){
+  handleComplete() {
 
   }
-  open(){
-    $(this.modal).modal("open");
+  open() {
+    $(this.modal).modal('open');
   }
 
-  close(){
-    $(this.modal).modal("close");  
+  close() {
+    $(this.modal).modal('close');
   }
 
-  componentWillReceiveProps(props){
-    let openState = props.open ? true : false;
-    let fmap = {
+  componentWillReceiveProps(props) {
+    const openState = !!props.open;
+    const fmap = {
       [true]: () => this.open(),
-      [false]: () => this.close()
-    }
+      [false]: () => this.close(),
+    };
 
-    if(openState != this.state.open){
+    if (openState != this.state.open) {
       fmap[openState]();
     }
   }
 
-  renderModal(){
+  renderModal() {
     return (
       <div ref={(...a) => this.setModalRef(...a)} className="modal">
         <div className="modal-content">
-          <h4>{this.props.header || "None"}</h4>
-          {this.props.children || <p></p>}
+          <h4>{this.props.header || 'None'}</h4>
+          {this.props.children || <p />}
         </div>
         <div className="modal-footer">
           {this.props.actions}
@@ -66,9 +66,9 @@ export class Modal extends React.Component{
       </div>
     );
   }
-  render(){
-    let trigger = React.cloneElement(this.props.trigger,{
-      onClick: () => this.open()
+  render() {
+    const trigger = React.cloneElement(this.props.trigger, {
+      onClick: () => this.open(),
     });
     return (<div>
       {this.renderModal()}
