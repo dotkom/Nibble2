@@ -42,12 +42,12 @@ export const HelpModal = props => (<Modal
   <div>
     <b>Hvordan legger jeg inn penger?</b>
     <p>
-        Du kan legge inn penger manuelt på appen etter du har logget inn eller du kan legge til med ditt kredittkort på online.ntnu.no under min profil.
-      </p>
+      Du kan legge inn penger manuelt på appen etter du har logget inn eller du kan legge til med ditt kredittkort på online.ntnu.no under min profil.
+    </p>
     <b>Det er tomt for en vare, hva gjør jeg?</b>
     <p>Det er funksjonalitet for automatisk varsling under utvikling men foreløpig må du sende mail til trikom@online.ntnu.no.</p>
     <b>Jeg fant en feil, hva gjør jeg?</b>
-    <p>Legg til en issue på github.com/dotKom/nibble/ eller send en mail til dotkom@online.ntnu.no</p>
+    <p>Legg til en issue på github.com/dotKom/nibble2/ eller send en mail til dotkom@online.ntnu.no</p>
   </div>
 </Modal>);
 
@@ -61,8 +61,8 @@ export class AddSaldoModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inval: '',
-      indisable: false,
+      inval: 0,
+      indisable: true,
     };
   }
 
@@ -122,7 +122,6 @@ export class AddSaldoModal extends React.Component {
           <b>Legg kontant i pengekassa som står i kjøleskapet, så registrer samme beløp her!</b>
           <br />
           <div className="radio-group">
-            <Button waves="light" large onClick={() => this.setValue(null, false)}>Velg eget beløp</Button>
             {moneyButtons}
           </div>
           <br />
@@ -154,8 +153,8 @@ export class RemoveSaldoModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inval: '',
-      indisable: false,
+      inval: 0,
+      indisable: true,
     };
   }
 
@@ -215,7 +214,6 @@ export class RemoveSaldoModal extends React.Component {
           <b>Velg beløpet du ønsker å ta ut, så ta pengene fra pengekassa i kjøleskapet!</b>
           <br />
           <div className="radio-group">
-            <Button large waves="light" onClick={() => this.setValue(null, false)}>Velg eget beløp</Button>
             { moneyButtons }
           </div>
           <br />
@@ -305,14 +303,16 @@ export class CheckoutModal extends React.Component {
         </div>,
       );
     }
-
     return (
       <Modal
         header={statusMessage}
         trigger={this.props.trigger}
+        modalOptions={{
+          complete: () => this.props.onSubmit(true)
+        }}
         actions={[
-          <Button waves="light" onClick={() => this.props.onSubmit()} modal="close" flat>Logg ut nå ({this.props.time || 0})</Button>,
-          <Button waves="light" modal="close">Ny handel</Button>,
+          <Button waves="light" onClick={() => this.props.onSubmit(false)} modal="close">Ny handel</Button>,
+          <Button waves="light" onClick={() => this.props.onSubmit(true)} modal="close" flat>Logg ut nå ({this.props.time || 0})</Button>,
           this.props.extraClose,
         ]}
       >
