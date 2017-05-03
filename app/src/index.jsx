@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
+import 'common/lang';
 import { Navbar,NavItem,Icon } from 'react-materialize';
 import { API_BASE } from 'common/constants'; 
 import { http } from 'services/net';
@@ -7,7 +8,6 @@ import { http } from 'services/net';
 import { Navigation } from 'components/navigation.jsx';
 import { Observable, Subject } from 'rxjs';
 import { LoginView, ShopView } from 'views/';
-
 
 
 
