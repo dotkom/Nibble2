@@ -125,7 +125,7 @@ export class LoginView extends React.Component {
       );
     }
 
-    const rfid_marker = (['', 'ok', 'error'])[this.submitState];
+    const rfid_marker = (['', 'ok', 'ok', 'error'])[this.submitState];
 
     return (
       <div>
