@@ -29,25 +29,7 @@ export class LoginView extends React.Component {
   handleKeyPress(event){
     if(this.logKeys){
       if(event.keyCode == 13){ // Enter
-        this.submitState = 1;
-        userService.getUser(this.currentRfid).subscribe(user => {
-          this.currentRfid = "";
-          this.submitState = 2;
-          this.props.onSubmit(user);
-        },(err)=> {
-          this.submitState = 3;
-          this.intervals.push(setTimeout(()=>{
-            this.submitState = 0
-          },500));
-
-          if(err.type == 1){
-            this.regProxy.next();
-          }else{
-            this.currentRfid = "";
-            //Show toast that it is invalid
-          }
-          
-        });
+        this.attemptLogin();
       }
       else{
         this.currentRfid += String.fromCharCode(event.keyCode);
@@ -61,6 +43,26 @@ export class LoginView extends React.Component {
   }
   get submitState(){
     return this.state.submitState;
+  }
+  attemptLogin(){
+    this.submitState = 1;
+    userService.getUser(this.currentRfid).subscribe(user => {
+      this.currentRfid = "";
+      this.submitState = 2;
+      this.props.onSubmit(user);
+    },(err)=> {
+      this.submitState = 3;
+      this.intervals.push(setTimeout(()=>{
+        this.submitState = 0
+      },500));
+
+      if(err.type == 1){
+        this.regProxy.next();
+      }else{
+        this.currentRfid = "";
+        //Show toast that it is invalid
+      }
+    });
   }
   disableKeyLogger(){
     $(document).off("keypress");
@@ -91,7 +93,8 @@ export class LoginView extends React.Component {
   }
   handleRegSubmit(username,password){
     userService.bindRfid(username,password,this.currentRfid).subscribe(u => {
-      console.log(u);
+      //Try to login if user was registered
+      this.attemptLogin();
     },()=>{},()=>{
       this.currentRfid = "";
     });
