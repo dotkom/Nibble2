@@ -10,35 +10,35 @@ import { Item, jsonToItem } from './item';
 
 export class InventoryServiceProvider {
 
-  constructor(){
+  constructor() {
     this._inventory = [];
     this._categories = {};
     this._inventorySubject = new ReplaySubject();
     this._reload();
   }
-  _reload(){
-    //Download inventory
+  _reload() {
+    // Download inventory
     http.get(`${API_BASE}${API_INVENTORY}`)
-      .subscribe((items)=>{
-        let inv = [];
-        let cats = {};
-        for (let item of items){
-          let cat = item.category;
-          if(cat){
-            cats[cat.pk] = cats[cat.pk] || new Category(cat.pk,cat.name);
+      .subscribe((items) => {
+        const inv = [];
+        const cats = {};
+        for (const item of items) {
+          const cat = item.category;
+          if (cat) {
+            cats[cat.pk] = cats[cat.pk] || new Category(cat.pk, cat.name);
           }
-          inv.push(jsonToItem(item,cats[cat.pk]));
+          inv.push(jsonToItem(item, cats[cat.pk]));
         }
         this.inventory = inv;
       });
   }
-  
-  set inventory(inv){
+
+  set inventory(inv) {
     this._inventory = inv;
     this._inventorySubject.next(inv);
   }
-  
-  getInventory(){
+
+  getInventory() {
     return this._inventorySubject.asObservable().take(1);
   }
 

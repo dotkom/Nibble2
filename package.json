@@ -7,7 +7,9 @@
     "build": "webpack",
     "electron": "electron .",
     "watch": "webpack -w",
-    "dev": "webpack-dev-server --watch-poll --inline --hot"
+    "dev": "webpack-dev-server --watch-poll --inline --hot",
+    "lint": "eslint . --ext .jsx,.js",
+    "lint-fix": "eslint . --ext .jsx,.js --fix"
   },
   "authors": [
     "Nixo",
@@ -23,6 +25,12 @@
     "babel-loader": "^6.2.10",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.22.0",
+    "electron-prebuilt": "^1.4.13",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2"
   },

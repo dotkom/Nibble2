@@ -9,14 +9,14 @@ export class HttpServiceProvider {
     // Request queue used for 503 and 401 responses
     this.requestQueue = [];
     this.storage = storage;
-    this.auth_token = storage ? storage.getItem("auth_token") : '';
+    this.auth_token = storage ? storage.getItem('auth_token') : '';
     this.waitingForToken = false;
     this.requestSubject = new Subject();
     this.count = 0;
     // Subject for handling requests, each request is seperated by 150ms
     // Prevents 'DOS' protection
     this.requestSubject
-      //Limit throughput by 150ms
+      // Limit throughput by 150ms
       .concatMap(v => Observable.of(v).delay(150))
       // Subscrive to this stream
       .subscribe((requestPair) => {
@@ -38,7 +38,6 @@ export class HttpServiceProvider {
             requestPair.subject.complete();
           });
       });
-
   }
   renewToken() {
     if (!this.waitingForToken) {
@@ -51,8 +50,7 @@ export class HttpServiceProvider {
       }, true)
         .subscribe((data) => {
           this.auth_token = data.access_token;
-          if(this.storage)
-            this.storage.setItem("auth_token",data.access_token);
+          if (this.storage) { this.storage.setItem('auth_token', data.access_token); }
 
           // Performe requests from request queue
           for (const i of this.requestQueue) {
@@ -99,12 +97,12 @@ export class HttpServiceProvider {
    * @param {Request} url
    * @return Observable<{}>
    */
-  request(request,clone) {
+  request(request, clone) {
     // Add token to request
     request.headers.set('Authorization', `Bearer ${this.auth_token}`);
     const resolver = new Subject();
     // Push request into request 'stream'/queue
-    this.requestSubject.next({ request,clone, subject: resolver });
+    this.requestSubject.next({ request, clone, subject: resolver });
     return resolver.asObservable();
   }
   /** performes a get request
@@ -120,7 +118,7 @@ export class HttpServiceProvider {
     // Create request
     const request = new Request(pUrl, { method: 'get' });
     const clone = request.clone();
-    return this.request(request,clone);
+    return this.request(request, clone);
   }
 
   static urlEncode(data) {
@@ -158,7 +156,7 @@ export class HttpServiceProvider {
       headers,
     });
     const clone = request.clone();
-    return this.request(request,clone);
+    return this.request(request, clone);
   }
 }
 // Export single instance

@@ -1,7 +1,6 @@
 import { BASE } from './constants';
 
-export const jsonToImage = (json) => {
-  return (
+export const jsonToImage = json => (
     new Image(
       json.id,
       json.name,
@@ -13,13 +12,12 @@ export const jsonToImage = (json) => {
       json.md,
       json.xs,
       json.tags,
-      json.photographer
+      json.photographer,
     )
   );
-}
 
-export class Image{
-  constructor(id,name,description,thumb,original,wide,lg,md,sm,xs,tags,photographer){
+export class Image {
+  constructor(id, name, description, thumb, original, wide, lg, md, sm, xs, tags, photographer) {
     this._id = id;
     this._name = name;
     this._description = description;
@@ -33,34 +31,34 @@ export class Image{
     this._tags = tags;
     this._photographer = photographer;
   }
-  get thumb(){
+  get thumb() {
     return `${BASE}${this._thumb}`;
   }
-  get large(){
-    return `${BASE}${this._lg}`;  
+  get large() {
+    return `${BASE}${this._lg}`;
   }
-  get medium(){
+  get medium() {
     return `${BASE}${this._md}`;
   }
-  get small(){
+  get small() {
     return `${BASE}${this._sm}`;
   }
-  get wide(){
+  get wide() {
     return `${BASE}${this._wide}`;
   }
-  get extraSmall(){
-    return `${BASE}${this._xs}`;  
+  get extraSmall() {
+    return `${BASE}${this._xs}`;
   }
-  get tags(){
+  get tags() {
     return this._tags;
   }
-  get original(){
-    return `${BASE}${this._original}`
+  get original() {
+    return `${BASE}${this._original}`;
   }
-  get description(){
+  get description() {
     return this._description;
   }
-  get name(){
+  get name() {
     return this._name;
   }
 }

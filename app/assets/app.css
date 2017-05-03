@@ -363,6 +363,7 @@ img.logo {
 }
 
 .inventory-list {
+  white-space: nowrap;
   padding: 0em 1em;
 }
 .item-count.inventory-list{
