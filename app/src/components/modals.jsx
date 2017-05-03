@@ -61,8 +61,8 @@ export class AddSaldoModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inval: '',
-      indisable: false,
+      inval: 0,
+      indisable: true,
     };
   }
 
@@ -122,7 +122,6 @@ export class AddSaldoModal extends React.Component {
           <b>Legg kontant i pengekassa som står i kjøleskapet, så registrer samme beløp her!</b>
           <br />
           <div className="radio-group">
-            <Button waves="light" large onClick={() => this.setValue(null, false)}>Velg eget beløp</Button>
             {moneyButtons}
           </div>
           <br />
@@ -154,8 +153,8 @@ export class RemoveSaldoModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inval: '',
-      indisable: false,
+      inval: 0,
+      indisable: true,
     };
   }
 
@@ -215,7 +214,6 @@ export class RemoveSaldoModal extends React.Component {
           <b>Velg beløpet du ønsker å ta ut, så ta pengene fra pengekassa i kjøleskapet!</b>
           <br />
           <div className="radio-group">
-            <Button large waves="light" onClick={() => this.setValue(null, false)}>Velg eget beløp</Button>
             { moneyButtons }
           </div>
           <br />
