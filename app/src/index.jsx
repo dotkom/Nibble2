@@ -4,6 +4,7 @@ import { Navbar, NavItem, Icon } from 'react-materialize';
 import { API_BASE } from 'common/constants';
 import { http } from 'services/net';
 // import { inventory } from 'services/inventory';
+import 'common/lang';
 import { Navigation } from 'components/navigation.jsx';
 import { Observable, Subject } from 'rxjs';
 import { LoginView, ShopView } from 'views/';
