@@ -303,14 +303,16 @@ export class CheckoutModal extends React.Component {
         </div>,
       );
     }
-
     return (
       <Modal
         header={statusMessage}
         trigger={this.props.trigger}
+        modalOptions={{
+          complete: () => this.props.onSubmit(true)
+        }}
         actions={[
-          <Button waves="light" modal="close">Ny handel</Button>,
-          <Button waves="light" onClick={() => this.props.onSubmit()} modal="close" flat>Logg ut nå ({this.props.time || 0})</Button>,
+          <Button waves="light" onClick={() => this.props.onSubmit(false)} modal="close">Ny handel</Button>,
+          <Button waves="light" onClick={() => this.props.onSubmit(true)} modal="close" flat>Logg ut nå ({this.props.time || 0})</Button>,
           this.props.extraClose,
         ]}
       >

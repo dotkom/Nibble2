@@ -48,6 +48,10 @@ class Stack {
   }
 }
 
+
+const LOGOUT_TIMER = 120;
+
+
 export class ShopView extends React.Component {
   constructor(props) {
     super(props);
@@ -55,7 +59,7 @@ export class ShopView extends React.Component {
       inventory: [],
       shoppingCart: [],
       checkoutStatus: 'await',
-      exitTimer: props.time || 120,
+      exitTimer: props.time || LOGOUT_TIMER,
     };
     this.checkoutProxy = new Subject();
     this.closeProxy = new Subject();
@@ -82,7 +86,7 @@ export class ShopView extends React.Component {
   }
 
   componentDidMount() {
-    this.time = 120;
+    this.time = LOGOUT_TIMER;
     inventory.getInventory().subscribe((inv) => {
       this.setState(Object.assign(this.state, {
         inventory: inv,
@@ -120,7 +124,7 @@ export class ShopView extends React.Component {
   }
 
   addToCart(item) {
-    this.time = 120;
+    this.time = LOGOUT_TIMER;
     let existingStack = false;
     for (const stack of this.shoppingCart) {
       if (stack.canStack(item)) {
@@ -142,7 +146,7 @@ export class ShopView extends React.Component {
     }));
   }
   clearCart(stack) {
-    this.t = 120;
+    this.time = LOGOUT_TIMER;
     if (stack) { this.shoppingCart = this.shoppingCart.filter(a => a != stack); } else { this.shoppingCart = []; }
   }
 
@@ -169,6 +173,13 @@ export class ShopView extends React.Component {
     });
   }
 
+  checkoutClose(logout){
+    if(logout && this.props.onExit){
+      this.props.onExit();
+    }else{
+      this.time = LOGOUT_TIMER;
+    }
+  }
 
   render() {
     const checkoutModal =
@@ -177,7 +188,7 @@ export class ShopView extends React.Component {
         balance={this.props.user.saldo}
         trigger={<ClickProxy proxy={this.checkoutProxy.asObservable()} />}
         status={this.state.checkoutStatus}
-        onSubmit={this.props.onExit}
+        onSubmit={() => this.checkoutClose()}
         time={this.state.exitTimer}
       />);
 
