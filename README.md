@@ -8,7 +8,7 @@ App for buying foods &amp; drinks at the office
 
 ## Setup
 - start bash or cmd and cd to nibble2
-- run: "npm install"
+- run: `npm install`
 - copy and paste constants.example.js to constants.js and fill in fields in app/src/common/constants.js
-- run: "npm run dev" to build and run webpack webserver
+- run: `npm run dev` to build and run webpack webserver
 - App is hosted on port 8080
