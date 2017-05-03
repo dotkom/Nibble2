@@ -311,8 +311,8 @@ export class CheckoutModal extends React.Component {
         header={statusMessage}
         trigger={this.props.trigger}
         actions={[
-          <Button waves="light" onClick={() => this.props.onSubmit()} modal="close" flat>Logg ut nå ({this.props.time || 0})</Button>,
           <Button waves="light" modal="close">Ny handel</Button>,
+          <Button waves="light" onClick={() => this.props.onSubmit()} modal="close" flat>Logg ut nå ({this.props.time || 0})</Button>,
           this.props.extraClose,
         ]}
       >
