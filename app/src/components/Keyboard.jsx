@@ -1,28 +1,33 @@
 
-
-
-
 import React, {Component} from 'react';
+
 
 
 export class Keyboard extends React.Component{
   constructor(props){
     super(props);
   }
-
-  componentDidMount(){
   
+  handleChange(evt,keyboard,elm){
+    if(this.props.onChange){
+      this.props.onChange(elm.value);
+    }
   }
 
-  componentWillUnmount(){
-    
-  }
-
-  onentWillReceiveProps(props){
-    
+  childRef(element){
+    //Default element
+    $(element).keyboard({
+      accepted: (...a) => this.handleChange(...a),
+      canceled: (...a) => this.handleChange(...a),
+      usePreview: false,
+      layout: this.props.layout || 'qwerty-no' 
+    });
   }
 
   render(){
-    return <div>{this.props.children}</div>
+    return React.cloneElement(this.props.children,{
+      ref: (...a) => {this.childRef(...a)},
+      onChange: (evt) => {this.handleChange(evt,null,evt.target)}
+    });
   }
 }
