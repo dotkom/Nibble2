@@ -35,7 +35,7 @@ export class InventoryServiceProvider {
 
   set inventory(inv) {
     this._inventory = inv;
-    this._inventorySubject.next(inv);
+    this._inventorySubject.next(inv.slice());
   }
 
   getInventory() {
