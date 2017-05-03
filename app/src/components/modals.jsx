@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar, NavItem, Icon, Modal, Button, Row, Col, Input } from 'react-materialize';
-
+import { Keyboard } from './Keyboard.jsx';
 
 
 
@@ -414,11 +414,15 @@ export class RegModal extends React.Component{
       >
         Fyll inn ditt brukernavn og passord for å knytte rfidekortet opp mot din online bruker
         <div className="col input-field">
-          <input onChange={(v) => {this.username = v.value;}} value={this.state.username} type="text" />
+          <Keyboard onChange={(v)=> this.username = v}>
+            <input value={this.state.username} type="text" />
+          </Keyboard>
           <label>Brukernavn</label>
         </div>
         <div className="col input-field">
-          <input onChange={(v) => {this.password = v.value;}} value={this.state.password} type="password" />
+          <Keyboard onChange={(v) => this.password = v}>
+            <input value={this.state.password} type="password" />
+          </Keyboard>
           <label>Passord</label>
         </div>
 
