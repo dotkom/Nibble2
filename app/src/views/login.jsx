@@ -94,34 +94,23 @@ export class LoginView extends React.Component {
   }
   handleRegSubmit(username, password){
     userService.bindRfid(username, password, this.currentRfid).subscribe(u => {
-      //Try to login if user was registered
+      // Try to login if user was registered
       this.attemptLogin();
-    },()=>{},()=>{
-      this.currentRfid = "";
+    }, () => {}, () => {
+      this.currentRfid = '';
     });
   }
   render() {
-    const tableContent = [];
+
+    const menuContent = [];
+
     let k = 0;
     for (const item of this.state.inventory) {
-      tableContent.push(
-        <tr className="item_box" key={++k}>
-          <td className="item_name inventory-list">{item.name}</td>
-          <td className="item-count inventory-list">{item.price}</td>
-        </tr>,
-      );
-    }
-    const tables = [];
-    const colCount = 3;
-    for (let i = 0; i < colCount; i++) {
-      tables.push(
-        <Col key={i} m={4} l={4}>
-          <table>
-            <tbody>
-              {tableContent.slice(Math.ceil(k / colCount) * i, Math.ceil(k / colCount) * (i + 1))}
-            </tbody>
-          </table>
-        </Col>,
+      menuContent.push(
+        <div className="menuItem" key={k += 1}>
+          <div className="menuItemName">{item.name}</div>
+          <div className="menuItemPrice">{item.price}</div>
+        </div>,
       );
     }
 
@@ -146,7 +135,9 @@ export class LoginView extends React.Component {
               </div>
             </div>
             <Row>
-              {tables}
+              <div className="menuContainer">
+                {menuContent}
+              </div>
             </Row>
           </Col>
         </Row>

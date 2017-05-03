@@ -1,3 +1,37 @@
+.menuContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.menuItem {
+  flex-grow: 0;
+  width: 32%;
+
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+
+  line-height: 64px;
+  font-size: 18px;
+
+  padding: 0 16px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.menuItemName {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.menuItemPrice {
+  padding-left: 16px;
+  color: #039be5;
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+
 /* styles for nibble app */
 /* see http://materializecss.com/color.html for color palette. Current palette is amber */
 nav {
