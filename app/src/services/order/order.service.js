@@ -6,23 +6,23 @@ import { http } from 'services/net';
 
 export class OrderServiceProvider {
 
-  constructor(){
+  constructor() {
   }
-  checkoutOrder(user,cart){
-    let orders = [];
+  checkoutOrder(user, cart) {
+    const orders = [];
     let totalPrice = 0;
-    for(let o of cart) {
+    for (const o of cart) {
       totalPrice += o.cost;
       orders.push(o.checkoutObject);
     }
     user.updateSaldo(-totalPrice);
-    return http.post(`${API_BASE}${API_ORDER}`,{
+    return http.post(`${API_BASE}${API_ORDER}`, {
       user: user.id,
-      orders: orders
+      orders,
     }).catch((ret) => {
-      //Error, add saldo back
+      // Error, add saldo back
       user.updateSaldo(totalPrice);
-      return Observable.throw("Something went wrong.");
+      return Observable.throw('Something went wrong.');
     });
   }
 

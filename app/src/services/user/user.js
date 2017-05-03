@@ -1,22 +1,19 @@
 
 import { Subject } from 'rxjs';
 
-export const jsonToUser = (json) => {
-  return(
+export const jsonToUser = json => (
     new User(
       json.pk,
       json.first_name,
       json.last_name,
-      json.saldo
+      json.saldo,
     )
   );
-}
 
 
+export class User {
 
-export class User{
-
-  constructor(id,firstname,lastname,saldo){
+  constructor(id, firstname, lastname, saldo) {
     this._id = id;
     this._firstname = firstname;
     this._lastname = lastname;
@@ -24,23 +21,23 @@ export class User{
     this.saldoSubject = new Subject();
   }
 
-  get id(){
+  get id() {
     return this._id;
   }
 
-  get fullname(){
+  get fullname() {
     return `${this._firstname} ${this._lastname}`;
   }
 
-  get saldo(){
+  get saldo() {
     return this._saldo;
   }
 
-  updateSaldo(diff){
+  updateSaldo(diff) {
     this._saldo += diff;
-    this.saldoSubject.next(this._saldo,diff);
+    this.saldoSubject.next(this._saldo, diff);
   }
-  onChange(){
+  onChange() {
     return this.saldoSubject;
   }
 }

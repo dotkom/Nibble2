@@ -7,7 +7,8 @@
     "build": "webpack",
     "electron": "electron .",
     "watch": "webpack -w",
-    "dev": "webpack-dev-server --watch-poll --inline --hot"
+    "dev": "webpack-dev-server --watch-poll --inline --hot",
+    "lint": "eslint . --fix"
   },
   "authors": [
     "Nixo",
