@@ -15,7 +15,9 @@
     "Nixo",
     "Aborysa",
     "Nornes",
-    "Torri"
+    "Torri",
+    "Oleast",
+    "Andlar"
   ],
   "license": "MIT",
   "devDependencies": {
@@ -33,10 +35,13 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "electron": "^1.6.6",
+    "extract-zip": "=1.6.0",
     "materialize-css": "^0.97.8",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-materialize": "^0.17.7",
-    "rxjs": "^5.0.3"
+    "rxjs": "^5.0.3",
+    "virtual-keyboard": "^1.26.22"
   }
 }
