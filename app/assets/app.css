@@ -83,6 +83,10 @@ body {
   justify-content: space-between;
 }
 
+.menuItemEmpty {
+  border-bottom: inherit;
+}
+
 .menuItemName {
   text-overflow: ellipsis;
   overflow: hidden;

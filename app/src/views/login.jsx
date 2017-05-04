@@ -124,6 +124,12 @@ export class LoginView extends React.Component {
       );
     }
 
+    if (menuContent.length % 3 === 2) {
+      menuContent.push(
+        <div className="menuItem menuItemEmpty" key={k += 1} />,
+      );
+    }
+
     const rfid_marker = (['', 'ok', 'ok', 'error'])[this.submitState];
 
     return (
