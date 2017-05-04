@@ -193,7 +193,7 @@ export class ShopView extends React.Component {
         balance={this.props.user.saldo}
         trigger={<ClickProxy proxy={this.checkoutProxy.asObservable()} />}
         status={this.state.checkoutStatus}
-        onSubmit={() => this.checkoutClose()}
+        onSubmit={(...a) => this.checkoutClose(...a)}
         time={this.state.exitTimer}
       />);
 
