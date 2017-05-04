@@ -218,6 +218,12 @@ export class ShopView extends React.Component {
       );
     }
 
+    if (inv.length % 3 === 2) {
+      inv.push(
+        <div className="catalogCard catalogCardEmpty" key={k += 1} />,
+      );
+    }
+
     const cartContents = [];
     k = 0;
     for (const stack of this.shoppingCart) {

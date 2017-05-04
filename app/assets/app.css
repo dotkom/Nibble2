@@ -7,7 +7,6 @@ body {
   flex-wrap: wrap;
   justify-content: space-between;
   margin: 16px 0;
-  align-content: stretch;
 }
 
 .catalogCard {
@@ -22,6 +21,10 @@ body {
 
 .catalogCard:hover {
   box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.catalogCardEmpty {
+  box-shadow: none;
 }
 
 .catalogImage {
