@@ -22,6 +22,7 @@ export class LoginView extends React.Component {
     this.intervals = [];
     this.logKeys = true;
     this.currentRfid = '';
+    this.storedRfid = '';
     this.regProxy = new Subject();
     this.invSub = null;
   }
@@ -29,6 +30,8 @@ export class LoginView extends React.Component {
   handleKeyPress(event){
     if(this.logKeys){
       if(event.keyCode == 13){ // Enter
+        this.storedRfid = this.currentRfid;
+        this.currentRfid = '';
         this.attemptLogin();
       }
       else{
@@ -47,28 +50,32 @@ export class LoginView extends React.Component {
 
   attemptLogin(){
     this.submitState = 1;
-    userService.getUser(this.currentRfid).subscribe(user => {
-      this.currentRfid = "";
+    userService.getUser(this.storedRfid).subscribe(user => {
+      this.storedRfid = "";
       this.submitState = 2;
       this.props.onSubmit(user);
     },(err)=> {
       this.submitState = 3;
+      Materialize.toast("Login feilet!",2000);
       this.intervals.push(setTimeout(()=>{
         this.submitState = 0
-      },500));
+      },1000));
 
       if(err.type == 1){
         this.regProxy.next();
       }else{
-        this.currentRfid = "";
+        this.storedRfid = "";
+        Materialize.toast("Ugyldig RFID!",2000);
         //Show toast that it is invalid
       }
     });
   }
   disableKeyLogger(){
+    this.currentRfid = '';
     $(document).off("keypress");
   }
   enableKeyLogger() {
+    this.currentRfid = '';
     $(document).on('keypress', (...a) => this.handleKeyPress(...a));
   }
   componentWillMount() {
@@ -86,18 +93,21 @@ export class LoginView extends React.Component {
   componentWillUnmount() {
     this.disableKeyLogger();
     this.currentRfid = '';
-
+    this.storedRfid = '';
     for (const interval of this.intervals) {
       clearInterval(interval);
     }
     this.invSub.unsubscribe();
   }
   handleRegSubmit(username, password){
-    userService.bindRfid(username, password, this.currentRfid).subscribe(u => {
+    userService.bindRfid(username, password, this.storedRfid).subscribe(u => {
       // Try to login if user was registered
       this.attemptLogin();
-    }, () => {}, () => {
-      this.currentRfid = '';
+    }, () => {
+      Materialize.toast("Registrering feilet!",2000);
+      this.storedRfid = '';
+    }, () => {
+      this.storedRfid = '';
     });
   }
   render() {
