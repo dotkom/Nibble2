@@ -1,11 +1,9 @@
 pipeline:
   deployment:
-    image: appleboy/drone-ssh
+    image: plugins/ssh
     host: nibble.online.ntnu.no
     user: nibble
-    username: nibble 
     port: 22030
-    key: ${SSH_KEY}
     when:
       event: push
       branch: master
