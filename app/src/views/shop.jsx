@@ -49,7 +49,7 @@ class Stack {
 }
 
 
-const LOGOUT_TIMER = 120;
+const LOGOUT_TIMER = 10;
 
 
 export class ShopView extends React.Component {
@@ -101,6 +101,8 @@ export class ShopView extends React.Component {
       if (this.state.exitTimer <= 0) {
         $('.modal').modal('close');
         this.props.onExit();
+      }else if(this.state.exitTimer <= 5){
+        Materialize.toast(`Logger ut om ${this.state.exitTimer}`,600);
       }
     });
   }
@@ -160,6 +162,7 @@ export class ShopView extends React.Component {
     this.checkoutProxy.next();
 
     orderService.checkoutOrder(this.props.user, this.shoppingCart).subscribe((v) => {
+      Materialize.toast("Handel fullført",1000);
       this.clearCart();
       this.setState(Object.assign(this.state, {
         checkoutStatus: 'success',
@@ -167,6 +170,7 @@ export class ShopView extends React.Component {
       }));
     }, (msg) => {
       // It failed
+      Materialize.toast("Handel feilet!",2000);
       this.setState(Object.assign(this.state, {
         checkoutStatus: 'fail',
         exitTimer: 5,
