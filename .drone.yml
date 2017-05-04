@@ -1,23 +1,13 @@
 pipeline:
-  test:
-    image: node
-    when:
-      event: push
-      branch: master
-    commands:
-      - whoami
-      - echo ${DEPLOY_KEY}
-      - echo "${DEPLOY_KEY}"
   deployment:
     image: appleboy/drone-ssh
     host: nibble.online.ntnu.no
     username: nibble
     port: 22030
-    key: ${DEPLOY_KEY}
+    key: ${NIBBLE_DEPLOY_KEY}
     when:
       event: push
       branch: master
     script:
-      - cd /home/nibble/Nibble2
-      - git checkout master
-      - git pull origin master
+      - cd /home/nibble
+      - echo deployed > test-nibble.txt
