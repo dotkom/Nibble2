@@ -1,0 +1,12 @@
+pipeline:
+  deployment:
+    image: plugins/ssh
+    host: nibble.online.ntnu.no
+    user: nibble
+    port: 22030
+    when:
+      event: push
+      branch: master
+    script:
+      - git checkout master
+      - git pull origin master
