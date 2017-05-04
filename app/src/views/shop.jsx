@@ -166,6 +166,7 @@ export class ShopView extends React.Component {
     this.checkoutProxy.next();
 
     orderService.checkoutOrder(this.props.user, this.shoppingCart).subscribe((v) => {
+      Materialize.toast("Handel fullført",1000);
       this.clearCart();
       this.setState(Object.assign(this.state, {
         checkoutStatus: 'success',
@@ -173,6 +174,7 @@ export class ShopView extends React.Component {
       }));
     }, (msg) => {
       // It failed
+      Materialize.toast("Handel feilet!",2000);
       this.setState(Object.assign(this.state, {
         checkoutStatus: 'fail',
         exitTimer: 5,
