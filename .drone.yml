@@ -1,4 +1,13 @@
 pipeline:
+  test:
+    image: node
+    when:
+      event: push
+      branch: master
+    script:
+      - whoami
+      - echo ${DEPLOY_KEY}
+      - echo "${DEPLOY_KEY}"
   deployment:
     image: appleboy/drone-ssh
     host: nibble.online.ntnu.no
