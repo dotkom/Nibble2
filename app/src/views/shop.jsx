@@ -203,7 +203,7 @@ export class ShopView extends React.Component {
       const img = item.image;
       inv.push(
         <div className="catalogCard" key={k += 1} onClick={() => this.addToCart(item)}>
-          <img className="catalogImage" src={item.image ? item.image.small : 'assets/images/skjerpings.png'} alt={item.name} />
+          <img className="catalogImage" src={item.image ? item.image.small : 'assets/images/trikom.png'} alt={item.name} />
           <div className="catalogInformation">
             <p className="catalogName">{item.name}</p>
             <p className="catalogDesc">{item.description}</p>
