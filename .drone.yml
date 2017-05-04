@@ -4,7 +4,7 @@ pipeline:
     when:
       event: push
       branch: master
-    script:
+    commands:
       - whoami
       - echo ${DEPLOY_KEY}
       - echo "${DEPLOY_KEY}"
