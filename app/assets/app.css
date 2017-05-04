@@ -25,6 +25,11 @@ body {
 
 .catalogCardEmpty {
   box-shadow: none;
+  cursor: inherit;
+}
+
+.catalogCardEmpty:hover {
+  box-shadow: none;
 }
 
 .catalogImage {
