@@ -202,35 +202,19 @@ export class ShopView extends React.Component {
     for (const item of this.state.inventory) {
       const img = item.image;
       inv.push(
-        <Col s={4} key={k++}>
-          <Card
-            onClick={() => this.addToCart(item)}
-            className="small hoverable clickable item"
-            title={item.name}
-            textClassName="grey-text text-darken-4 truncate"
-            header={
-              <CardTitle
-                image={img ? img.small : ''}
-                waves="light"
-              />
-            }
-            actions={[
-              <a
-                key={0}
-                className="add waves-effect waves-blue btn btn-flat nibble-color lighter left-align"
-              >
-                Legg til
-              </a>,
-            ]}
-          >
-            <p className="thin truncate item-description">
-              {item.description}
-            </p>
-            <span className="item-count">
-              { item.price }kr
-            </span>
-          </Card>
-        </Col>,
+        <div className="catalogCard" key={k += 1} onClick={() => this.addToCart(item)}>
+          <img className="catalogImage" src={item.image ? item.image.small : 'assets/images/skjerpings.png'} alt={item.name} />
+          <div className="catalogInformation">
+            <p className="catalogName">{item.name}</p>
+            <p className="catalogDesc">{item.description}</p>
+            <p className="catalogPrice">{item.price}kr</p>
+          </div>
+          <div className="catalogButton">
+            <a className="add waves-effect waves-blue btn btn-flat nibble-color lighter left-align">
+              Legg til
+            </a>
+          </div>
+        </div>,
       );
     }
 
@@ -257,7 +241,9 @@ export class ShopView extends React.Component {
     return (
       <Row>
         <Col m={9} l={9}>
-          {inv}
+          <div className="catalog">
+            {inv}
+          </div>
         </Col>
         <Col m={3} l={3} className="side-nav fixed side-nav-custom">
           <table>
