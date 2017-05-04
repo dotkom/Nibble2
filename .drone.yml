@@ -9,7 +9,4 @@ pipeline:
       event: push
       branch: master
     script:
-      - cd /home/nibble/Nibble2
-      - ls
-      - git checkout master
-      - git pull origin master
+      - whoami
