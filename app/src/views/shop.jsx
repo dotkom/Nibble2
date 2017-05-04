@@ -88,11 +88,7 @@ export class ShopView extends React.Component {
   componentDidMount() {
     this.time = LOGOUT_TIMER;
     inventory.getInventory().subscribe((inv) => {
-      inv.sort((a,b) => {
-        const c = a.name.toLowerCase();
-        const d = b.name.toLowerCase();
-        return (c < d) ? -1 : ((c > d) ? 1 :0);
-      });
+      inv.sort((a, b) => a.name.localeCompare(b.name));
       this.setState(Object.assign(this.state, {
         inventory: inv,
       }));
