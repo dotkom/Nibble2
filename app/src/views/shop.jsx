@@ -49,7 +49,7 @@ class Stack {
 }
 
 
-const LOGOUT_TIMER = 120;
+const LOGOUT_TIMER = 10;
 
 
 export class ShopView extends React.Component {
@@ -105,6 +105,8 @@ export class ShopView extends React.Component {
       if (this.state.exitTimer <= 0) {
         $('.modal').modal('close');
         this.props.onExit();
+      }else if(this.state.exitTimer <= 5){
+        Materialize.toast(`Logger ut om ${this.state.exitTimer}`,600);
       }
     });
   }
