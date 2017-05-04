@@ -49,7 +49,7 @@ class Stack {
 }
 
 
-const LOGOUT_TIMER = 10;
+const LOGOUT_TIMER = 120;
 
 
 export class ShopView extends React.Component {
