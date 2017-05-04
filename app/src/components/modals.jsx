@@ -120,10 +120,8 @@ export class AddSaldoModal extends React.Component {
           <Button waves="light" modal="close" flat>Avbryt</Button>,
           <Button waves="light" onClick={() => { this.props.onSubmit(parseInt(this.state.inval)); }} modal="close">Sett inn</Button>]}
       >
-        <div>
-          <h5>Kontant</h5>
-          <b>Legg kontant i pengekassa som står i kjøleskapet, så registrer samme beløp her!</b>
-          <br />
+        <div className="modalCash">
+          <p className="modalCashDesc">Legg kontanter i pengekassa som står i kjøleskapet, så registrer samme beløp her!</p>
           <div className="radio-group">
             {moneyButtons}
           </div>
@@ -138,7 +136,7 @@ export class AddSaldoModal extends React.Component {
           <br />
           <div className="col input-field">
             {inField}
-            <label htmlFor="asaldo" className="active">Skriv beløp</label>
+            <label htmlFor="asaldo" className="active">Velg beløp med knappene over</label>
           </div>
         </div>
       </Modal>
@@ -215,10 +213,8 @@ export class RemoveSaldoModal extends React.Component {
           <Button waves="light" onClick={() => this.props.onSubmit(-parseInt(this.state.inval))} modal="close">Ta ut</Button>,
         ]}
       >
-        <div>
-          <h5>Kontant</h5>
-          <b>Velg beløpet du ønsker å ta ut, så ta pengene fra pengekassa i kjøleskapet!</b>
-          <br />
+        <div className="modalCash">
+          <p className="modalCashDesc">Velg beløpet du ønsker å ta ut, så ta pengene fra pengekassa i kjøleskapet!</p>
           <div className="radio-group">
             { moneyButtons }
           </div>
@@ -233,7 +229,7 @@ export class RemoveSaldoModal extends React.Component {
           <br />
           <div className="col input-field">
             { inField }
-            <label htmlFor="rsaldo" className="active">Skriv beløp</label>
+            <label htmlFor="rsaldo" className="active">Velg beløp med knappene over</label>
           </div>
         </div>
       </Modal>

@@ -7,7 +7,6 @@ body {
   flex-wrap: wrap;
   justify-content: space-between;
   margin: 16px 0;
-  align-content: stretch;
 }
 
 .catalogCard {
@@ -22,6 +21,10 @@ body {
 
 .catalogCard:hover {
   box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.catalogCardEmpty {
+  box-shadow: none;
 }
 
 .catalogImage {
@@ -91,6 +94,51 @@ body {
   color: #039be5;
   font-size: 1.2rem;
   font-weight: 300;
+}
+
+.nav-user {
+  transition: none;
+}
+
+.nav-user:hover {
+  background-color: inherit;
+}
+
+.nav-user:focus {
+  outline: none;
+}
+
+.nav-user a {
+  transition: none;
+  cursor: inherit;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.nav-user a:hover {
+  background-color: inherit;
+}
+
+.nav-user a small {
+  margin-left: 8px;
+}
+
+.modalCashDesc {
+  margin-bottom: 16px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.modalCash .input-field input[type=number]:disabled {
+  color: rgba(0, 0, 0, .5);
+  border-bottom: 1px dotted rgba(0, 0, 0, .5);
+}
+
+.modalCash .input-field input[type=number]:disabled + label {
+  left: 0;
+  color: rgba(0, 0, 0, .5);
 }
 
 /* styles for nibble app */
@@ -291,13 +339,9 @@ small{
   -webkit-touch-callout: none;
 }
 
-
-
-.add-money .radio-group{
-}
-
 .radio-group{
   display: flex;
+  margin: 0 -10px;
 }
 
 .radio-group button{
