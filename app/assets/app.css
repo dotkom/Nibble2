@@ -12,7 +12,7 @@ body {
 .catalogCard {
   cursor: pointer;
   flex-grow: 0;
-  width: 32%;
+  flex-basis: 32%;
   margin-bottom: 16px;
   display: flex;
   flex-wrap: wrap;
