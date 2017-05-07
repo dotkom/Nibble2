@@ -4,11 +4,11 @@ import { Navbar, NavItem, Icon } from 'react-materialize';
 
 import { Row, Col, Card, CardTitle, Button } from 'react-materialize';
 
-import { inventory, Item } from 'services/inventory';
-import { orderService } from 'services/order';
-import { http } from 'services/net';
+import { LOGOUT_TIMER } from 'common/constants';
 
-import { userService } from 'services/user';
+import { serviceManager } from 'services';
+
+
 
 import { ClickProxy, CheckoutModal } from 'components/modals.jsx';
 
@@ -49,9 +49,6 @@ class Stack {
 }
 
 
-const LOGOUT_TIMER = 120;
-
-
 export class ShopView extends React.Component {
   constructor(props) {
     super(props);
@@ -64,6 +61,12 @@ export class ShopView extends React.Component {
     this.checkoutProxy = new Subject();
     this.closeProxy = new Subject();
     this.userSubscription = null;
+    
+    
+    //Services
+    this.inventory = serviceManager.getService('inventory');
+    this.orderService = serviceManager.getService('order');
+
   }
 
 
@@ -87,7 +90,7 @@ export class ShopView extends React.Component {
 
   componentDidMount() {
     this.time = LOGOUT_TIMER;
-    inventory.getInventory().subscribe((inv) => {
+    this.inventory.getInventory().subscribe((inv) => {
       inv.sort((a, b) => a.name.localeCompare(b.name));
       this.setState(Object.assign(this.state, {
         inventory: inv,
@@ -161,7 +164,7 @@ export class ShopView extends React.Component {
     }));
     this.checkoutProxy.next();
 
-    orderService.checkoutOrder(this.props.user, this.shoppingCart).subscribe((v) => {
+    this.orderService.checkoutOrder(this.props.user, this.shoppingCart).subscribe((v) => {
       Materialize.toast("Handel fullført",1000);
       this.clearCart();
       this.setState(Object.assign(this.state, {
