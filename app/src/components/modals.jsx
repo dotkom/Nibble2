@@ -252,6 +252,7 @@ export class CheckoutModal extends React.Component {
       current_status: props.status || 'await',
     };
     this.c_interval = null;
+    this.closeState = true;
   }
 
   componentWillUnmount() {
@@ -310,11 +311,11 @@ export class CheckoutModal extends React.Component {
         header={statusMessage}
         trigger={this.props.trigger}
         modalOptions={{
-          complete: () => this.props.onSubmit(true)
+          complete: () => this.props.onSubmit(this.closeState)
         }}
         actions={[
-          <Button waves="light" onClick={() => this.props.onSubmit(false)} modal="close">Ny handel</Button>,
-          <Button waves="light" onClick={() => this.props.onSubmit(true)} modal="close" flat>Logg ut nå ({this.props.time || 0})</Button>,
+          <Button waves="light" onClick={() => this.closeState = false} modal="close">Ny handel</Button>,
+          <Button waves="light" onClick={() => this.closeState = true} modal="close" flat>Logg ut nå ({this.props.time || 0})</Button>,
           this.props.extraClose,
         ]}
       >
