@@ -3,8 +3,7 @@ import { Navbar, NavItem, Icon, Modal } from 'react-materialize';
 
 import { AddSaldoModal, HelpModal, RemoveSaldoModal, CheckoutModal } from './modals.jsx';
 import { saldoList } from 'common/constants';
-
-import { userService } from 'services/user';
+import { serviceManager } from 'services';
 
 
 export class Navigation extends React.Component {
@@ -16,6 +15,9 @@ export class Navigation extends React.Component {
     this.add_enableCustom = true;
     this.remove_enableCustom = true;
     this.userSubscription = null;
+    
+    //Services
+    this.userService = serviceManager.getService('user');
   }
 
   componentDidMount() {
@@ -41,7 +43,7 @@ export class Navigation extends React.Component {
   }
 
   submitSaldo(diff) {
-    userService.updateSaldo(this.props.user, diff).subscribe(a => {
+    this.userService.updateSaldo(this.props.user, diff).subscribe(a => {
       Materialize.toast(`${Math.abs(a.amount)}kr ${(a.amount < 0 ? 'tatt ut' : 'satt inn')}`,1000);
     },(err) => {
       Materialize.toast(err);

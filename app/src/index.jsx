@@ -1,61 +1,37 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Navbar, NavItem, Icon } from 'react-materialize';
-import { API_BASE } from 'common/constants';
-import { http } from 'services/net';
-// import { inventory } from 'services/inventory';
-import 'common/lang';
-import { Navigation } from 'components/navigation.jsx';
-import { Observable, Subject } from 'rxjs';
-import { LoginView, ShopView } from 'views/';
+import { 
+  serviceManager, 
+  InventoryServiceProvider, 
+  OrderServiceProvider, 
+  UserServiceProvider, 
+  DevUserSerivce,
+  DevInventoryServiceProvider,
+  DevOrderServiceProvider, 
+  HttpServiceProvider } from 'services';
+import { MOCK } from 'common/constants.js';
+
+import { App } from 'components/App.jsx';
 
 
-class App extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: null,
-      loginState: 0,
-    };
-  }
 
-  submitLogin(user) {
-    this.setState(Object.assign(this.state, {
-      user,
-    }));
-  }
+if(!MOCK){
+  serviceManager.registerService("default.inventory", InventoryServiceProvider);
+  serviceManager.registerService("default.order", OrderServiceProvider);
+  serviceManager.registerService("default.user", UserServiceProvider);
 
-  submitLogout() {
-    this.setState(Object.assign(this.state, {
-      user: null,
-    }));
-  }
-  render() {
-    const brand = <span><img className="logo" src="./assets/images/favicon.png" />Nibble</span>;
-    const currentView = (this.state.user == null) ?
-      (<LoginView
-        onSubmit={user => this.submitLogin(user)}
-      />) :
-      (<ShopView
-        user={this.state.user}
-        onExit={() => this.submitLogout()}
-      />);
+  serviceManager.alias("inventory","default.inventory");
+  serviceManager.alias("order","default.order");
+  serviceManager.alias("user","default.user");
+}else{
+  serviceManager.registerService("mock.inventory", DevInventoryServiceProvider);
+  serviceManager.registerService("mock.order", DevOrderServiceProvider);
+  serviceManager.registerService("mock.user", DevUserSerivce);
 
-    return (
-      <div>
-        <div className="navbar-fixed">
-          <Navbar brand={brand} right>
-            <Navigation
-              user={this.state.user}
-              onExit={() => this.submitLogout()}
-            />
-          </Navbar>
-        </div>
-        {currentView}
-      </div>
-    );
-  }
+  serviceManager.alias("inventory","mock.inventory");
+  serviceManager.alias("order","mock.order");
+  serviceManager.alias("user","mock.user");  
 }
 
 
