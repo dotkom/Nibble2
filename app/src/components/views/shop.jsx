@@ -219,18 +219,17 @@ export class ShopView extends React.Component {
     k = 0;
     for (const stack of this.shoppingCart) {
       cartContents.push(
-        <tr className="item_box" key={k++}>
-          <td>
-            <span className="item_name">
-              { stack.item.name }
-            </span>
-
-            <Button floating large className="right remove waves-red" onClick={() => this.clearCart(stack)} icon="clear" waves="light" />
-            <a className="item-quantity right">
+        <li className="cart-item">
+          <span className="item-name">
+            { stack.item.name }
+          </span>
+          <div>
+            <span className="item-count">
               { stack.qty } x { stack.item.price },-
-            </a>
-          </td>
-        </tr>,
+            </span>
+            <Button floating large className="right remove waves-red" onClick={() => this.clearCart(stack)} icon="clear" waves="light" />
+          </div>
+        </li>,
       );
     }
 
@@ -243,11 +242,9 @@ export class ShopView extends React.Component {
           </div>
         </Col>
         <Col m={3} l={3} className="side-nav fixed side-nav-custom">
-          <table>
-            <tbody>
-              { cartContents }
-            </tbody>
-          </table>
+          <ul>
+            { cartContents }
+          </ul>
           <div className="checkout">
             <div className="sum">Subtotal: <span className="right">{ this.subtotal },-</span></div>
             <div>
