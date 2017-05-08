@@ -9,7 +9,6 @@ import { Item, jsonToItem } from './item';
 
 
 export class InventoryServiceProvider {
-
   constructor() {
     this._inventory = [];
     this._categories = {};
@@ -41,7 +40,34 @@ export class InventoryServiceProvider {
   getInventory() {
     return this._inventorySubject.asObservable().take(1);
   }
-
 }
+
+export class DevInventoryServiceProvider {
+  constructor() {
+    this._categories = {};
+    this._inventorySubject = new ReplaySubject();
+    let categories = [
+      new Category(1,"Snacks"),
+      new Category(2,"Foods"),
+      new Category(3,"Drinks")
+    ];
+    this.inventory = [
+      new Item(1,"Mr. Lee Chicken",10,"Chicken 65g",null,categories[1]),
+      new Item(2,"Soda",20,"Sugar Free!",null,categories[2]),
+      new Item(3,"Chocolate Bar",16,"25g",null,categories[0])
+    ];
+  }
+  
+  set inventory(inv) {
+    this._inventory = inv;
+    this._inventorySubject.next(inv.slice());
+  }
+
+  getInventory() {
+    return this._inventorySubject.asObservable().take(1);
+  }
+}
+
+
 // Export single instance
 export const inventory = new InventoryServiceProvider();

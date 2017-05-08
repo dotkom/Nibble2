@@ -1,1 +1,1 @@
-export { orderService } from './order.service.js';
+export { orderService, OrderServiceProvider, DevOrderServiceProvider } from './order.service.js';

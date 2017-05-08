@@ -3,14 +3,10 @@ import { render } from 'react-dom';
 
 import { Row, Col } from 'react-materialize';
 
-import { inventory, Item } from 'services/inventory';
-
-import { userService } from 'services/user';
-
+import { serviceManager } from 'services';
 
 import { ClickProxy, RegModal } from 'components/modals.jsx';
 import { Subject } from 'rxjs';
-
 
 export class LoginView extends React.Component {
   constructor(props) {
@@ -25,6 +21,9 @@ export class LoginView extends React.Component {
     this.storedRfid = '';
     this.regProxy = new Subject();
     this.invSub = null;
+
+    this.userService = serviceManager.getService('user');
+    this.inventory = serviceManager.getService('inventory');
   }
 
   handleKeyPress(event){
@@ -50,7 +49,7 @@ export class LoginView extends React.Component {
 
   attemptLogin(){
     this.submitState = 1;
-    userService.getUser(this.storedRfid).subscribe(user => {
+    this.userService.getUser(this.storedRfid).subscribe(user => {
       this.storedRfid = "";
       this.submitState = 2;
       this.props.onSubmit(user);
@@ -83,7 +82,7 @@ export class LoginView extends React.Component {
   }
 
   componentDidMount() {
-    this.invSub = inventory.getInventory().subscribe((inv) => {
+    this.invSub = this.inventory.getInventory().subscribe((inv) => {
       this.setState(Object.assign(this.state, {
         inventory: inv,
       }));

@@ -25,7 +25,19 @@ export class OrderServiceProvider {
       return Observable.throw('Something went wrong.');
     });
   }
-
 }
+
+export class DevOrderServiceProvider {
+  checkoutOrder(user, cart) {
+    const orders = [];
+    let totalPrice = 0;
+    for (const o of cart) {
+      totalPrice += o.cost;
+    }
+    user.updateSaldo(-totalPrice);
+    return Observable.of('OK');
+  }
+}
+
 // Export single instance
 export const orderService = new OrderServiceProvider();

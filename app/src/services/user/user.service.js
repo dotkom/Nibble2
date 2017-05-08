@@ -53,5 +53,28 @@ export class UserServiceProvider {
   }
 }
 
+export class DevUserSerivce{
+  getUser(rfid) {
+    return Observable.of(new User(-1,"Dev","User",600));
+  }
+
+  updateSaldo(user, diff) {
+    
+    if ((typeof diff) === 'number') {
+      if (!(diff + user.saldo < 0)) {
+        user.updateSaldo(diff);
+      }
+    }
+    return Observable.throw('');
+  }
+
+  bindRfid(username, password, rfid) {
+    if (isRfid(rfid)) {
+      return Observable.of("OK");
+    }
+
+    return Observable.throw('Invalid RFID');
+  }
+}
 
 export const userService = new UserServiceProvider();
