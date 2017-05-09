@@ -465,9 +465,6 @@ img.logo {
   white-space: nowrap;
   padding: 0em 1em;
 }
-.item-count{
-  color: #039be5;
-}
 
 .cart-item{
   display: flex;

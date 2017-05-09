@@ -15,6 +15,7 @@ import { ClickProxy, CheckoutModal } from 'components/modals.jsx';
 import { Subject, Observable } from 'rxjs';
 
 import { CatalogItem } from 'components/CatalogItem.jsx';
+import { StackItem } from 'components/StackItem.jsx';
 
 class Stack {
   constructor(item, qty) {
@@ -153,6 +154,7 @@ export class ShopView extends React.Component {
       exitTimer: t,
     }));
   }
+  
   clearCart(stack) {
     this.time = LOGOUT_TIMER;
     if (stack) { this.shoppingCart = this.shoppingCart.filter(a => a != stack); } else { this.shoppingCart = []; }
@@ -204,9 +206,9 @@ export class ShopView extends React.Component {
 
     const inv = [];
     let k = 0;
-    for (const item of this.state.inventory) {
+    for (let item of this.state.inventory) {
       const img = item.image;
-      inv.push(<CatalogItem key={k += 1} item={item} onClick={() => this.addToCart(item)} />);
+      inv.push(<CatalogItem key={k += 1} item={item} onAdd={(...a) => this.addToCart(...a)} />);
     }
 
     if (inv.length % 3 === 2) {
@@ -217,19 +219,9 @@ export class ShopView extends React.Component {
 
     const cartContents = [];
     k = 0;
-    for (const stack of this.shoppingCart) {
+    for (let stack of this.shoppingCart) {
       cartContents.push(
-        <li className="cart-item">
-          <span className="item-name">
-            { stack.item.name }
-          </span>
-          <div>
-            <span className="item-count">
-              { stack.qty } x { stack.item.price },-
-            </span>
-            <Button floating large className="right remove waves-red" onClick={() => this.clearCart(stack)} icon="clear" waves="light" />
-          </div>
-        </li>,
+        <StackItem key={stack.item.id} stack={stack} onRemove={(...a) => this.clearCart(...a)} />,
       );
     }
 
