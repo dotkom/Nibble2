@@ -99,7 +99,7 @@ export class LoginView extends React.Component {
     this.invSub.unsubscribe();
   }
   handleRegSubmit(username, password){
-    userService.bindRfid(username, password, this.storedRfid).subscribe(u => {
+    this.userService.bindRfid(username, password, this.storedRfid).subscribe(u => {
       // Try to login if user was registered
       this.attemptLogin();
     }, () => {
