@@ -20,6 +20,7 @@ export class Keyboard extends React.Component{
       accepted: (...a) => this.handleChange(...a),
       canceled: (...a) => this.handleChange(...a),
       usePreview: false,
+      autoAccept: true,
       layout: this.props.layout || 'qwerty-no' 
     });
   }
