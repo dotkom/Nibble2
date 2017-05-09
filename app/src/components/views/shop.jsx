@@ -259,7 +259,7 @@ export class ShopView extends React.Component {
     return (
       <Row>
         <Col m={9} l={9}>
-          <Tabs className='tab-demo z-depth-1'>
+          <Tabs>
             {tabs}
           </Tabs>
         </Col>
