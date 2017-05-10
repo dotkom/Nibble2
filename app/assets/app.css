@@ -237,7 +237,9 @@ small{
 .nibble-color{
   background-color: #004B80;
 }
-
+i.material-icons.selected{
+  color: pink;
+}
 .nibble-text{
   color: #004B80;
 }

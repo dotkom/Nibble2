@@ -18,7 +18,10 @@ export class RadioGroup extends React.Component {
   handleSelection(child){
     this.setState(Object.assign({},this.state,{
       selectedValue: child.props.value
-    }));
+    }),() => {
+      if(this.props.onChange)
+        this.props.onChange(this.state.selectedValue);
+    });
   }
   render() {
     let children = React.Children.map(this.props.children,(child) => React.cloneElement(child,{
