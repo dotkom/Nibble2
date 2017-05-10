@@ -134,6 +134,28 @@ body {
   margin-left: 8px;
 }
 
+.intro-card.card-content {
+  padding: 0.5rem 1rem;
+}
+
+.tabs {
+  background-color: transparent;
+}
+
+.tabs .tab a {
+  color: #004B80;
+}
+
+.tabs .tab a.active, .tabs .tab a:hover {
+  color: #027bbb;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-bottom: 2px solid #616161;
+}
+
+.indicator {
+  display: none;
+}
+
 .modalCashDesc {
   margin-bottom: 16px;
   font-weight: bold;
@@ -517,7 +539,7 @@ img.logo {
 .marker{
   display: inline-block;
   position: fixed;
-  margin-top: 1em;
+  margin-top: 0.5rem;
   width: 17em;
   border-style: solid;
   border-radius: 12px;

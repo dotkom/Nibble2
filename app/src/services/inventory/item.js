@@ -42,4 +42,8 @@ export class Item {
   get image() {
     return this._image;
   }
+
+  get category() {
+    return this._category;
+  }
 }

@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { Navbar, NavItem, Icon } from 'react-materialize';
 
 import { Row, Col, Card, CardTitle, Button } from 'react-materialize';
-
+import { Tabs, Tab } from 'components/Tabs';
 import { LOGOUT_TIMER } from 'common/constants';
 
 import { serviceManager } from 'services';
@@ -205,17 +205,47 @@ export class ShopView extends React.Component {
       />);
 
     const inv = [];
+    const defaultCategory = -1;
+    const categories = {
+      [-1]: {
+        name: "Alt",
+        inv: []
+      }
+    };
     let k = 0;
     for (let item of this.state.inventory) {
       const img = item.image;
-      inv.push(<CatalogItem key={k += 1} item={item} onAdd={(...a) => this.addToCart(...a)} />);
+      const catalogItem = <CatalogItem key={k += 1} item={item} onAdd={(...a) => this.addToCart(...a)} />
+      const category = item.category;
+      if(category){
+        categories[category.id] = categories[category.id] || {
+          inv: [],
+          name: category.name
+        }
+        categories[category.id].inv.push(catalogItem);
+      }
+      categories[defaultCategory].inv.push(catalogItem);
     }
 
-    if (inv.length % 3 === 2) {
-      inv.push(
-        <div className="catalogCard catalogCardEmpty" key={k += 1} />,
+    const tabs = [];
+
+    for (let i in categories){
+      const category = categories[i];
+      if (category.inv.length % 3 === 2) {
+        category.inv.push(
+          <div className="catalogCard catalogCardEmpty" key={k += 1} />,
+        );
+      }
+      tabs.push(
+        <Tab active={defaultCategory===i} key={i} title={category.name}>
+          <div className="catalog">
+            {category.inv}
+          </div>
+        </Tab>
       );
     }
+    
+
 
     const cartContents = [];
     k = 0;
@@ -229,9 +259,9 @@ export class ShopView extends React.Component {
     return (
       <Row>
         <Col m={9} l={9}>
-          <div className="catalog">
-            {inv}
-          </div>
+          <Tabs>
+            {tabs}
+          </Tabs>
         </Col>
         <Col m={3} l={3} className="side-nav fixed side-nav-custom">
           <ul>

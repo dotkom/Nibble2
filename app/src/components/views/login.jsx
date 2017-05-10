@@ -145,7 +145,7 @@ export class LoginView extends React.Component {
           </Col>
           <Col m={7} offset="l1 m1">
             <div className="card nibble-color alt">
-              <div className="card-content white-text">
+              <div className="card-content intro-card white-text">
                 <span className="card-title">Scan ditt studentkort for å handle</span>
               </div>
             </div>
