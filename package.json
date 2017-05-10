@@ -35,6 +35,7 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "electron": "^1.6.6",
     "extract-zip": "=1.6.0",
     "materialize-css": "^0.97.8",
