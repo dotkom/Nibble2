@@ -4,7 +4,9 @@ pipeline:
     pull: true
     host: nansen.online.ntnu.no
     user: root
+    username: root
     port: 22
+    key: ${NIBBLE_KEY}
     when:
       event: push
       branch: master
