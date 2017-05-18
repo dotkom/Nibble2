@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tab } from './Tab.jsx';
 
+import classNames from 'classnames';
 
 export class Tabs extends React.Component{
   constructor(props){
@@ -66,7 +67,7 @@ export class Tabs extends React.Component{
       }
     );
     return (
-      <div className="row">
+      <div className={classNames("row",this.props.classNames)}>
         <div className="col s12">
           <ul ref={(...a) => this.setTabRef(...a)} className="tabs">
             {tabs}
