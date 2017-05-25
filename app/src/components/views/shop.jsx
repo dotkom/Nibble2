@@ -237,7 +237,14 @@ export class ShopView extends React.Component {
         );
       }
       tabs.push(
-        <Tab active={defaultCategory===i} key={i} title={category.name}>
+        <Tab
+          active={defaultCategory === i}
+          key={i}
+          title={category.name}
+          // Defines tab size by finding out how many of the 12 MD columns
+          // can be used and then floor that value.
+          size={Math.floor(12 / Object.keys(categories).length)}
+        >
           <div className="catalog">
             {category.inv}
           </div>
