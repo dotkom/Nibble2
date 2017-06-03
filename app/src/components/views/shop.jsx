@@ -9,8 +9,8 @@ import { LOGOUT_TIMER } from 'common/constants';
 import { serviceManager } from 'services';
 
 
-
-import { ClickProxy, CheckoutModal } from 'components/modals.jsx';
+import { ClickProxy } from 'components/ClickProxy';
+import { CheckoutModal } from 'components/modals.jsx';
 
 import { Subject, Observable } from 'rxjs';
 

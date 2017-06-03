@@ -1,0 +1,1 @@
+export { ClickProxy } from './ClickProxy.jsx';
