@@ -3,7 +3,7 @@ import { Navbar, NavItem, Icon } from 'react-materialize';
 import { API_BASE } from 'common/constants';
 import { http } from 'services/net';
 import 'common/lang';
-import { Navigation } from 'components/Navigation.jsx';
+import { Navigation } from 'components/Navigation';
 import { Observable, Subject } from 'rxjs';
 import { LoginView, ShopView } from 'components/views';
 

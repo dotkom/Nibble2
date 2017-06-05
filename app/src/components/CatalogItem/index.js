@@ -1,0 +1,1 @@
+export { CatalogItem } from './CatalogItem.jsx';

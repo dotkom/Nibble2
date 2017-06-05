@@ -10,47 +10,13 @@ import { serviceManager } from 'services';
 
 
 import { ClickProxy } from 'components/ClickProxy';
-import { CheckoutModal } from 'components/modals.jsx';
+import { CheckoutModal } from 'components/modals';
 
 import { Subject, Observable } from 'rxjs';
 
-import { CatalogItem } from 'components/CatalogItem.jsx';
-import { StackItem } from 'components/StackItem.jsx';
-
-class Stack {
-  constructor(item, qty) {
-    this._item = item;
-    this._qty = qty;
-  }
-
-  inc() {
-    this._qty = this._qty + 1;
-  }
-
-  get item() {
-    return this._item;
-  }
-
-  canStack(item) {
-    return this.item == item;
-  }
-
-  get qty() {
-    return this._qty;
-  }
-
-  get cost() {
-    return this.qty * this.item.price;
-  }
-
-  get checkoutObject() {
-    return {
-      object_id: this.item.id,
-      quantity: this.qty,
-    };
-  }
-}
-
+import { CatalogItem } from 'components/CatalogItem';
+import { StackItem } from 'components/StackItem';
+import { Stack } from 'common/Stack';
 
 export class ShopView extends React.Component {
   constructor(props) {

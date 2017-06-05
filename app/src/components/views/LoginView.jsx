@@ -6,7 +6,7 @@ import { Row, Col } from 'react-materialize';
 import { serviceManager } from 'services';
 
 import { ClickProxy } from 'components/ClickProxy';
-import { RegModal } from 'components/modals.jsx';
+import { RegModal } from 'components/modals';
 import { Subject } from 'rxjs';
 
 export class LoginView extends React.Component {

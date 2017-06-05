@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, NavItem, Icon, Modal } from 'react-materialize';
 
-import { AddSaldoModal, HelpModal, RemoveSaldoModal, CheckoutModal } from './modals.jsx';
+import { AddSaldoModal, HelpModal, RemoveSaldoModal, CheckoutModal } from 'components/modals';
 import { saldoList } from 'common/constants';
 import { serviceManager } from 'services';
 

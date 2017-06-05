@@ -1,2 +1,2 @@
-export { ShopView } from './shop.jsx';
-export { LoginView } from './login.jsx';
+export { ShopView } from './ShopView.jsx';
+export { LoginView } from './LoginView.jsx';
