@@ -169,20 +169,24 @@ export class RemoveSaldoModal extends React.Component {
       indisable: disable == null ? this.state.indisable : disable,
     }));
   }
+
   diffValue(amount) {
     this.setState(Object.assign(this.state, {
       inval: Math.max((this.state.inval == null ? 0 : this.state.inval) + amount, 0),
     }));
   }
+
   render() {
     const moneyButtons = [];
     const v = [1, 5, 10, 25];
     const incButtons = [];
     const decButtons = [];
+    
     for (const i in v) {
       const amount = v[i];
       decButtons.push(<Button key={i + 10} large waves="light" className={`money-${amount}`} onClick={() => this.diffValue(-amount)}>{`-${amount}`} kr</Button>);
     }
+
     for (const i in v) {
       const amount = v[i];
       incButtons.push(<Button key={i + 20} large waves="light" className={`money-${amount}`} onClick={() => this.diffValue(amount)}>{`+${amount}`} kr</Button>);
@@ -408,7 +412,7 @@ export class RegModal extends React.Component {
           <Button waves="light" modal="close" flat>Avbryt</Button>,
         ]}
       >
-        Fyll inn ditt brukernavn og passord for å knytte rfidekortet opp mot din online bruker
+        <h5>Fyll inn ditt brukernavn og passord for å knytte rfidekortet opp mot din online bruker</h5>
         <div className="col input-field">
           <Keyboard onChange={(v)=> this.username = v}>
             <input value={this.state.username} type="text" />
