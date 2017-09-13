@@ -121,7 +121,7 @@ export class AddSaldoModal extends React.Component {
           <Button waves="light" onClick={() => { this.props.onSubmit(parseInt(this.state.inval)); }} modal="close">Sett inn</Button>]}
       >
         <div className="modalCash">
-          <p className="modalCashDesc">Legg kontanter i pengekassa som står i kjøleskapet, så registrer samme beløp her!</p>
+          <p className="modalCashDesc">Legg kontanter i det røde pengeskrinet til venstre, så registrer samme beløp her!</p>
           <div className="radio-group">
             {moneyButtons}
           </div>
