@@ -414,15 +414,11 @@ export class RegModal extends React.Component {
       >
         <h5>Fyll inn ditt brukernavn og passord for å knytte rfidekortet opp mot din online bruker</h5>
         <div className="col input-field">
-          <Keyboard onChange={(v)=> this.username = v}>
             <input value={this.state.username} type="text" />
-          </Keyboard>
           <label>Brukernavn</label>
         </div>
         <div className="col input-field">
-          <Keyboard onChange={(v) => this.password = v}>
             <input value={this.state.password} type="password" />
-          </Keyboard>
           <label>Passord</label>
         </div>
 

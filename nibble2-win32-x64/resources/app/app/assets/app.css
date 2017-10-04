@@ -1,0 +1,594 @@
+body {
+  background-color: #fcfcfc;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+}
+
+.catalog {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 16px 0;
+}
+
+.catalogCard {
+  cursor: pointer;
+  flex-grow: 0;
+  flex-basis: 32%;
+  margin-bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+}
+
+.catalogCardEmpty {
+  box-shadow: none;
+  cursor: inherit;
+}
+
+.catalogCardEmpty:hover {
+  box-shadow: none;
+}
+
+.catalogImage {
+  width: 100px;
+  height: 120px;
+}
+
+.catalogInformation {
+  width: calc(100% - 100px);
+  padding: 8px;
+}
+
+.catalogButton {
+  width: 100%;
+  align-self: flex-end;
+  margin-top: 4px;
+}
+
+.catalogName {
+  font-size: 24px;
+  margin: 0 0 8px;
+}
+
+.catalogDesc:empty {
+  display: none;
+}
+
+.catalogDesc {
+  font-weight: 300;
+  margin: 0 0 8px;
+}
+
+.catalogPrice {
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+
+.menuContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.menuItem {
+  flex-grow: 0;
+  width: 32%;
+
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+
+  line-height: 64px;
+  font-size: 18px;
+
+  padding: 0 16px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.menuItemEmpty {
+  border-bottom: inherit;
+}
+
+.menuItemName {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.menuItemPrice {
+  padding-left: 16px;
+  color: #039be5;
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+
+.nav-user {
+  transition: none;
+}
+
+.nav-user:hover {
+  background-color: inherit;
+}
+
+.nav-user:focus {
+  outline: none;
+}
+
+.nav-user a {
+  transition: none;
+  cursor: inherit;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.nav-user a:hover {
+  background-color: inherit;
+}
+
+.nav-user a small {
+  margin-left: 8px;
+}
+
+.intro-card.card-content {
+  padding: 0.5rem 1rem;
+}
+
+.tabs {
+  background-color: transparent;
+}
+
+.tabs .tab a {
+  color: #004B80;
+}
+
+.tabs .tab a.active, .tabs .tab a:hover {
+  color: #027bbb;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-bottom: 2px solid #616161;
+}
+
+.indicator {
+  display: none;
+}
+
+.modalCashDesc {
+  margin-bottom: 16px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.modalCash .input-field input[type=number]:disabled {
+  color: rgba(0, 0, 0, .5);
+  border-bottom: 1px dotted rgba(0, 0, 0, .5);
+}
+
+.modalCash .input-field input[type=number]:disabled + label {
+  left: 0;
+  color: rgba(0, 0, 0, .5);
+}
+
+/* styles for nibble app */
+/* see http://materializecss.com/color.html for color palette. Current palette is amber */
+nav {
+  background-color: #004B80;  /* amber darken-4 */
+  box-shadow: none;
+}
+
+.nav-btn
+{
+    transition: background-color .2s;
+    min-width: 64px;
+    float:right;
+}
+
+.hover-text{
+  display:none;
+}
+
+.nav-btn{
+  max-height: 64px;
+}
+
+.brand-logo{
+  font-family: Lobster, sans-serif;
+}
+.nav-btn:hover{
+  max-height: none;
+}
+
+.nav-btn:hover > .hover-text {
+  display:inline;
+}
+
+nav ul li:hover, nav ul li.active {
+  background-color: rgba(0,0,0,0.5);
+}
+
+.dropdown-content li > a, .dropdown-content li > span {
+    color: #004B80;
+}
+
+.nav-user > a{
+  font-size: 1.4rem !important;
+  max-height: 64px;
+}
+
+.large-icon{
+  font-size: 10rem !important;
+}
+
+.countdown{
+  min-width: 50px;
+  display: inline-block;
+  font-size: 40px;
+}
+
+small{
+  font-size: 60%;
+}
+
+.inline{
+  display: inline !important;
+}
+
+.fullwidth{
+  width: 100%;
+}
+
+.bold{
+  font-weight: bold;
+}
+
+.thin{
+  font-weight: 200;
+}
+
+.thinner{
+  font-weight: 300;
+}
+
+.padd{
+  padding: 0 5px !important;
+}
+
+.nibble-color{
+  background-color: #004B80;
+}
+
+.nibble-text{
+  color: #004B80;
+}
+
+.nibble-color.darker{
+  background-color: #0294D6;
+}
+
+.nibble-color.lighter{
+  background-color: #027bbb;
+}
+
+.nibble-color.alt{
+  background-color: #F9A11B;
+}
+
+.nibble-color.success{
+  background-color: #5CB85C;
+}
+
+.nibble-text.alt{
+  color: #F9A11B;
+}
+
+.material-icons.pre-icon{
+  font-size: 1.3rem;
+  vertical-align: top;
+  margin-right: -9px;
+  display: inline;
+  font-weight: 900;
+}
+
+.nav-wrapper {
+  margin: 0 0 0 20px;
+}
+
+.card-image {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-color: white; /* rgba(0,0,0,0.1); */
+  height: calc(100% - 37px);
+  max-height: none !important;
+  width: 100px;
+  display: inline-table;
+}
+
+.center-wrapper{
+  margin: 2% 25% !important;
+}
+
+.card.small{
+  display: table;
+  width: 100%;
+  height: 160px;
+  cursor: pointer;
+}
+
+.noselect{
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.radio-group{
+  display: flex;
+  margin: 0 -10px;
+}
+
+.radio-group button{
+  flex-grow: 1;
+  margin: 0 10px;
+}
+
+.money-20{ background-color: #000; }
+.money-50{ background-color: #83AB87; }
+.money-100{ background-color: #D2959A; }
+.money-100:hover {
+  background-color: hsla(355,84%,70%,1);
+}
+.money-200{ background-color: #568AB7;}
+.money-200:hover{
+  background-color: hsla(208,92%,53%,1);
+}
+.money-500{ background-color: #000; }
+.money-1000{ background-color: #bc4acf; }
+/*.money-1000:hover{
+    background-color: hsla(208,92%,53%,1);  
+}*/
+
+.checkout{
+  position: fixed;
+  width: 95%;
+  bottom: 9em;
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+.sum{
+  font-weight: bold;
+  font-size: 30px;
+}
+.buy{
+  color: white !important;
+  font-weight: bold;
+  width: 100%;
+}
+
+.side-nav-custom{
+  float: right;
+  right: 0 !important;
+  top: 64px;
+  left: auto !important;
+  z-index: auto;
+}
+.side-nav-custom.fixed a{
+  display: block !important;
+  padding: 0 15px !important;
+  color: #444;
+  display: block !important;
+  font-size: 1em !important;
+  height: 54px !important;
+  line-height: 64px !important;
+}
+
+/*
+.side-nav{
+  float: right;
+  right: 0 !important;
+  top: 64px;
+  left: auto !important;
+  z-index: auto;
+}
+*/
+
+.thead{
+  border-bottom: none;
+}
+
+.add{
+  width: 100%;
+  color: white !important;
+}
+a.remove{
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 256px;
+  color: red !important;
+  padding: 5px 20px !important;
+}
+button.remove{
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border-style: none !important;
+}
+button.remove > * {
+  color: red !important;
+}
+
+img.logo {
+  height: 33px;
+  padding-right: 20px;
+  vertical-align: text-top;
+  opacity: 0.5;
+}
+
+/* old css styles from materialize site */
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.menu > li:nth-child(1):before {
+  content: "";
+  padding: 0;
+}
+
+.hidden{
+  display:none;
+}
+.vertical-center{
+  padding: 5em;
+}
+.tabs .indicator{
+  background-color: #616161;
+}
+
+.nibbleGray{
+  background-color: rgb(160, 160, 160);
+}
+.tab .active{
+  background-color: #bdbdbd;
+}
+.darker {
+  background-color: rgba(0,0,0,0.3);
+}
+
+.darker:hover {
+  background-color: rgba(0,0,0,0.1);
+}
+
+.inventory-list {
+  white-space: nowrap;
+  padding: 0em 1em;
+}
+
+.cart-item{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.item-name, .item-count{
+  font-size: 18px;
+  line-height: 60px;
+}
+.no-float{
+  float: none !important;
+}
+.align-center{
+  text-align: center;
+}
+/* Store any dependencies locally */
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'), local('MaterialIcons-Regular'), url(./fonts/material.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Lobster';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lobster'), local('Lobster-Regular'), url(./fonts/lobster.woff2) format('woff2');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+
+.marker{
+  display: inline-block;
+  position: fixed;
+  margin-top: 0.5rem;
+  width: 17em;
+  border-style: solid;
+  border-radius: 12px;
+  border-color: #004B80;
+  border-width: .8em;
+}
+
+.marker.error{
+  border-color: #FF471E;
+}
+
+.marker.ok{
+  border-color: #65EC00;
+}
+.marker.wait{
+  border-color: black;
+}
+
+.rfid-marker{
+  display: inline-block;
+  height: 25em;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 13em;
+  background-image: url("./images/rfid.png");
+}
+
+
+.qr-saldo-link{
+  display: inline-block;
+  height: 13em;
+  text-align: center;
+}
+
+.qr-saldo-image{
+  height: 8em;
+  width: 8em;
+  margin-top: -0.5em;
+}
+
+.checkmark{width:128px;margin:0 auto;padding-bottom:40px}
+.path{stroke-dasharray:300;stroke-dashoffset:0;-webkit-animation-name:load,spin;-webkit-animation-duration:3s,3s;-webkit-animation-timing-function:linear;-webkit-animation-iteration-count:infinite;animation-name:load,spin;animation-duration:3s,3s;animation-timing-function:linear;animation-iteration-count:infinite;-webkit-transform-origin:50% 50%;-moz-transform-origin:50px 50px}
+.path-complete{-webkit-animation-play-state:paused;animation-play-state:paused}
+.check{stroke-dasharray:110;stroke-dashoffset:-110;stroke-width:0}
+.check-complete{-webkit-animation:check 1s ease-in forwards;animation:check 1s ease-in forwards;stroke-width:15;stroke-dashoffset:0}
+.fill{stroke-dasharray:285;stroke-dashoffset:-257;-webkit-animation:spin-fill 3s cubic-bezier(0.700,0.435,0.120,0.600) infinite forwards;animation:spin-fill 3s cubic-bezier(0.700,0.465,0.120,0.600) infinite forwards;-webkit-transform-origin:50% 50%;-moz-transform-origin:50px 50px}
+.fill-complete{-webkit-animation:fill 1s ease-out forwards;animation:fill 1s ease-out forwards}
+@-webkit-keyframes load {0%{stroke-dashoffset:300;-webkit-animation-timing-function:cubic-bezier(0.550,0.055,0.675,0.190)}50%{stroke-dashoffset:0;-webkit-animation-timing-function:cubic-bezier(0.215,0.610,0.355,1.000)}100%{stroke-dashoffset:-300}}@keyframes load {0%{stroke-dashoffset:285;animation-timing-function:cubic-bezier(0.550,0.055,0.675,0.190)}50%{stroke-dashoffset:0;animation-timing-function:cubic-bezier(0.215,0.610,0.355,1.000)}100%{stroke-dashoffset:-285}}@-webkit-keyframes check {0%{stroke-dashoffset:-110}100%{stroke-dashoffset:0}}@keyframes check {0%{stroke-dashoffset:-110}100%{stroke-dashoffset:0}}@-webkit-keyframes spin {0%{-webkit-transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg)}}@keyframes spin {0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@-webkit-keyframes spin-fill {0%{-webkit-transform:rotate(0deg)}100%{-webkit-transform:rotate(720deg)}}@keyframes spin-fill {0%{transform:rotate(0deg)}100%{transform:rotate(720deg)}}@-webkit-keyframes fill {0%{stroke-dashoffset:285}100%{stroke-dashoffset:0}}@keyframes fill {0%{stroke-dashoffset:285}100%{stroke-dashoffset:0}}
+.success{stroke:#4CAF50;transition:stroke .6s}

@@ -1,0 +1,14 @@
+pipeline:
+  deployment:
+    image: appleboy/drone-ssh
+    pull: true
+    host: nansen.online.ntnu.no
+    user: root
+    username: root
+    port: 22
+    when:
+      event: push
+      branch: master
+    script:
+      - cd /home/nibble
+      - echo deployed > test-nibble.txt

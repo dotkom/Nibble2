@@ -1,0 +1,48 @@
+{
+  "name": "nibble2",
+  "version": "2.0.0",
+  "description": "app for buying food and drinks",
+  "main": "app.js",
+  "scripts": {
+    "build": "webpack",
+    "electron": "electron .",
+    "watch": "webpack -w",
+    "start": "npm-run-all -l -p dev electron",
+    "dev": "webpack-dev-server --watch-poll --inline --hot",
+    "lint": "eslint . --ext .jsx,.js",
+    "lint-fix": "eslint . --ext .jsx,.js --fix"
+  },
+  "authors": [
+    "Nixo",
+    "Aborysa",
+    "Nornes",
+    "Torri",
+    "Oleast",
+    "Andlar"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
+    "electron-prebuilt": "^1.4.13",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
+    "webpack": "^1.14.0",
+    "webpack-dev-server": "^1.16.2"
+  },
+  "dependencies": {
+    "electron": "^1.6.6",
+    "extract-zip": "=1.6.0",
+    "materialize-css": "^0.97.8",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-materialize": "^0.17.7",
+    "rxjs": "^5.0.3",
+    "virtual-keyboard": "^1.26.22"
+  }
+}

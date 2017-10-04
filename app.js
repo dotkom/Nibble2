@@ -1,6 +1,7 @@
 const electron = require('electron');
 const { app } = electron;
 
+
 const { BrowserWindow } = electron;
 
 app.on('ready', () => {

@@ -1,0 +1,11 @@
+[Unit]
+Description=Backend for Nibble
+
+[Service]
+RestartSec=5
+Restart=always
+ExecStart=/usr/bin/npm run --prefix $NIBBLE_DIR dev
+
+[Install]
+WantedBy=multi-user.target
+
