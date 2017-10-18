@@ -16,4 +16,4 @@ App for buying foods &amp; drinks at the office (Windows Edition)
 
 ## Make Nibble start on boot
 
-- create a shortcut to `startNibble.bat` and put it in the `C:\Users\[YOUR_USERNAME]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`
+- create a shortcut to `startNibble.bat` and put it in the `C:\Users\[YOUR_USERNAME]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup` folder.
