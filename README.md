@@ -5,6 +5,7 @@ App for buying foods &amp; drinks at the office (Windows Edition)
 ## Requirements
 - [Node 6](https://nodejs.org/en/)
 - A server running the REST API [backend](https://github.com/dotKom/onlineweb4/tree/develop/apps/shop) (not needed for dummy testing)
+- The Nibble2 folder placed in documents.
 
 ## Setup
 - start bash or cmd and cd to nibble2
