@@ -1,3 +1,3 @@
 @echo off
-cd %USERPROFILE%\IdeaProjects\Nibble2\
+cd %USERPROFILE%\Documents\Nibble2\
 npm run start
