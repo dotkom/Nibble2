@@ -1,5 +1,5 @@
 # Nibble 2
-App for buying foods &amp; drinks at the office
+App for buying foods &amp; drinks at the office (Windows Edition)
 ![Nibble shop](http://i.imgur.com/1ItEFrd.png "Main shop view")
 
 ## Requirements
@@ -10,6 +10,9 @@ App for buying foods &amp; drinks at the office
 - start bash or cmd and cd to nibble2
 - run: `npm install`
 - copy and paste constants.example.js to constants.js and fill in fields in app/src/common/constants.js
-- run: `npm run dev` to build and run webpack webserver
-- App is hosted on port 8080
+- run: `npm run start` to build and run webpack webserver and start Electron.
+- App is hosted on port 8080, and a Electron window opens.
 
+## Make Nibble start on boot
+
+- create a shortcut to `startNibble.bat` and put it in the C:\Users\[your_username]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
