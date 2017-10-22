@@ -483,7 +483,7 @@ export class RegModal extends React.Component {
             >{this.state.showQR ? 'Skjul QR kode' : 'Hent QR kode så jeg slipper å logge inn!'}</Button>
             {this.state.showQR &&
               <Row>
-                <Col>
+                <Col className="qr-code">
                   {this.state.setRfidUrl && this.state.setRfidUrl.length > 0 &&
                     <QRCode
                       value={this.state.setRfidUrl}

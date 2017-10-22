@@ -583,6 +583,10 @@ img.logo {
   margin-top: -0.5em;
 }
 
+.qr-code {
+  margin-top: 2rem;
+}
+
 .checkmark{width:128px;margin:0 auto;padding-bottom:40px}
 .path{stroke-dasharray:300;stroke-dashoffset:0;-webkit-animation-name:load,spin;-webkit-animation-duration:3s,3s;-webkit-animation-timing-function:linear;-webkit-animation-iteration-count:infinite;animation-name:load,spin;animation-duration:3s,3s;animation-timing-function:linear;animation-iteration-count:infinite;-webkit-transform-origin:50% 50%;-moz-transform-origin:50px 50px}
 .path-complete{-webkit-animation-play-state:paused;animation-play-state:paused}
