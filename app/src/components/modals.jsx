@@ -450,12 +450,17 @@ export class RegModal extends React.Component {
         header="Registrer - Nibble"
         trigger={this.props.trigger}
         actions={[
-          <Button waves="light" modal="close" onClick={() => this.handleSubmit()}>Registrer</Button>,
+          <Button
+            waves="light"
+            modal="close"
+            disabled={!!this.state.setRfidUrl}
+            onClick={() => this.handleSubmit()}
+          >Registrer</Button>,
           <Button waves="light" modal="close" flat>Avbryt</Button>,
         ]}
       >
         <h5>Fyll inn ditt brukernavn og passord for å knytte RFID-kortet opp mot din online.ntnu.no bruker</h5>
-        <div className="col input-field">
+        {!this.state.setRfidUrl && <div className="col input-field">
           <Keyboard onChange={(v)=> this.username = v}>
             <input value={this.state.username} type="text" />
           </Keyboard>
