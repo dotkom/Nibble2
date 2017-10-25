@@ -8,6 +8,7 @@
     "electron": "electron .",
     "watch": "webpack -w",
     "dev": "webpack-dev-server --watch-poll --inline --hot",
+    "start": "npm-run-all -l -p dev electron",
     "lint": "eslint . --ext .jsx,.js",
     "lint-fix": "eslint . --ext .jsx,.js --fix"
   },
