@@ -55,7 +55,7 @@ export class LoginView extends React.Component {
       this.props.onSubmit(user);
     },(err)=> {
       this.submitState = 3;
-      Materialize.toast("Login feilet!",2000);
+      Materialize.toast(err.message,2000);
       this.intervals.push(setTimeout(()=>{
         this.submitState = 0
       },1000));
@@ -64,7 +64,7 @@ export class LoginView extends React.Component {
         this.regProxy.next();
       }else{
         this.storedRfid = "";
-        Materialize.toast("Ugyldig RFID!",2000);
+        //Materialize.toast("Ugyldig RFID!",2000);
         //Show toast that it is invalid
       }
     });
@@ -109,6 +109,11 @@ export class LoginView extends React.Component {
       this.storedRfid = '';
     });
   }
+
+  handleMagicLink(username, options) {
+    return this.userService.bindRfid(username, '', this.storedRfid, options);
+  }
+
   render() {
 
     const menuContent = [];
@@ -136,6 +141,7 @@ export class LoginView extends React.Component {
         <RegModal
           trigger={<ClickProxy proxy={this.regProxy.asObservable()} />}
           onSubmit={(username, password) => this.handleRegSubmit(username, password)}
+          handleMagicLink={(username, opts) => this.handleMagicLink(username, opts)}
           onClose={() => this.enableKeyLogger()}
           onOpen={() => this.disableKeyLogger()}
         />
