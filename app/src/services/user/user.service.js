@@ -17,6 +17,8 @@ export class UserServiceProvider {
         if (ret.count == 1) {
           const userData = ret.results[0];
           return Observable.of(jsonToUser(userData));
+        }else if(ret.count > 1){
+          return Observable.throw( {type: 2, message: 'Mer enn én bruker har denne rfiden!'} )
         }
         return Observable.throw({ type: 1, message: 'Validering feilet!' });
       });
@@ -33,21 +35,21 @@ export class UserServiceProvider {
           amount: diff,
         }).catch(() => {
           user.updateSaldo(-diff);
-          return Observable.throw('Something went wrong.');
+          return Observable.throw('Noe gikk galt.');
         });
       }
     }
-    return Observable.throw('');
+    return Observable.throw('Saldo er ikke et tall!');
   }
 
   bindRfid(username, password, rfid, options) {
     if (isRfid(rfid)) {
       const data = {
-        username,
-        password,
-        rfid,
-        magic_link: options.magic_link,
-        send_email: options.send_email,
+        username: username,
+        password: password,
+        rfid: rfid,
+        magic_link: options ? options.magic_link : false,
+        send_email: options ? options.send_email : false,
       };
       return http.post(`${API_BASE}${API_RFID}`, data);
     }

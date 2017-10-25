@@ -26,7 +26,7 @@ export class InventoryServiceProvider {
           if (cat) {
             cats[cat.pk] = cats[cat.pk] || new Category(cat.pk, cat.name);
           }
-          inv.push(jsonToItem(item, cats[cat.pk]));
+          inv.push(jsonToItem(item, cat && cats[cat.pk]));
         }
         this.inventory = inv;
       });
