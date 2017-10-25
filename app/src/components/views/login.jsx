@@ -109,11 +109,6 @@ export class LoginView extends React.Component {
       this.storedRfid = '';
     });
   }
-
-  handleMagicLink(username, options) {
-    return this.userService.bindRfid(username, '', this.storedRfid, options);
-  }
-
   render() {
 
     const menuContent = [];
@@ -141,7 +136,6 @@ export class LoginView extends React.Component {
         <RegModal
           trigger={<ClickProxy proxy={this.regProxy.asObservable()} />}
           onSubmit={(username, password) => this.handleRegSubmit(username, password)}
-          handleMagicLink={(username, opts) => this.handleMagicLink(username, opts)}
           onClose={() => this.enableKeyLogger()}
           onOpen={() => this.disableKeyLogger()}
         />

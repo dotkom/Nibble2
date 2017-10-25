@@ -40,16 +40,13 @@ export class UserServiceProvider {
     return Observable.throw('');
   }
 
-  bindRfid(username, password, rfid, options) {
+  bindRfid(username, password, rfid) {
     if (isRfid(rfid)) {
-      const data = {
+      return http.post(`${API_BASE}${API_RFID}`, {
         username,
         password,
         rfid,
-        magic_link: options.magic_link,
-        send_email: options.send_email,
-      };
-      return http.post(`${API_BASE}${API_RFID}`, data);
+      });
     }
 
     return Observable.throw('Invalid RFID');

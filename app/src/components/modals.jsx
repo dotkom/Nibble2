@@ -1,6 +1,5 @@
 import React from 'react';
 import { Navbar, NavItem, Icon, Modal, Button, Row, Col, Input } from 'react-materialize';
-import QRCode from 'qrcode.react';
 import { Keyboard } from './Keyboard.jsx';
 
 /* Proxy in order to fire click events*/
@@ -361,8 +360,6 @@ export class RegModal extends React.Component {
     this.state = {
       username: '',
       password: '',
-      showQR: false,
-      setRfidUrl: '',
     };
   }
 
@@ -372,47 +369,10 @@ export class RegModal extends React.Component {
     }
     if (e) { e.preventDefault(); }
   }
-
-  handleGetQr(e) {
-    if (e) e.preventDefault();
-
-    // Only try to submit if we haven't already.
-    if (!this.state.setRfidUrl) {
-      this.handleMagicLink({
-        magic_link: true,
-        send_email: false,
-      });
-    }
-    // Toggle visibility of QR code no matter if we fetched or not.
-    this.setState({ showQR: !this.state.showQR });
-  }
-
-  handleSendEmail(e) {
-    if (e) e.preventDefault();
-    this.handleMagicLink({
-      magic_link: true,
-      send_email: true,
-    });
-  }
-
-  handleMagicLink(options) {
-    this.props.handleMagicLink(this.state.username, options).subscribe((res) => {
-      if (options.send_email) {
-        Materialize.toast('E-post sendt.', 3000);
-      } else {
-        this.setState({ setRfidUrl: res.url });
-      }
-    }, (err) => {
-      Materialize.toast('Noe gikk galt under forespørselen. Vennligst prøv igjen, eller kontakt dotkom.', 5000);
-    });
-  }
-
   onClose() {
     this.setState(Object.assign(this.state, {
       username: '',
       password: '',
-      showQR: false,
-      setRfidUrl: '',
     }));
     if (this.props.onClose) {
       this.props.onClose();
@@ -422,8 +382,6 @@ export class RegModal extends React.Component {
     this.setState(Object.assign(this.state, {
       username: '',
       password: '',
-      showQR: false,
-      setRfidUrl: '',
     }));
     if (this.props.onOpen) {
       this.props.onOpen();
@@ -450,57 +408,23 @@ export class RegModal extends React.Component {
         header="Registrer - Nibble"
         trigger={this.props.trigger}
         actions={[
-          <Button
-            waves="light"
-            modal="close"
-            disabled={!!this.state.setRfidUrl}
-            onClick={() => this.handleSubmit()}
-          >Registrer</Button>,
+          <Button waves="light" modal="close" onClick={() => this.handleSubmit()}>Registrer</Button>,
           <Button waves="light" modal="close" flat>Avbryt</Button>,
         ]}
       >
-        <h5>Fyll inn ditt brukernavn og passord for å knytte RFID-kortet opp mot din online.ntnu.no bruker</h5>
-        {!this.state.setRfidUrl && <div className="col input-field">
+        <h5>Fyll inn ditt brukernavn og passord for å knytte rfidekortet opp mot din online bruker</h5>
+        <div className="col input-field">
           <Keyboard onChange={(v)=> this.username = v}>
             <input value={this.state.username} type="text" />
           </Keyboard>
           <label>Brukernavn</label>
-        </div>}
-        {(!this.state.setRfidUrl && !this.state.showQR) && <div className="col input-field">
+        </div>
+        <div className="col input-field">
           <Keyboard onChange={(v) => this.password = v}>
             <input value={this.state.password} type="password" />
           </Keyboard>
           <label>Passord</label>
-        </div>}
-
-        <Row>
-          <p>Du kan skrive inn kun brukernavn for å generere en QR kode som du kan scanne for å koble sammen
-            RFID-kortet ditt med Online.ntnu.no-brukeren din.</p>
-          <Col>
-            <Button
-              disabled={!this.state.username || this.state.username.length === 0}
-              onClick={() => this.handleGetQr()}
-            >{this.state.showQR ? 'Skjul QR kode' : 'Hent QR kode så jeg slipper å logge inn!'}</Button>
-            {this.state.showQR &&
-              <Row>
-                <Col className="qr-code">
-                  {this.state.setRfidUrl && this.state.setRfidUrl.length > 0 &&
-                    <QRCode
-                      value={this.state.setRfidUrl}
-                      size={256}
-                    />
-                  }
-                </Col>
-              </Row>
-            }
-          </Col>
-          <Col>
-            <Button
-              disabled={!this.state.username || this.state.username.length === 0}
-              onClick={() => this.handleSendEmail()}
-            >Send linken på e-post til brukeren min</Button>
-          </Col>
-        </Row>
+        </div>
 
       </Modal>
     );
