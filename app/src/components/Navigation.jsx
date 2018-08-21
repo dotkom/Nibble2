@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, NavItem, Icon, Modal } from 'react-materialize';
 
-import { AddSaldoModal, HelpModal, RemoveSaldoModal, CheckoutModal } from './modals.jsx';
+import { AdjustSaldoModal, HelpModal, CheckoutModal } from './modals.jsx';
 import { saldoList } from 'common/constants';
 import { serviceManager } from 'services';
 
@@ -32,7 +32,7 @@ export class Navigation extends React.Component {
     if (this.userSubscription) { this.userSubscription.unsubscribe(); }
 
     if (props.user) {
-      this.userSubscription = props.user.onChange().subscribe(() => {
+      this.userSubscription = props.user.onChange.subscribe(() => {
         this.forceUpdate();
       });
     }
@@ -61,25 +61,16 @@ export class Navigation extends React.Component {
 
 
     const addSaldo =
-      (<AddSaldoModal
+      (<AdjustSaldoModal
         key={'add_saldo'}
         onSubmit={a => this.submitSaldo(a)}
-        trigger={<NavItem key={'add'}><Icon>add</Icon></NavItem>}
-        saldoList={saldoList}
-      />);
-
-    const removeSaldo =
-      (<RemoveSaldoModal
-        key={'remove_saldo'}
-        onSubmit={a => this.submitSaldo(a)}
-        trigger={<NavItem key={'remove'}><Icon>remove</Icon></NavItem>}
+        trigger={<NavItem key={'add'}><Icon>account_balance_wallet</Icon></NavItem>}
         saldoList={saldoList}
       />);
 
     if (user) {
       navitems = [
         addSaldo,
-        removeSaldo,
         help,
         <NavItem className="nav-user" key="user">
           <span>{user.fullname}</span>
