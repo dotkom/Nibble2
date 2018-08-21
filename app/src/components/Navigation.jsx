@@ -32,7 +32,7 @@ export class Navigation extends React.Component {
     if (this.userSubscription) { this.userSubscription.unsubscribe(); }
 
     if (props.user) {
-      this.userSubscription = props.user.onChange.subscribe(() => {
+      this.userSubscription = props.user.onChange().subscribe(() => {
         this.forceUpdate();
       });
     }
