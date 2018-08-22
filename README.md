@@ -33,5 +33,11 @@ this.state = {
 };
 ```
 
+And at the top of the file, add:
+
+```jsx
+import { User } from 'services/user';
+```
+
 Be careful not to add this when committing! A good rule of thumb is to only `git
 add` the files you want to submit, and not use `git add .`/`git commit -a`.
