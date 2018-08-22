@@ -1,19 +1,14 @@
 import React from 'react';
 import { Navbar, NavItem, Icon, Modal } from 'react-materialize';
 
-import { AddSaldoModal, HelpModal, RemoveSaldoModal, CheckoutModal } from './modals.jsx';
+import { AdjustSaldoModal, HelpModal, CheckoutModal } from './modals.jsx';
 import { saldoList } from 'common/constants';
 import { serviceManager } from 'services';
 
 
 export class Navigation extends React.Component {
-
   constructor(props) {
     super(props);
-    this.add_saldo = 0;
-    this.remove_saldo = 0;
-    this.add_enableCustom = true;
-    this.remove_enableCustom = true;
     this.userSubscription = null;
     
     //Services
@@ -43,8 +38,11 @@ export class Navigation extends React.Component {
   }
 
   submitSaldo(diff) {
-    this.userService.updateSaldo(this.props.user, diff).subscribe(a => {
-      Materialize.toast(`${Math.abs(a.amount)}kr ${(a.amount < 0 ? 'tatt ut' : 'satt inn')}`,1000);
+    this.userService.updateSaldo(this.props.user, diff).subscribe((a) => {
+      Materialize.toast(
+        `${Math.abs(a.amount)}kr ${(a.amount < 0 ? 'tatt ut' : 'satt inn')}`,
+        1000
+      );
     },(err) => {
       Materialize.toast(err);
     });
@@ -60,26 +58,17 @@ export class Navigation extends React.Component {
     ];
 
 
-    const addSaldo =
-      (<AddSaldoModal
-        key={'add_saldo'}
+    const adjustSaldo =
+      (<AdjustSaldoModal
+        key={'adjust_saldo'}
         onSubmit={a => this.submitSaldo(a)}
-        trigger={<NavItem key={'add'}><Icon>add</Icon></NavItem>}
-        saldoList={saldoList}
-      />);
-
-    const removeSaldo =
-      (<RemoveSaldoModal
-        key={'remove_saldo'}
-        onSubmit={a => this.submitSaldo(a)}
-        trigger={<NavItem key={'remove'}><Icon>remove</Icon></NavItem>}
+        trigger={<NavItem key={'adjust'}><Icon>account_balance_wallet</Icon></NavItem>}
         saldoList={saldoList}
       />);
 
     if (user) {
       navitems = [
-        addSaldo,
-        removeSaldo,
+        adjustSaldo,
         help,
         <NavItem className="nav-user" key="user">
           <span>{user.fullname}</span>

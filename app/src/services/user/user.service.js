@@ -6,19 +6,16 @@ import { Observable } from 'rxjs';
 
 
 export class UserServiceProvider {
-  constructor() {
-  }
-
   getUser(rfid) {
     if (isRfid(rfid)) {
       return http.get(`${API_BASE}${API_USERS}`, {
         rfid,
       }).flatMap((ret) => {
-        if (ret.count == 1) {
+        if (ret.count === 1) {
           const userData = ret.results[0];
           return Observable.of(jsonToUser(userData));
-        }else if(ret.count > 1){
-          return Observable.throw( {type: 2, message: 'Mer enn én bruker har denne rfiden!'} )
+        } else if (ret.count > 1) {
+          return Observable.throw({ type: 2, message: 'Mer enn én bruker har denne RFIDen!' });
         }
         return Observable.throw({ type: 1, message: 'Validering feilet!' });
       });
@@ -35,7 +32,7 @@ export class UserServiceProvider {
           amount: diff,
         }).catch(() => {
           user.updateSaldo(-diff);
-          return Observable.throw('Noe gikk galt.');
+          return Observable.throw('Noe gikk galt da vi oppdaterte saldoen på serveren.');
         });
       }
     }
@@ -45,9 +42,9 @@ export class UserServiceProvider {
   bindRfid(username, password, rfid, options) {
     if (isRfid(rfid)) {
       const data = {
-        username: username,
-        password: password,
-        rfid: rfid,
+        username,
+        password,
+        rfid,
         magic_link: options ? options.magic_link : false,
         send_email: options ? options.send_email : false,
       };
@@ -58,13 +55,12 @@ export class UserServiceProvider {
   }
 }
 
-export class DevUserSerivce{
-  getUser(rfid) {
-    return Observable.of(new User(-1,"Dev","User",600));
+export class DevUserSerivce {
+  getUser() {
+    return Observable.of(new User(-1, 'Dev', 'User', 600));
   }
 
   updateSaldo(user, diff) {
-    
     if ((typeof diff) === 'number') {
       if (!(diff + user.saldo < 0)) {
         user.updateSaldo(diff);
@@ -75,7 +71,7 @@ export class DevUserSerivce{
 
   bindRfid(username, password, rfid) {
     if (isRfid(rfid)) {
-      return Observable.of("OK");
+      return Observable.of('OK');
     }
 
     return Observable.throw('Invalid RFID');

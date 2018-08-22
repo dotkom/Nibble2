@@ -37,6 +37,7 @@ export class User {
     this._saldo += diff;
     this.saldoSubject.next(this._saldo, diff);
   }
+
   onChange() {
     return this.saldoSubject;
   }

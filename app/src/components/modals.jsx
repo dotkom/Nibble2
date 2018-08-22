@@ -20,6 +20,7 @@ export class ClickProxy extends React.Component {
       });
     }
   }
+
   componentWillUnmount() {
     if (this.sub) {
       this.sub.unsubscribe();
@@ -36,21 +37,26 @@ export class ClickProxy extends React.Component {
  * props:
  *  trigger
  */
-export const HelpModal = props => (<Modal
-  header="Hjelp"
-  trigger={props.trigger}
->
-  <div>
-    <b>Hvordan legger jeg inn penger?</b>
-    <p>
-      Du kan legge inn penger manuelt på appen etter du har logget inn eller du kan legge til med ditt kredittkort på online.ntnu.no under min profil.
-    </p>
-    <b>Det er tomt for en vare, hva gjør jeg?</b>
-    <p>Det er funksjonalitet for automatisk varsling under utvikling men foreløpig må du sende mail til trikom@online.ntnu.no.</p>
-    <b>Jeg fant en feil, hva gjør jeg?</b>
-    <p>Legg til en issue på github.com/dotKom/nibble2/ eller send en mail til dotkom@online.ntnu.no</p>
-  </div>
-</Modal>);
+export const HelpModal = ({ trigger }) => {
+  return (
+    <Modal header="Hjelp" trigger={trigger}>
+      <div>
+        <b>Hvordan legger jeg inn penger?</b>
+        <p>
+          Du kan legge inn penger manuelt på appen etter du har logget inn eller
+          du kan legge til med ditt kredittkort på online.ntnu.no under min
+          profil.
+        </p>
+        <b>Det er tomt for en vare, hva gjør jeg?</b>
+        <p>Det er funksjonalitet for automatisk varsling under utvikling men
+          foreløpig må du sende mail til trikom@online.ntnu.no.</p>
+        <b>Jeg fant en feil, hva gjør jeg?</b>
+        <p>Legg til en issue på github.com/dotKom/nibble2/ eller send en mail
+          til dotkom@online.ntnu.no</p>
+      </div>
+    </Modal>
+  );
+};
 
 /**
  * props:
@@ -58,7 +64,7 @@ export const HelpModal = props => (<Modal
  *  saldoList : [50,200,300]
  *  submit : callback
  */
-export class AddSaldoModal extends React.Component {
+export class AdjustSaldoModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -67,72 +73,62 @@ export class AddSaldoModal extends React.Component {
     };
   }
 
-  inputChange(event) {
-    this.setValue(event.target.value);
-  }
-
   setValue(amount, disable) {
     this.setState(Object.assign(this.state, {
       inval: Math.max(amount == null ? this.state.inval : amount, 0),
       indisable: disable == null ? this.state.indisable : disable,
     }));
   }
+
+  inputChange(event) {
+    this.setValue(event.target.value);
+  }
+
   diffValue(amount) {
     this.setState(Object.assign(this.state, {
       inval: Math.max((this.state.inval == null ? 0 : this.state.inval) + amount, 0),
     }));
   }
+
   render() {
-    const moneyButtons = [];
-    const v = [1, 5, 10, 25];
+    const labels = [1, 5, 10, 25, 50, 100, 200, 500];
     const incButtons = [];
-    const decButtons = [];
-    for (const i in v) {
-      const amount = v[i];
-      decButtons.push(<Button key={i + 10} large waves="light" className={`money-${amount}`} onClick={() => this.diffValue(-amount)}>{`-${amount}`} kr</Button>);
-    }
-    for (const i in v) {
-      const amount = v[i];
-      incButtons.push(<Button key={i + 20} large waves="light" className={`money-${amount}`} onClick={() => this.diffValue(amount)}>{`+${amount}`} kr</Button>);
-    }
 
-    for (const i in this.props.saldoList) {
-      const amount = this.props.saldoList[i];
-      moneyButtons.push(<Button key={i} large waves="light" className={`money-${amount}`} onClick={() => this.setValue(amount, true)}>{amount} kr</Button>);
+    for (const i in labels) {
+      const label = labels[i];
+
+      incButtons.push(
+        <Button key={i} large waves="light" className={`money-${label}`} onClick={() => this.diffValue(label)}>
+          {`+ ${label}`} kr
+        </Button>
+      );
     }
 
-
-    let inputAmount = 0;
     const inField = <input placeholder="" name="asaldo" value={this.state.inval} disabled={this.state.indisable} onChange={a => this.inputChange(a)} type="number" />;
-    const changeInput = (amount) => {
-      inputAmount = amount;
-    };
-
 
     return (
       <Modal
         key={'cash_modal'}
-        header="Legg Til Penger"
+        header="Juster saldo"
         trigger={this.props.trigger}
-        modalOptions = {{
-          ready: () => this.setValue(0,true)
+        modalOptions={{
+          ready: () => this.setValue(0, true)
         }}
         actions={[
           <Button waves="light" modal="close" flat>Avbryt</Button>,
-          <Button waves="light" onClick={() => { this.props.onSubmit(parseInt(this.state.inval)); }} modal="close">Sett inn</Button>]}
-      >
+          <Button className="adjust-button" waves="light" onClick={() => { this.props.onSubmit(parseInt(this.state.inval)); }} modal="close">Sett inn</Button>,
+          <Button className="adjust-button" waves="light" onClick={() => { this.props.onSubmit(-1 * parseInt(this.state.inval)); }} modal="close">Ta ut</Button>]}>
         <div className="modalCash">
-          <p className="modalCashDesc">Legg kontanter i det røde pengeskrinet til venstre, så registrer samme beløp her!</p>
+          <p className="modalCashDesc">
+            Legg til/ta ut penger fra det røde pengeskrinet til høyre, og juster så saldo her tilsvarende.
+          </p>
+          <br />
           <div className="radio-group">
-            {moneyButtons}
+            {incButtons.slice(0, 4)}
           </div>
           <br />
           <div className="radio-group">
-            {incButtons}
-          </div>
-          <br />
-          <div className="radio-group">
-            {decButtons}
+            {incButtons.slice(4)}
           </div>
           <br />
           <div className="col input-field">
@@ -144,104 +140,6 @@ export class AddSaldoModal extends React.Component {
     );
   }
 }
-
-/**
- * props:
- *  trigger : node
- *  onSubmit : callback
- *  saldoList : list of selectable saldos
- */
-export class RemoveSaldoModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      inval: 0,
-      indisable: true,
-    };
-  }
-
-  inputChange(event) {
-    this.setValue(event.target.value);
-  }
-
-  setValue(amount, disable) {
-    this.setState(Object.assign(this.state, {
-      inval: amount == null ? this.state.inval : amount,
-      indisable: disable == null ? this.state.indisable : disable,
-    }));
-  }
-
-  diffValue(amount) {
-    this.setState(Object.assign(this.state, {
-      inval: Math.max((this.state.inval == null ? 0 : this.state.inval) + amount, 0),
-    }));
-  }
-
-  render() {
-    const moneyButtons = [];
-    const v = [1, 5, 10, 25];
-    const incButtons = [];
-    const decButtons = [];
-    
-    for (const i in v) {
-      const amount = v[i];
-      decButtons.push(<Button key={i + 10} large waves="light" className={`money-${amount}`} onClick={() => this.diffValue(-amount)}>{`-${amount}`} kr</Button>);
-    }
-
-    for (const i in v) {
-      const amount = v[i];
-      incButtons.push(<Button key={i + 20} large waves="light" className={`money-${amount}`} onClick={() => this.diffValue(amount)}>{`+${amount}`} kr</Button>);
-    }
-
-    for (const i in this.props.saldoList) {
-      const amount = this.props.saldoList[i];
-      moneyButtons.push(<Button key={i} large waves="light" className={`money-${amount}`} onClick={() => this.setValue(amount, true)}>{amount} kr</Button>);
-    }
-
-
-    let inputAmount = 0;
-    const inField = <input placeholder="" name="rsaldo" value={this.state.inval} disabled={this.state.indisable} onChange={a => this.inputChange(a)} type="number" />;
-    const changeInput = (amount) => {
-      inputAmount = amount;
-    };
-
-    return (
-      <Modal
-        key={'cash_modal'}
-        header="Ta Ut Penger"
-        trigger={this.props.trigger}
-        modalOptions = {{
-          ready: () => this.setValue(0,true)
-        }}
-        actions={[
-          <Button waves="light" modal="close" flat>Avbryt</Button>,
-          <Button waves="light" onClick={() => this.props.onSubmit(-parseInt(this.state.inval))} modal="close">Ta ut</Button>,
-        ]}
-      >
-        <div className="modalCash">
-          <p className="modalCashDesc">Velg beløpet du ønsker å ta ut, så ta pengene fra pengekassa i kjøleskapet!</p>
-          <div className="radio-group">
-            { moneyButtons }
-          </div>
-          <br />
-          <div className="radio-group">
-            {incButtons}
-          </div>
-          <br />
-          <div className="radio-group">
-            {decButtons}
-          </div>
-          <br />
-          <div className="col input-field">
-            { inField }
-            <label htmlFor="rsaldo" className="active">Velg beløp med knappene over</label>
-          </div>
-        </div>
-      </Modal>
-    );
-  }
-}
-
 
 /**
  * props:
