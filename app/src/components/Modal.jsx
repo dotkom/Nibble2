@@ -1,18 +1,31 @@
-
 import React, { Component } from 'react';
-
 
 export class Modal extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       open: false,
     };
+
     this.modal = null;
+  }
+
+  componentWillReceiveProps(props) {
+    const openState = !!props.open;
+    const fmap = {
+      [true]: () => this.open(),
+      [false]: () => this.close(),
+    };
+
+    if (openState != this.state.open) {
+      fmap[openState]();
+    }
   }
 
   setModalRef(ref) {
     this.modal = ref;
+
     if (ref != null) {
       $(this.modal).modal({
         dismissible: false,
@@ -27,30 +40,16 @@ export class Modal extends React.Component {
     }
   }
 
-  handleReady() {
+  handleReady() { }
 
-  }
-  handleComplete() {
+  handleComplete() { }
 
-  }
   open() {
     $(this.modal).modal('open');
   }
 
   close() {
     $(this.modal).modal('close');
-  }
-
-  componentWillReceiveProps(props) {
-    const openState = !!props.open;
-    const fmap = {
-      [true]: () => this.open(),
-      [false]: () => this.close(),
-    };
-
-    if (openState != this.state.open) {
-      fmap[openState]();
-    }
   }
 
   renderModal() {
@@ -66,10 +65,12 @@ export class Modal extends React.Component {
       </div>
     );
   }
+
   render() {
     const trigger = React.cloneElement(this.props.trigger, {
       onClick: () => this.open(),
     });
+
     return (<div>
       {this.renderModal()}
       {trigger}

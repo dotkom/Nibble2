@@ -1,18 +1,6 @@
-
 import { Subject } from 'rxjs';
 
-export const jsonToUser = json => (
-    new User(
-      json.pk,
-      json.first_name,
-      json.last_name,
-      json.saldo,
-    )
-  );
-
-
 export class User {
-
   constructor(id, firstname, lastname, saldo) {
     this._id = id;
     this._firstname = firstname;
@@ -42,3 +30,12 @@ export class User {
     return this.saldoSubject;
   }
 }
+
+export const jsonToUser = json => (
+  new User(
+    json.pk,
+    json.first_name,
+    json.last_name,
+    json.saldo,
+  )
+);
