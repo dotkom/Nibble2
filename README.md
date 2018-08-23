@@ -12,9 +12,9 @@ Application for buying foods &amp; drinks at the office
 ## Setup
 - Open a terminal
 - Run `cd nibble2` (or where you cloned the repository to)
-- Run `npm install`/`yarn` to install dependencies
+- Run `yarn` to install dependencies
 - Copy and paste `constants.example.js` to `constants.js` and fill in fields in `app/src/common/constants.js`
-- Run `npm run dev` to build and run a webpack development server
+- Run `yarn dev` to build and run a webpack development server
     (`webpack-dev-server`)
 - The application will be hosted on port `8080` (`localhost:8080` if hosting on
     your own machine)
