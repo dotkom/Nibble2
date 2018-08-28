@@ -161,7 +161,6 @@ body {
 
 .modalCashDesc {
   margin-bottom: 16px;
-  font-weight: bold;
   font-size: 18px;
 }
 
@@ -341,22 +340,6 @@ small{
   margin: 0 10px;
 }
 
-.money-20{ background-color: #000; }
-.money-50{ background-color: #83AB87; }
-.money-100{ background-color: #D2959A; }
-.money-100:hover {
-  background-color: hsla(355,84%,70%,1);
-}
-.money-200{ background-color: #568AB7;}
-.money-200:hover{
-  background-color: hsla(208,92%,53%,1);
-}
-.money-500{ background-color: #000; }
-.money-1000{ background-color: #bc4acf; }
-/*.money-1000:hover{
-    background-color: hsla(208,92%,53%,1);  
-}*/
-
 .checkout{
   position: fixed;
   width: 95%;
@@ -390,6 +373,17 @@ small{
   line-height: 64px !important;
 }
 
+.adjust-button {
+  /* _somehow_ materialize overrides this margin, so with force we shall assure
+   * success. */
+  margin-right: 1em !important;
+}
+
+/* siblings of .adjust-button (the second one) won't get margins */
+.adjust-button ~ .adjust-button {
+  margin-right: 0;
+}
+
 /*
 .side-nav{
   float: right;
@@ -408,6 +402,7 @@ small{
   width: 100%;
   color: white !important;
 }
+
 a.remove{
   font-weight: bold;
   font-size: 20px;

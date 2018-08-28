@@ -12,5 +12,3 @@ export const CLIENT_ID = '';
 
 export const MOCK = true;
 export const LOGOUT_TIMER = 120;
-
-export const saldoList = [50, 100, 200, 500];
