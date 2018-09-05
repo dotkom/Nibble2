@@ -9,13 +9,9 @@ import { Keyboard } from './Keyboard.jsx';
  *  proxy : callforward, an Observable
  */
 export class ClickProxy extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     if (this.props.proxy) {
-      this.sub = this.props.proxy.subscribe((a) => {
+      this.sub = this.props.proxy.subscribe(() => {
         if (this.props.onClick) { this.props.onClick(new MouseEvent('PROXY_CLICK')); }
       });
     }
@@ -120,7 +116,9 @@ export class AdjustSaldoModal extends React.Component {
           <Button className="adjust-button" waves="light" onClick={() => { this.props.onSubmit(-1 * parseInt(this.state.inval)); }} modal="close">Ta ut</Button>]}>
         <div className="modalCash">
           <p className="modalCashDesc">
-            Legg til/ta ut penger fra det røde pengeskrinet til høyre, og juster så saldo her tilsvarende.
+            Legg til/ta ut penger for å manuelt justere saldo. Dette skal kun
+            brukes i spesielle tilfeller etter fjerningen av det røde
+            pengeskrinet.
           </p>
           <br />
           <div className="radio-group">
