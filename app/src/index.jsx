@@ -34,5 +34,4 @@ if (!MOCK) {
   serviceManager.alias('user', 'mock.user');
 }
 
-
 render(<App />, document.getElementById('app'));

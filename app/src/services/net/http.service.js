@@ -2,9 +2,7 @@ import { Observable, Subject } from 'rxjs';
 
 import { API_BASE, API_AUTH, CLIENT_SECRET, CLIENT_ID } from 'common/constants';
 
-
 export class HttpServiceProvider {
-
   constructor(storage) {
     // Request queue used for 503 and 401 responses
     this.requestQueue = [];
@@ -81,7 +79,7 @@ export class HttpServiceProvider {
     */
     if (!r.ok) {
       // 401 Unauthorized
-      if (r.status == 401) {
+      if (r.status === 401) {
         // Add request to queue
         const resolver = new Subject();
         this.requestQueue.push({ request: req, subject: resolver });
@@ -124,7 +122,7 @@ export class HttpServiceProvider {
   static urlEncode(data) {
     let ret = '';
     for (const key in data) {
-      if (ret != '') {
+      if (ret !== '') {
         ret += '&';
       }
       ret += `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`;
@@ -134,27 +132,31 @@ export class HttpServiceProvider {
   /** Performs a post request
    * @param {string} url
    * @param {params} {key: value}
-   * @param {boolean} url_encoded
+   * @param {boolean} urlEncoded
    * @return Observable<{}>
    */
-  post(url, body, url_encoded) {
+  post(url, body, urlEncoded) {
     let pUrl = url;
     let pBody = body;
     const headers = new Headers();
+
     headers.set('Content-Type', 'application/json');
-    if (url_encoded) {
+
+    if (urlEncoded) {
       pUrl += HttpServiceProvider.urlEncode(pBody);
       headers.set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
       pBody = null;
     } else {
       pBody = JSON.stringify(pBody);
     }
+
     // Create request
     const request = new Request(pUrl, {
       method: 'POST',
       body: pBody,
       headers,
     });
+
     const clone = request.clone();
     return this.request(request, clone);
   }
