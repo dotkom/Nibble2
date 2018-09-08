@@ -73,7 +73,7 @@ export class LoginView extends React.Component {
 
   disableKeyLogger() {
     this.currentRfid = '';
-    document.removeEventListener('keypress');
+    document.removeEventListener('keypress', (...a) => this.handleKeyPress(...a));
   }
 
   enableKeyLogger() {
