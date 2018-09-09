@@ -73,14 +73,18 @@ export class LoginView extends React.Component {
     });
   }
 
+  keyloggerEventHandler(...event) {
+    this.handleKeyPress(...event);
+  }
+
   disableKeyLogger() {
     this.currentRfid = '';
-    document.removeEventListener('keypress', (...a) => this.handleKeyPress(...a));
+    document.removeEventListener('keypress', this.keyloggerEventHandler);
   }
 
   enableKeyLogger() {
     this.currentRfid = '';
-    document.addEventListener('keypress', (...a) => this.handleKeyPress(...a));
+    document.addEventListener('keypress', this.keyloggerEventHandler);
   }
 
   componentWillMount() {
