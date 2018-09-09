@@ -87,6 +87,15 @@ export class LoginView extends React.Component {
     this.enableKeyLogger();
   }
 
+  componentDidMount() {
+    this.invSub = this.inventory.getInventory().subscribe((inv) => {
+      this.setState(Object.assign(this.state, {
+        inventory: inv,
+      }));
+    });
+  }
+
+
   componentWillUnmount() {
     this.disableKeyLogger();
     this.currentRfid = '';
@@ -111,29 +120,17 @@ export class LoginView extends React.Component {
     });
   }
 
-  componentDidMount() {
-    this.invSub = this.inventory.getInventory().subscribe((inv) => {
-      this.setState(Object.assign(this.state, {
-        inventory: inv,
-      }));
-    });
-  }
-
   handleMagicLink(username, options) {
     return this.userService.bindRfid(username, '', this.storedRfid, options);
   }
 
   render() {
-    const menuContent = [];
-
-    this.state.inventory.forEach((item) => {
-      menuContent.push(
-        <div className="menuItem" key={item.name}>
-          <div className="menuItemName">{item.name}</div>
-          <div className="menuItemPrice">{item.price}</div>
-        </div>,
-      );
-    });
+    const menuContent = this.state.inventory.map(item => (
+      <div className="menuItem" key={item.name}>
+        <div className="menuItemName">{item.name}</div>
+        <div className="menuItemPrice">{item.price}</div>
+      </div>
+    ));
 
     if (menuContent.length % 3 === 2) {
       menuContent.push(
