@@ -202,14 +202,18 @@ export class ShopView extends React.Component {
       [-1]: {
         name: 'Alt',
         inv: [],
-      }
+      },
     };
 
     let k = 0;
 
-    for (const item of this.state.inventory) {
-      const catalogItem = <CatalogItem key={k += 1} item={item} onAdd={(...a) => this.addToCart(...a)} />
+    this.state.inventory.forEach((item) => {
+      const catalogItem = (
+        <CatalogItem key={k += 1} item={item} onAdd={(...a) => this.addToCart(...a)} />
+      );
+
       const category = item.category;
+
       if (category) {
         categories[category.id] = categories[category.id] || {
           inv: [],
@@ -219,21 +223,19 @@ export class ShopView extends React.Component {
         categories[category.id].inv.push(catalogItem);
       }
       categories[defaultCategory].inv.push(catalogItem);
-    }
+    });
 
-    const tabs = [];
-
-    for (const i in categories) {
-      const category = categories[i];
+    const tabs = Object.values(categories).map((category, i) => {
       if (category.inv.length % 3 === 2) {
         category.inv.push(
           <div className="catalogCard catalogCardEmpty" key={k += 1} />,
         );
       }
-      tabs.push(
+
+      return (
         <Tab
           active={defaultCategory === i}
-          key={i}
+          key={category.name}
           title={category.name}
           // Defines tab size by finding out how many of the 12 MD columns
           // can be used and then floor that value.
@@ -242,20 +244,13 @@ export class ShopView extends React.Component {
           <div className="catalog">
             {category.inv}
           </div>
-        </Tab>,
+        </Tab>
       );
-    }
+    });
 
-    const cartContents = [];
-
-    k = 0;
-
-    for (const stack of this.shoppingCart) {
-      cartContents.push(
-        <StackItem key={stack.item.id} stack={stack} onRemove={(...a) => this.clearCart(...a)} />,
-      );
-    }
-
+    const cartContents = this.shoppingCart.map(stack => (
+      <StackItem key={stack.item.id} stack={stack} onRemove={(...a) => this.clearCart(...a)} />
+    ));
 
     return (
       <Row>
@@ -279,7 +274,8 @@ export class ShopView extends React.Component {
             </div>
             <Button
               onClick={() => this.cartCheckout()}
-              disabled={((this.props.user.saldo - this.subtotal) < 0) || (this.shoppingCart.length <= 0)}
+              disabled={((this.props.user.saldo - this.subtotal) < 0) ||
+                (this.shoppingCart.length <= 0)}
               className="buy waves-effect waves-light nibble-color success"
               large
             >
