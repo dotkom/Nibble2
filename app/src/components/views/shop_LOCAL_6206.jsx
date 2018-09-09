@@ -163,8 +163,8 @@ export class ShopView extends React.Component {
 
     this.orderService.checkoutOrder(this.props.user, this.shoppingCart).subscribe(() => {
       Materialize.toast('Handel fullført', 1000);
-      this.clearCart();
 
+      this.clearCart();
       this.setState(Object.assign(this.state, {
         checkoutStatus: 'success',
         exitTimer: 5,

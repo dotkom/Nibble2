@@ -1,4 +1,14 @@
 import { LOGOUT_TIMER } from 'common/constants';
+<<<<<<< HEAD
+=======
+
+import { serviceManager } from 'services';
+
+import { ClickProxy, CheckoutModal } from 'components/modals.jsx';
+
+import { Subject, Observable } from 'rxjs';
+
+>>>>>>> 21b1a3ecfd3b0810ed9557deabf2d297df80c88d
 import { CatalogItem } from 'components/CatalogItem.jsx';
 import { CheckoutModal, ClickProxy } from 'components/modals.jsx';
 import { StackItem } from 'components/StackItem.jsx';
@@ -161,15 +171,25 @@ export class ShopView extends React.Component {
 
     this.checkoutProxy.next();
 
+<<<<<<< HEAD
     this.orderService.checkoutOrder(this.props.user, this.shoppingCart).subscribe(() => {
       Materialize.toast('Handel fullført', 1000);
+
+=======
+    this.orderService.checkoutOrder(this.props.user, this.shoppingCart).subscribe((/* v */) => {
+      Materialize.toast('Handel fullført',1000);
+>>>>>>> 21b1a3ecfd3b0810ed9557deabf2d297df80c88d
       this.clearCart();
 
       this.setState(Object.assign(this.state, {
         checkoutStatus: 'success',
         exitTimer: 5,
       }));
+<<<<<<< HEAD
     }, () => {
+=======
+    }, (/* msg */) => {
+>>>>>>> 21b1a3ecfd3b0810ed9557deabf2d297df80c88d
       // It failed
       Materialize.toast('Handel feilet!', 2000);
       this.setState(Object.assign(this.state, {
@@ -209,10 +229,15 @@ export class ShopView extends React.Component {
 
     let k = 0;
 
+<<<<<<< HEAD
     this.state.inventory.forEach((item) => {
       const catalogItem = (
         <CatalogItem key={k += 1} item={item} onAdd={(...a) => this.addToCart(...a)} />
       );
+=======
+    for (let item of this.state.inventory) {
+      const catalogItem = <CatalogItem key={k += 1} item={item} onAdd={(...a) => this.addToCart(...a)} />
+>>>>>>> 21b1a3ecfd3b0810ed9557deabf2d297df80c88d
 
       const category = item.category;
 
@@ -224,18 +249,34 @@ export class ShopView extends React.Component {
 
         categories[category.id].inv.push(catalogItem);
       }
+<<<<<<< HEAD
+=======
+
+      categories[defaultCategory].inv.push(catalogItem);
+    }
+>>>>>>> 21b1a3ecfd3b0810ed9557deabf2d297df80c88d
 
       categories[defaultCategory].inv.push(catalogItem);
     });
 
+<<<<<<< HEAD
     const tabs = Object.values(categories).map((category, i) => {
+=======
+    for (let i in categories) {
+      const category = categories[i];
+
+>>>>>>> 21b1a3ecfd3b0810ed9557deabf2d297df80c88d
       if (category.inv.length % 3 === 2) {
         category.inv.push(
           <div className="catalogCard catalogCardEmpty" key={k += 1} />,
         );
       }
 
+<<<<<<< HEAD
       return (
+=======
+      tabs.push(
+>>>>>>> 21b1a3ecfd3b0810ed9557deabf2d297df80c88d
         <Tab
           active={defaultCategory === i}
           key={category.name}
@@ -247,14 +288,28 @@ export class ShopView extends React.Component {
           <div className="catalog">
             {category.inv}
           </div>
-        </Tab>
+        </Tab>,
       );
+<<<<<<< HEAD
     });
 
     const cartContents = this.shoppingCart.map(stack => (
       <StackItem key={stack.item.id} stack={stack} onRemove={(...a) => this.clearCart(...a)} />
     ));
 
+=======
+    }
+
+    const cartContents = [];
+    k = 0;
+
+    for (let stack of this.shoppingCart) {
+      cartContents.push(
+        <StackItem key={stack.item.id} stack={stack} onRemove={(...a) => this.clearCart(...a)} />,
+      );
+    }
+
+>>>>>>> 21b1a3ecfd3b0810ed9557deabf2d297df80c88d
     return (
       <Row>
         <Col m={9} l={9}>
@@ -270,17 +325,30 @@ export class ShopView extends React.Component {
             <div className="sum">Subtotal: <span className="right">{ this.subtotal },-</span></div>
             <div>
               <h5>
+<<<<<<< HEAD
                 <span>Balanse etter handel: <span className="right">{
                   this.props.user.saldo - this.subtotal
                 },-</span></span>
+=======
+                <span>Balanse etter handel:
+                  <span className="right">
+                    { this.props.user.saldo - this.subtotal },-
+                  </span>
+                </span>
+>>>>>>> 21b1a3ecfd3b0810ed9557deabf2d297df80c88d
               </h5>
             </div>
             <Button
               onClick={() => this.cartCheckout()}
               disabled={((this.props.user.saldo - this.subtotal) < 0) ||
+<<<<<<< HEAD
                 (this.shoppingCart.length <= 0)}
               className="buy waves-effect waves-light nibble-color success"
               large
+=======
+                        (this.shoppingCart.length <= 0)}
+              className="buy waves-effect waves-light nibble-color success" large
+>>>>>>> 21b1a3ecfd3b0810ed9557deabf2d297df80c88d
             >
               Kjøp
             </Button>
