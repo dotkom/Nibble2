@@ -42,26 +42,25 @@ class Stack {
   }
 }
 
-
 export class ShopView extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       inventory: [],
       shoppingCart: [],
       checkoutStatus: 'await',
       exitTimer: props.time || LOGOUT_TIMER,
     };
+
     this.checkoutProxy = new Subject();
     this.closeProxy = new Subject();
     this.userSubscription = null;
-    
+
     // Services
     this.inventory = serviceManager.getService('inventory');
     this.orderService = serviceManager.getService('order');
-
   }
-
 
   get shoppingCart() {
     return this.state.shoppingCart;
@@ -159,10 +158,12 @@ export class ShopView extends React.Component {
       checkoutStatus: 'await',
       exitTimer: 200,
     }));
+
     this.checkoutProxy.next();
 
     this.orderService.checkoutOrder(this.props.user, this.shoppingCart).subscribe(() => {
       Materialize.toast('Handel fullført', 1000);
+
       this.clearCart();
       this.setState(Object.assign(this.state, {
         checkoutStatus: 'success',
@@ -178,7 +179,7 @@ export class ShopView extends React.Component {
     });
   }
 
-  checkoutClose(logout){
+  checkoutClose(logout) {
     if (logout && this.props.onExit) {
       this.props.onExit();
     } else {
@@ -198,6 +199,7 @@ export class ShopView extends React.Component {
       />);
 
     const defaultCategory = -1;
+
     const categories = {
       [-1]: {
         name: 'Alt',
@@ -222,6 +224,7 @@ export class ShopView extends React.Component {
 
         categories[category.id].inv.push(catalogItem);
       }
+
       categories[defaultCategory].inv.push(catalogItem);
     });
 
@@ -283,6 +286,7 @@ export class ShopView extends React.Component {
             </Button>
           </div>
         </Col>
+
         {checkoutModal}
       </Row>
     );

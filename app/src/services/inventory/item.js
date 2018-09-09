@@ -1,18 +1,6 @@
 import { jsonToImage } from 'common/image';
 import { category } from './category';
 
-
-export const jsonToItem = (json, category) => (
-    new Item(
-      json.pk,
-      json.name,
-      json.price,
-      json.description,
-      json.image && jsonToImage(json.image),
-      category || (json.category && new category(json.category.pk, json.category.name)),
-    )
-  );
-
 export class Item {
   constructor(id, name, price, description, image, category) {
     this._id = id;
@@ -47,3 +35,15 @@ export class Item {
     return this._category;
   }
 }
+
+export const jsonToItem = (json, category) => (
+    new Item(
+      json.pk,
+      json.name,
+      json.price,
+      json.description,
+      json.image && jsonToImage(json.image),
+      category || (json.category && new category(json.category.pk, json.category.name)),
+    )
+  );
+

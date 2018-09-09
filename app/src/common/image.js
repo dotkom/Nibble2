@@ -1,7 +1,8 @@
 import { BASE } from './constants';
 
 export class Image {
-  constructor(id, name, description, thumb, original, wide, lg, md, sm, xs, tags, photographer) {
+  constructor(id, name, description, thumb, original,
+    wide, lg, md, sm, xs, tags, photographer) {
     this._id = id;
     this._name = name;
     this._description = description;

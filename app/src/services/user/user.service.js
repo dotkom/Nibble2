@@ -1,9 +1,10 @@
 import { API_BASE, API_RFID, API_USERS, API_TRANSACTIONS } from 'common/constants';
+
 import { isRfid } from 'common/utils';
 import { http } from 'services/net';
 import { User, jsonToUser } from './user';
-import { Observable } from 'rxjs';
 
+import { Observable } from 'rxjs';
 
 export class UserServiceProvider {
   getUser(rfid) {

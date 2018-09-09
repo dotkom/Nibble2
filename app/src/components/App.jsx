@@ -7,6 +7,7 @@ import { Navigation } from 'components/Navigation.jsx';
 import { Observable, Subject } from 'rxjs';
 import { LoginView, ShopView } from 'components/views';
 
+import { User } from 'services/user/user';
 
 export class App extends React.Component {
   constructor(props) {
@@ -30,7 +31,16 @@ export class App extends React.Component {
   }
 
   render() {
-    const brand = <span><img className="logo" src="./assets/images/favicon.png" />Nibble</span>;
+    const brand = (
+      <span>
+        <img
+          alt="Nibble2 logo" className="logo"
+          src="./assets/images/favicon.png"
+        />
+        Nibble
+      </span>
+    );
+
     const currentView = (this.state.user == null) ?
       (<LoginView
         onSubmit={user => this.submitLogin(user)}

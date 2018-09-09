@@ -5,13 +5,12 @@ import { AdjustSaldoModal, HelpModal, CheckoutModal } from './modals.jsx';
 import { saldoList } from 'common/constants';
 import { serviceManager } from 'services';
 
-
 export class Navigation extends React.Component {
   constructor(props) {
     super(props);
     this.userSubscription = null;
-    
-    //Services
+
+    // Services
     this.userService = serviceManager.getService('user');
   }
 
@@ -43,7 +42,7 @@ export class Navigation extends React.Component {
         `${Math.abs(a.amount)}kr ${(a.amount < 0 ? 'tatt ut' : 'satt inn')}`,
         1000
       );
-    },(err) => {
+    }, (err) => {
       Materialize.toast(err);
     });
   }
@@ -51,7 +50,13 @@ export class Navigation extends React.Component {
   render() {
     const user = this.props.user;
 
-    const help = <HelpModal key="help_modal" trigger={<NavItem><Icon>help_outline</Icon></NavItem>} />;
+    const help = (
+      <HelpModal
+        key="help_modal"
+        trigger={<NavItem><Icon>help_outline</Icon></NavItem>}
+      />
+    );
+
     let navitems = [
       <NavItem key="replay" onClick={this._onReload}><Icon>replay</Icon></NavItem>,
       help,
@@ -74,7 +79,9 @@ export class Navigation extends React.Component {
           <span>{user.fullname}</span>
           <small>{user.saldo} kr</small>
         </NavItem>,
-        <NavItem key={'exit'} onClick={() => this.props.onExit()}><Icon>exit_to_app</Icon></NavItem>,
+        <NavItem key={'exit'} onClick={() => this.props.onExit()}>
+          <Icon>exit_to_app</Icon>
+        </NavItem>,
       ];
     }
 

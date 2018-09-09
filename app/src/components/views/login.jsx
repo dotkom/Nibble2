@@ -10,10 +10,12 @@ import { Subject } from 'rxjs';
 export class LoginView extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       inventory: [],
       submitState: 0,
     };
+
     this.intervals = [];
     this.logKeys = true;
     this.currentRfid = '';
@@ -85,14 +87,6 @@ export class LoginView extends React.Component {
     this.enableKeyLogger();
   }
 
-  componentDidMount() {
-    this.invSub = this.inventory.getInventory().subscribe((inv) => {
-      this.setState(Object.assign(this.state, {
-        inventory: inv,
-      }));
-    });
-  }
-
   componentWillUnmount() {
     this.disableKeyLogger();
     this.currentRfid = '';
@@ -114,6 +108,14 @@ export class LoginView extends React.Component {
       this.storedRfid = '';
     }, () => {
       this.storedRfid = '';
+    });
+  }
+
+  componentDidMount() {
+    this.invSub = this.inventory.getInventory().subscribe((inv) => {
+      this.setState(Object.assign(this.state, {
+        inventory: inv,
+      }));
     });
   }
 
