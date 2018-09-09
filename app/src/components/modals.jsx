@@ -11,10 +11,8 @@ import { Keyboard } from './Keyboard.jsx';
 export class ClickProxy extends React.Component {
   componentDidMount() {
     if (this.props.proxy) {
-      this.sub = this.props.proxy.subscribe((/* a */) => {
-        if (this.props.onClick) {
-          this.props.onClick(new MouseEvent('PROXY_CLICK'));
-        }
+      this.sub = this.props.proxy.subscribe(() => {
+        if (this.props.onClick) { this.props.onClick(new MouseEvent('PROXY_CLICK')); }
       });
     }
   }
@@ -46,11 +44,17 @@ export const HelpModal = ({ trigger }) => {
           profil.
         </p>
         <b>Det er tomt for en vare, hva gjør jeg?</b>
-        <p>Det er funksjonalitet for automatisk varsling under utvikling men
-          foreløpig må du sende mail til trikom@online.ntnu.no.</p>
+        <p>
+          Det er funksjonalitet for automatisk varsling under utvikling men
+          foreløpig må du sende mail til trikom@online.ntnu.no.
+        </p>
         <b>Jeg fant en feil, hva gjør jeg?</b>
-        <p>Legg til en issue på github.com/dotKom/nibble2/ eller send en mail
-          til dotkom@online.ntnu.no</p>
+        <p>
+          Legg til en issue på
+          <a href="https://github.com/dotkom/nibble2"> github.com/dotkom/nibble2/ </a>
+          eller send en mail til
+          <a href="mailto:dotkom@online.ntnu.no"> dotkom@online.ntnu.no</a>.
+        </p>
       </div>
     </Modal>
   );
@@ -147,8 +151,9 @@ export class AdjustSaldoModal extends React.Component {
       >
         <div className="modalCash">
           <p className="modalCashDesc">
-            Legg til/ta ut penger fra det røde pengeskrinet til høyre, og juster
-            så saldo her tilsvarende.
+            Legg til/ta ut penger for å manuelt justere saldo. Dette skal kun
+            brukes i spesielle tilfeller etter fjerningen av det røde
+            pengeskrinet.
           </p>
           <br />
           <div className="radio-group">
