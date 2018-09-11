@@ -25,6 +25,8 @@ export class LoginView extends React.Component {
 
     this.userService = serviceManager.getService('user');
     this.inventory = serviceManager.getService('inventory');
+
+    this.keyLoggerEventHandler = this.keyLoggerEventHandler.bind(this);
   }
 
   handleKeyPress(event) {
@@ -73,16 +75,18 @@ export class LoginView extends React.Component {
     });
   }
 
+  keyLoggerEventHandler(...args) {
+    this.handleKeyPress(...args);
+  }
+
   disableKeyLogger() {
     this.currentRfid = '';
-    const self = this;
-    document.removeEventListener('keypress', (...args) => self.handleKeyPress(...args));
+    document.removeEventListener('keypress', this.keyLoggerEventHandler);
   }
 
   enableKeyLogger() {
     this.currentRfid = '';
-    const self = this;
-    document.addEventListener('keypress', (...args) => self.handleKeyPress(...args));
+    document.addEventListener('keypress', this.keyLoggerEventHandler);
   }
 
   componentWillMount() {
