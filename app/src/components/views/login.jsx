@@ -1,5 +1,4 @@
 import React from 'react';
-import { render } from 'react-dom';
 
 import { Row, Col } from 'react-materialize';
 
@@ -26,6 +25,20 @@ export class LoginView extends React.Component {
 
     this.userService = serviceManager.getService('user');
     this.inventory = serviceManager.getService('inventory');
+
+    this.keyLoggerEventHandler = this.keyLoggerEventHandler.bind(this);
+  }
+
+  handleKeyPress(event) {
+    if (this.logKeys) {
+      if (event.keyCode === 13) { // Enter
+        this.storedRfid = this.currentRfid;
+        this.currentRfid = '';
+        this.attemptLogin();
+      } else {
+        this.currentRfid += String.fromCharCode(event.keyCode);
+      }
+    }
   }
 
   set submitState(a) {
@@ -40,6 +53,7 @@ export class LoginView extends React.Component {
 
   attemptLogin() {
     this.submitState = 1;
+
     this.userService.getUser(this.storedRfid).subscribe((user) => {
       this.storedRfid = '';
       this.submitState = 2;
@@ -61,40 +75,22 @@ export class LoginView extends React.Component {
     });
   }
 
+  keyLoggerEventHandler(...args) {
+    this.handleKeyPress(...args);
+  }
+
   disableKeyLogger() {
     this.currentRfid = '';
-    $(document).off("keypress");
+    document.removeEventListener('keypress', this.keyLoggerEventHandler);
   }
 
   enableKeyLogger() {
     this.currentRfid = '';
-    $(document).on('keypress', (...a) => this.handleKeyPress(...a));
+    document.addEventListener('keypress', this.keyLoggerEventHandler);
   }
 
   componentWillMount() {
     this.enableKeyLogger();
-  }
-
-  componentWillUnmount() {
-    this.disableKeyLogger();
-    this.currentRfid = '';
-    this.storedRfid = '';
-    for (const interval of this.intervals) {
-      clearInterval(interval);
-    }
-    this.invSub.unsubscribe();
-  }
-
-  handleKeyPress(event) {
-    if (this.logKeys) {
-      if (event.keyCode === 13) { // Key code 13 is enter
-        this.storedRfid = this.currentRfid;
-        this.currentRfid = '';
-        this.attemptLogin();
-      } else {
-        this.currentRfid += String.fromCharCode(event.keyCode);
-      }
-    }
   }
 
   componentDidMount() {
@@ -105,8 +101,21 @@ export class LoginView extends React.Component {
     });
   }
 
+
+  componentWillUnmount() {
+    this.disableKeyLogger();
+    this.currentRfid = '';
+    this.storedRfid = '';
+
+    this.intervals.forEach((interval) => {
+      clearInterval(interval);
+    });
+
+    this.invSub.unsubscribe();
+  }
+
   handleRegSubmit(username, password) {
-    this.userService.bindRfid(username, password, this.storedRfid).subscribe((/* u */) => {
+    this.userService.bindRfid(username, password, this.storedRfid).subscribe(() => {
       // Try to login if user was registered
       this.attemptLogin();
     }, () => {
@@ -122,21 +131,16 @@ export class LoginView extends React.Component {
   }
 
   render() {
-    const menuContent = [];
-
-    let k = 0;
-    for (const item of this.state.inventory) {
-      menuContent.push(
-        <div className="menuItem" key={k += 1}>
-          <div className="menuItemName">{item.name}</div>
-          <div className="menuItemPrice">{item.price}</div>
-        </div>,
-      );
-    }
+    const menuContent = this.state.inventory.map(item => (
+      <div className="menuItem" key={item.name}>
+        <div className="menuItemName">{item.name}</div>
+        <div className="menuItemPrice">{item.price}</div>
+      </div>
+    ));
 
     if (menuContent.length % 3 === 2) {
       menuContent.push(
-        <div className="menuItem menuItemEmpty" key={k += 1} />,
+        <div className="menuItem menuItemEmpty" key={'Empty item'} />,
       );
     }
 

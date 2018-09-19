@@ -24,35 +24,35 @@ export class Image {
   get large() {
     return `${BASE}${this._lg}`;
   }
-
+  
   get medium() {
     return `${BASE}${this._md}`;
   }
-
+  
   get small() {
     return `${BASE}${this._sm}`;
   }
-
+  
   get wide() {
     return `${BASE}${this._wide}`;
   }
-
+  
   get extraSmall() {
     return `${BASE}${this._xs}`;
   }
-
+  
   get tags() {
     return this._tags;
   }
-
+  
   get original() {
     return `${BASE}${this._original}`;
   }
-
+  
   get description() {
     return this._description;
   }
-
+  
   get name() {
     return this._name;
   }
@@ -73,4 +73,3 @@ export const jsonToImage = json => (
     json.photographer,
   )
 );
-
