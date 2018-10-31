@@ -15,7 +15,11 @@ class Stack {
   }
 
   inc() {
-    this._qty = this._qty + 1;
+    this._qty += 1;
+  }
+
+  dec() {
+    this._qty = Math.max(this._qty - 1, 0)
   }
 
   get item() {
@@ -147,6 +151,19 @@ export class ShopView extends React.Component {
 
     if (stack) {
       this.shoppingCart = this.shoppingCart.filter(a => a != stack);
+    } else {
+      this.shoppingCart = [];
+    }
+  }
+
+  decrementCart(stack) {
+    this.time = LOGOUT_TIMER;
+    
+    if (stack) {
+      stack.dec()
+      if (stack.qty <= 0) {
+        this.shoppingCart = this.shoppingCart.filter(a => a != stack);
+      }
     } else {
       this.shoppingCart = [];
     }
