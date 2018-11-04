@@ -11,7 +11,7 @@ Application for buying foods &amp; drinks at the office
 
 ## Setup
 - Open a terminal
-- Run `cd nibble2` (or where you cloned the repository to)
+- Run `cd Nibble2` (or where you cloned the repository to)
 - Run `yarn` to install dependencies
 - Copy and paste `constants.example.js` to `constants.js` and fill in fields in `app/src/common/constants.js`
 - Run `yarn dev` to build and run a webpack development server
