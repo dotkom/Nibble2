@@ -17,7 +17,7 @@ export class InventoryServiceProvider {
   }
   _reload() {
     // Download inventory
-    http.get(`${API_BASE}${API_INVENTORY}`) .subscribe((items) => {
+    http.get(`${API_BASE}${API_INVENTORY}`, null, false) .subscribe((items) => {
       const inv = [];
       const cats = {};
       for (const item of items) {
