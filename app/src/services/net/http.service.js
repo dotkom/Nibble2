@@ -26,7 +26,7 @@ export class HttpServiceProvider {
             handleResponse will resolve or will queue the request in case of
             401 error, when token is renewed it will then try to performe the request
           */
-          .flatMap(response => this.handleResponse(response, requestPair.clone))
+          .flatMap(response => this.handleResponse(response, requestPair.clone, requestPair.usetoken))
           // When the request is resolved, send it back to the source of the request
           .subscribe((r) => {
             requestPair.subject.next(r);
@@ -52,7 +52,7 @@ export class HttpServiceProvider {
 
           // Performe requests from request queue
           for (const i of this.requestQueue) {
-            this.request(i.request).subscribe((r) => {
+            this.request(i.request, null, i.usetoken).subscribe((r) => {
               i.subject.next(r);
             }, (error) => {
               i.subject.error(error);
@@ -72,7 +72,7 @@ export class HttpServiceProvider {
     }
   }
 
-  handleResponse(r, req) {
+  handleResponse(r, req, usetoken) {
     /* TODO: handle 503(service unavailable) responses
       adjust delay up when a 503 responses happens
       and retry
@@ -82,7 +82,7 @@ export class HttpServiceProvider {
       if (r.status === 401) {
         // Add request to queue
         const resolver = new Subject();
-        this.requestQueue.push({ request: req, subject: resolver });
+        this.requestQueue.push({ request: req, subject: resolver, usetoken });
         // Renew token if not waiting for token, because access denied
         this.renewToken();
         return resolver.asObservable();
@@ -95,12 +95,14 @@ export class HttpServiceProvider {
    * @param {Request} url
    * @return Observable<{}>
    */
-  request(request, clone) {
+  request(request, clone, usetoken=true) {
     // Add token to request
-    request.headers.set('Authorization', `Bearer ${this.auth_token}`);
+    if(usetoken){
+      request.headers.set('Authorization', `Bearer ${this.auth_token}`);
+    }
     const resolver = new Subject();
     // Push request into request 'stream'/queue
-    this.requestSubject.next({ request, clone, subject: resolver });
+    this.requestSubject.next({ request, clone, subject: resolver, usetoken });
     return resolver.asObservable();
   }
   /** performes a get request
@@ -108,7 +110,7 @@ export class HttpServiceProvider {
    * @param {params} {key: value}
    * @return Observable<{}>
    */
-  get(url, params) {
+  get(url, params, usetoken=true) {
     let pUrl = url;
     if (params) {
       pUrl += HttpServiceProvider.urlEncode(params);
@@ -116,7 +118,7 @@ export class HttpServiceProvider {
     // Create request
     const request = new Request(pUrl, { method: 'get' });
     const clone = request.clone();
-    return this.request(request, clone);
+    return this.request(request, clone, usetoken);
   }
 
   static urlEncode(data) {
@@ -135,7 +137,7 @@ export class HttpServiceProvider {
    * @param {boolean} urlEncoded
    * @return Observable<{}>
    */
-  post(url, body, urlEncoded) {
+  post(url, body, urlEncoded, usetoken=true) {
     let pUrl = url;
     let pBody = body;
     const headers = new Headers();
@@ -158,7 +160,7 @@ export class HttpServiceProvider {
     });
 
     const clone = request.clone();
-    return this.request(request, clone);
+    return this.request(request, clone, usetoken);
   }
 }
 // Export single instance
