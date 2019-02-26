@@ -73,7 +73,6 @@ export class Navigation extends React.Component {
 
     if (user) {
       navitems = [
-        adjustSaldo,
         help,
         <NavItem className="nav-user" key="user">
           <span>{user.fullname}</span>
