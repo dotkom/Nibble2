@@ -52,7 +52,7 @@ export class HttpServiceProvider {
 
           // Performe requests from request queue
           for (const i of this.requestQueue) {
-            this.request(i.request).subscribe((r) => {
+            this.request(i.request, null, i.usetoken).subscribe((r) => {
               i.subject.next(r);
             }, (error) => {
               i.subject.error(error);
