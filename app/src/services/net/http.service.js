@@ -45,7 +45,7 @@ export class HttpServiceProvider {
         client_secret: CLIENT_SECRET,
         client_id: CLIENT_ID,
         grant_type: 'client_credentials',
-      }, true)
+      }, true, true)
         .subscribe((data) => {
           this.auth_token = data.access_token;
           if (this.storage) { this.storage.setItem('auth_token', data.access_token); }
@@ -122,6 +122,10 @@ export class HttpServiceProvider {
   }
 
   static urlEncode(data) {
+    return `?${HttpServiceProvider.formEncode(data)}`;
+  }
+
+  static formEncode(data) {
     let ret = '';
     for (const key in data) {
       if (ret !== '') {
@@ -129,7 +133,7 @@ export class HttpServiceProvider {
       }
       ret += `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`;
     }
-    return `?${ret}`;
+    return `${ret}`;
   }
   /** Performs a post request
    * @param {string} url
@@ -137,7 +141,7 @@ export class HttpServiceProvider {
    * @param {boolean} urlEncoded
    * @return Observable<{}>
    */
-  post(url, body, urlEncoded, usetoken=true) {
+  post(url, body, urlEncoded, dataInBody = false, usetoken = true) {
     let pUrl = url;
     let pBody = body;
     const headers = new Headers();
@@ -145,9 +149,13 @@ export class HttpServiceProvider {
     headers.set('Content-Type', 'application/json');
 
     if (urlEncoded) {
-      pUrl += HttpServiceProvider.urlEncode(pBody);
       headers.set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-      pBody = null;
+      if (dataInBody) {
+        pBody = HttpServiceProvider.formEncode(pBody);
+      } else {
+        pUrl += HttpServiceProvider.urlEncode(pBody);
+        pBody = null;
+      }
     } else {
       pBody = JSON.stringify(pBody);
     }
