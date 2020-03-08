@@ -1,6 +1,6 @@
 import { Observable, Subject } from 'rxjs';
 
-import { API_BASE, API_AUTH, CLIENT_SECRET, CLIENT_ID } from 'common/constants';
+import { BASE, API_AUTH, CLIENT_SECRET, CLIENT_ID } from 'common/constants';
 
 export class HttpServiceProvider {
   constructor(storage) {
@@ -41,7 +41,7 @@ export class HttpServiceProvider {
     if (!this.waitingForToken) {
       this.waitingForToken = true;
       // Request new token
-      this.post(`${API_BASE}${API_AUTH}`, {
+      this.post(`${BASE}${API_AUTH}`, {
         client_secret: CLIENT_SECRET,
         client_id: CLIENT_ID,
         grant_type: 'client_credentials',
@@ -95,9 +95,9 @@ export class HttpServiceProvider {
    * @param {Request} url
    * @return Observable<{}>
    */
-  request(request, clone, usetoken=true) {
+  request(request, clone, usetoken = true) {
     // Add token to request
-    if(usetoken){
+    if (usetoken) {
       request.headers.set('Authorization', `Bearer ${this.auth_token}`);
     }
     const resolver = new Subject();
@@ -110,7 +110,7 @@ export class HttpServiceProvider {
    * @param {params} {key: value}
    * @return Observable<{}>
    */
-  get(url, params, usetoken=true) {
+  get(url, params, usetoken = true) {
     let pUrl = url;
     if (params) {
       pUrl += HttpServiceProvider.urlEncode(params);
@@ -137,7 +137,7 @@ export class HttpServiceProvider {
    * @param {boolean} urlEncoded
    * @return Observable<{}>
    */
-  post(url, body, urlEncoded, usetoken=true) {
+  post(url, body, urlEncoded, usetoken = true) {
     let pUrl = url;
     let pBody = body;
     const headers = new Headers();
