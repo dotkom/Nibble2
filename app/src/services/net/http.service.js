@@ -95,9 +95,9 @@ export class HttpServiceProvider {
    * @param {Request} url
    * @return Observable<{}>
    */
-  request(request, clone, usetoken=true) {
+  request(request, clone, usetoken = true) {
     // Add token to request
-    if(usetoken){
+    if (usetoken) {
       request.headers.set('Authorization', `Bearer ${this.auth_token}`);
     }
     const resolver = new Subject();
@@ -110,7 +110,7 @@ export class HttpServiceProvider {
    * @param {params} {key: value}
    * @return Observable<{}>
    */
-  get(url, params, usetoken=true) {
+  get(url, params, usetoken = true) {
     let pUrl = url;
     if (params) {
       pUrl += HttpServiceProvider.urlEncode(params);
