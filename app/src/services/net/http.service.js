@@ -79,7 +79,7 @@ export class HttpServiceProvider {
     */
     if (!r.ok) {
       // 401 Unauthorized
-      if (r.status === 401) {
+      if (r.status === 401 || r.status === 403) {
         // Add request to queue
         const resolver = new Subject();
         this.requestQueue.push({ request: req, subject: resolver, usetoken });
