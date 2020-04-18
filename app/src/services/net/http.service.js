@@ -78,7 +78,9 @@ export class HttpServiceProvider {
       and retry
     */
     if (!r.ok) {
-      // 401 Unauthorized
+      /* 401 Unauthorized or 403 Forbidden. 403 is used by some applications to
+      indicate that the current authentication cannot access this resource.
+      This will also happen if the token is expired, as you are authenticated but it's not valid */
       if (r.status === 401 || r.status === 403) {
         // Add request to queue
         const resolver = new Subject();
@@ -122,10 +124,6 @@ export class HttpServiceProvider {
   }
 
   static urlEncode(data) {
-    return `?${HttpServiceProvider.formEncode(data)}`;
-  }
-
-  static formEncode(data) {
     let ret = '';
     for (const key in data) {
       if (ret !== '') {
@@ -150,10 +148,11 @@ export class HttpServiceProvider {
 
     if (urlEncoded) {
       headers.set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+      const encoded = HttpServiceProvider.urlEncode(pBody);
       if (dataInBody) {
-        pBody = HttpServiceProvider.formEncode(pBody);
+        pBody = encoded;
       } else {
-        pUrl += HttpServiceProvider.urlEncode(pBody);
+        pUrl += `?${encoded}`;
         pBody = null;
       }
     } else {
