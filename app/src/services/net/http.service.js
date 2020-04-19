@@ -45,7 +45,7 @@ export class HttpServiceProvider {
         client_secret: CLIENT_SECRET,
         client_id: CLIENT_ID,
         grant_type: 'client_credentials',
-      }, true)
+      }, true, true)
         .subscribe((data) => {
           this.auth_token = data.access_token;
           if (this.storage) { this.storage.setItem('auth_token', data.access_token); }
@@ -78,8 +78,10 @@ export class HttpServiceProvider {
       and retry
     */
     if (!r.ok) {
-      // 401 Unauthorized
-      if (r.status === 401) {
+      /* 401 Unauthorized or 403 Forbidden. 403 is used by some applications to
+      indicate that the current authentication cannot access this resource.
+      This will also happen if the token is expired, as you are authenticated but it's not valid */
+      if (r.status === 401 || r.status === 403) {
         // Add request to queue
         const resolver = new Subject();
         this.requestQueue.push({ request: req, subject: resolver, usetoken });
@@ -95,9 +97,9 @@ export class HttpServiceProvider {
    * @param {Request} url
    * @return Observable<{}>
    */
-  request(request, clone, usetoken=true) {
+  request(request, clone, usetoken = true) {
     // Add token to request
-    if(usetoken){
+    if (usetoken) {
       request.headers.set('Authorization', `Bearer ${this.auth_token}`);
     }
     const resolver = new Subject();
@@ -110,7 +112,7 @@ export class HttpServiceProvider {
    * @param {params} {key: value}
    * @return Observable<{}>
    */
-  get(url, params, usetoken=true) {
+  get(url, params, usetoken = true) {
     let pUrl = url;
     if (params) {
       pUrl += HttpServiceProvider.urlEncode(params);
@@ -129,7 +131,7 @@ export class HttpServiceProvider {
       }
       ret += `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`;
     }
-    return `?${ret}`;
+    return `${ret}`;
   }
   /** Performs a post request
    * @param {string} url
@@ -137,7 +139,7 @@ export class HttpServiceProvider {
    * @param {boolean} urlEncoded
    * @return Observable<{}>
    */
-  post(url, body, urlEncoded, usetoken=true) {
+  post(url, body, urlEncoded, dataInBody = false, usetoken = true) {
     let pUrl = url;
     let pBody = body;
     const headers = new Headers();
@@ -145,9 +147,14 @@ export class HttpServiceProvider {
     headers.set('Content-Type', 'application/json');
 
     if (urlEncoded) {
-      pUrl += HttpServiceProvider.urlEncode(pBody);
       headers.set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-      pBody = null;
+      const encoded = HttpServiceProvider.urlEncode(pBody);
+      if (dataInBody) {
+        pBody = encoded;
+      } else {
+        pUrl += `?${encoded}`;
+        pBody = null;
+      }
     } else {
       pBody = JSON.stringify(pBody);
     }
