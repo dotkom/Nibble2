@@ -115,7 +115,7 @@ export class HttpServiceProvider {
   get(url, params, usetoken = true) {
     let pUrl = url;
     if (params) {
-      pUrl += HttpServiceProvider.urlEncode(params);
+      pUrl += `?${HttpServiceProvider.urlEncode(params)}`;
     }
     // Create request
     const request = new Request(pUrl, { method: 'get' });
