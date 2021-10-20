@@ -419,6 +419,15 @@ button.remove > * {
   color: red !important;
 }
 
+button.add{
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border-style: none !important;
+}
+button.add > * {
+  color: green !important;
+}
+
 img.logo {
   height: 33px;
   padding-right: 20px;
