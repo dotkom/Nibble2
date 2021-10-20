@@ -29,6 +29,10 @@ class Stack {
   get qty() {
     return this._qty;
   }
+  
+  set qty(qty) {
+	this._qty = qty;
+  }
 
   get cost() {
     return this.qty * this.item.price;
@@ -141,6 +145,14 @@ export class ShopView extends React.Component {
       exitTimer: t,
     }));
   }
+  
+   subtractCart(stack){
+	  this.time = LOGOUT_TIMER;
+	  stack.qty -= 1;
+	  if(stack.qty == 0){
+		  this.clearCart(stack);
+	  }
+  }
 
   clearCart(stack) {
     this.time = LOGOUT_TIMER;
@@ -252,7 +264,7 @@ export class ShopView extends React.Component {
     });
 
     const cartContents = this.shoppingCart.map(stack => (
-      <StackItem key={stack.item.id} stack={stack} onRemove={(...a) => this.clearCart(...a)} />
+      <StackItem key={stack.item.id} stack={stack} onRemove={(...a) => this.subtractCart(...a)} />
     ));
 
     return (
