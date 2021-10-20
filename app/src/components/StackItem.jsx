@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'react-materialize';
 
-export function StackItem({ stack, onRemove }) {
+export function StackItem({ stack, onRemove, onAdd }) {
   return (
     <li className="cart-item">
       <span className="item-name">
@@ -17,6 +17,14 @@ export function StackItem({ stack, onRemove }) {
           className="right remove waves-red"
           onClick={() => onRemove(stack)}
           icon="clear"
+          waves="light"
+        />
+		<Button
+          floating
+          large
+          className="right add waves-green"
+          onClick={() => onAdd(stack)}
+          icon="add"
           waves="light"
         />
       </div>
