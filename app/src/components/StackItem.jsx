@@ -16,7 +16,7 @@ export function StackItem({ stack, onRemove }) {
           large
           className="right remove waves-red"
           onClick={() => onRemove(stack)}
-          icon="clear"
+          icon={stack.qty > 1 ? "remove" : "clear"}
           waves="light"
         />
       </div>
